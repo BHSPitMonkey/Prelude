@@ -18,25 +18,86 @@ class MyApplication extends React.Component {
 class SightReadingPractice extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {keySignature: 'A', music: 'abcde'};
+
+    // Initial state
+    this.state = {
+      clef: 'treble',
+      keySignature: 'C',
+      key: 'g/4'
+    };
 
     // Prebind custom methods
     this.newQuestion = this.newQuestion.bind(this);
+    this.handleGuess = this.handleGuess.bind(this);
   }
 
   /**
    * Generate a new question to ask and update state
    */
   newQuestion() {
-    this.setState({keySignature: 'Bb', music: 'defga'});
+    // Choose random values
+    var r = function(arr) { return arr[Math.floor(Math.random() * arr.length)]; };
+    var clef = r(['treble', 'bass']);
+    var keySignatures = Object.keys(Vex.Flow.keySignature.keySpecs);
+    var keys = ['a', 'b', 'c', 'd', 'e', 'f', 'g'];
+    var octaves = (clef == 'bass') ? ['2', '3'] : ['4', '5'];
+
+    this.setState({
+      clef: clef,
+      keySignature: r(keySignatures),
+      key: r(keys) + '/' + r(octaves)
+    });
+  }
+
+  /**
+   * Handle a guessed answer and judge it to be right or wrong.
+   *
+   * Guesses should be sent here from multiple places:
+   *  - The on-screen musical keyboard (KeyboardButtons component)
+   *  - Keyboard input
+   *  - Connected MIDI events
+   *
+   * @param {string} entry The name of the key being guessed.
+   */
+  handleGuess(entry) {
+    // Compare entry with what's in state
+    if (this.state.key[0] == entry.toLowerCase()) {
+      console.log("Winner!");
+      this.newQuestion();
+    } else {
+      console.log("Wrong!");
+    }
   }
 
   render() {
     return (
       <div className="rx-sight-reading-practice">
         <p><strong>What is being shown?</strong></p>
-        <SheetMusicView keySignature={this.state.keySignature} music={this.state.music} />
-        <button onClick={this.newQuestion}>Guess</button>
+        <SheetMusicView clef={this.state.clef} keySignature={this.state.keySignature} keys={[this.state.key]} />
+        <KeyboardButtons onEntry={this.handleGuess} />
+        <button onClick={this.newQuestion}>Skip</button>
+      </div>
+    )
+  }
+}
+
+class KeyboardButtons extends React.Component {
+  constructor(props) {
+    super(props);
+
+    // Prebind custom methods
+    this.onButtonPress = this.onButtonPress.bind(this);
+  }
+  onButtonPress(event) {
+    this.props.onEntry(event.target.innerText);
+  }
+  render() {
+    var notes = ['A', 'B', 'C', 'D', 'E', 'F', 'G'];
+    return (
+      <div className="rx-keyboard-buttons">
+        {notes.map(function(item) {
+          return <button onClick={this.onButtonPress} key={item}>{item}</button>
+        }.bind(this))}
       </div>
     )
   }
@@ -76,15 +137,14 @@ class SheetMusicView extends React.Component {
 
     // Set up and draw stave/clef/key
     var stave = new Vex.Flow.Stave(0, 0, canvas.width-1);
-    stave.addClef("treble");
+    stave.addClef(this.props.clef);
     var keySig = new Vex.Flow.KeySignature(this.props.keySignature);
         keySig.addToStave(stave);
     stave.setContext(ctx).draw();
 
     // Create the notes
     var notes = [
-      // A C-Major chord.
-      new Vex.Flow.StaveNote({ keys: ["c/4", "e/4", "g/4"], duration: "q" }),
+      new Vex.Flow.StaveNote({ clef: this.props.clef, keys: this.props.keys, duration: "q" }),
     ];
 
     // Create a voice in 1/4
@@ -107,12 +167,17 @@ class SheetMusicView extends React.Component {
 
   render() {
     return (
-      <canvas className="rx-sheet-music-view">
+      <canvas className="rx-sheet-music-view" width={this.props.width} height={this.props.height}>
         ♫ TODO: {this.props.music} ♫
       </canvas>
     );
   }
 }
+SheetMusicView.defaultProps = {
+  width: 150,
+  height: 150,
+  clef: "treble"
+};
 
 // Render top-level component to page
 ReactDOM.render(
