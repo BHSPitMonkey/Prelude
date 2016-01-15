@@ -5,7 +5,7 @@ class MyApplication extends React.Component {
   render() {
     return (
       <div>
-        <h1>MyApplication</h1>
+        <h1>Quiz</h1>
         <SightReadingPractice />
       </div>
     );
@@ -20,21 +20,14 @@ class SightReadingPractice extends React.Component {
     super(props);
 
     // Initial state
-    this.state = {
-      clef: 'treble',
-      keySignature: 'C',
-      key: 'g/4'
-    };
+    this.state = this.getRandomState();
 
     // Prebind custom methods
     this.newQuestion = this.newQuestion.bind(this);
     this.handleGuess = this.handleGuess.bind(this);
   }
 
-  /**
-   * Generate a new question to ask and update state
-   */
-  newQuestion() {
+  getRandomState() {
     // Choose random values
     var r = function(arr) { return arr[Math.floor(Math.random() * arr.length)]; };
     var clef = r(['treble', 'bass']);
@@ -42,11 +35,18 @@ class SightReadingPractice extends React.Component {
     var keys = ['a', 'b', 'c', 'd', 'e', 'f', 'g'];
     var octaves = (clef == 'bass') ? ['2', '3'] : ['4', '5'];
 
-    this.setState({
+    return {
       clef: clef,
       keySignature: r(keySignatures),
       key: r(keys) + '/' + r(octaves)
-    });
+    };
+  }
+
+  /**
+   * Generate a new question to ask and update state
+   */
+  newQuestion() {
+    this.setState(this.getRandomState());
   }
 
   /**
@@ -72,7 +72,7 @@ class SightReadingPractice extends React.Component {
   render() {
     return (
       <div className="rx-sight-reading-practice">
-        <p><strong>What is being shown?</strong></p>
+        <p><strong>What note is shown below?</strong></p>
         <SheetMusicView clef={this.state.clef} keySignature={this.state.keySignature} keys={[this.state.key]} />
         <KeyboardButtons onEntry={this.handleGuess} />
         <button onClick={this.newQuestion}>Skip</button>
@@ -126,17 +126,22 @@ class SheetMusicView extends React.Component {
    * Redraw the contents of the canvas
    */
   drawMusic() {
-    // Prepare drawing objects and clear the canvas
-    var canvas = ReactDOM.findDOMNode(this);
+    // Clear the canvas
+    var container = ReactDOM.findDOMNode(this);
+    while (container.lastChild) {
+      container.removeChild(container.lastChild);
+    }
+
+    // Prepare drawing objects
     var renderer = new Vex.Flow.Renderer(
-      canvas,
-      Vex.Flow.Renderer.Backends.CANVAS
+      container,
+      Vex.Flow.Renderer.Backends.SVG
     );
     var ctx = renderer.getContext();
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.resize(this.props.width, this.props.height);
 
     // Set up and draw stave/clef/key
-    var stave = new Vex.Flow.Stave(0, 0, canvas.width-1);
+    var stave = new Vex.Flow.Stave(0, 0, this.props.width-1);
     stave.addClef(this.props.clef);
     var keySig = new Vex.Flow.KeySignature(this.props.keySignature);
         keySig.addToStave(stave);
@@ -159,7 +164,7 @@ class SheetMusicView extends React.Component {
 
     // Format and justify the notes to 500 pixels
     var formatter = new Vex.Flow.Formatter().
-      joinVoices([voice]).format([voice], (canvas.width-1)/2);
+      joinVoices([voice]).format([voice], (this.props.width-1)/2);
 
     // Render voice
     voice.draw(ctx, stave);
@@ -167,9 +172,7 @@ class SheetMusicView extends React.Component {
 
   render() {
     return (
-      <canvas className="rx-sheet-music-view" width={this.props.width} height={this.props.height}>
-        ♫ TODO: {this.props.music} ♫
-      </canvas>
+      <div className="rx-sheet-music-view"></div>
     );
   }
 }
