@@ -5,8 +5,10 @@
   "main": "index.js",
   "dependencies": {
     "babel-preset-react": "^6.3.13",
+    "material-ui": "^0.14.2",
     "react": "^0.14.6",
-    "react-dom": "^0.14.6"
+    "react-dom": "^0.14.6",
+    "react-tap-event-plugin": "^0.2.1"
   },
   "devDependencies": {
     "babel": "^6.3.26",

@@ -2,6 +2,10 @@ var React = require('react');
 var ReactDOM = require('react-dom');
 var SheetMusicView = require('./sheet-music-view.jsx');
 var KeyboardButtons = require('./keyboard-buttons.jsx');
+var RaisedButton = require('material-ui/lib/raised-button');
+var Card = require('material-ui/lib/card/card');
+var CardTitle = require('material-ui/lib/card/card-title');
+var CardText = require('material-ui/lib/card/card-text');
 
 /**
  * Component providing the sight reading practice game (in entirety)
@@ -67,12 +71,15 @@ class SightReadingPractice extends React.Component {
 
   render() {
     return (
-      <div className="rx-sight-reading-practice">
-        <p><strong>What note is shown below?</strong></p>
-        <SheetMusicView clef={this.state.clef} keySignature={this.state.keySignature} keys={[this.state.key]} />
-        <KeyboardButtons onEntry={this.handleGuess} />
-        <button onClick={this.newQuestion}>Skip</button>
-      </div>
+      <Card className="rx-sight-reading-practice">
+        <CardTitle title="What note is shown below?" />
+        <CardText>
+          <SheetMusicView clef={this.state.clef} keySignature={this.state.keySignature} keys={[this.state.key]} />
+          <KeyboardButtons onEntry={this.handleGuess} />
+          <button onClick={this.newQuestion}>Skip</button>
+          <div><RaisedButton label="Skip" onTouchTap={this.newQuestion} /></div>
+        </CardText>
+      </Card>
     )
   }
 }
