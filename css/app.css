@@ -1,0 +1,30 @@
+html {
+  font-family: 'Roboto', sans-serif;
+}
+
+body {
+  font-size: 13px;
+  line-height: 20px;
+  margin: 0;
+  background: #eee;
+}
+
+.rx-sheet-music-view > svg {
+  display: block;
+  margin: 0 auto;
+  transform: scale(1.5);
+}
+
+.rx-keyboard-buttons {
+  text-align: center;
+  margin: 10px;
+}
+
+.rx-keyboard-buttons button {
+  padding: 15px 10px;
+}
+
+.rx-sight-reading-practice--skip-btn {
+  margin: 40px auto !important;
+  display: block !important;
+}
