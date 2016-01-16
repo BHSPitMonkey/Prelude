@@ -2,6 +2,7 @@ var React = require('react');
 var ReactDOM = require('react-dom');
 var SheetMusicView = require('./sheet-music-view.jsx');
 var KeyboardButtons = require('./keyboard-buttons.jsx');
+var FlatButton = require('material-ui/lib/flat-button');
 var RaisedButton = require('material-ui/lib/raised-button');
 var Card = require('material-ui/lib/card/card');
 var CardTitle = require('material-ui/lib/card/card-title');
@@ -76,8 +77,7 @@ class SightReadingPractice extends React.Component {
         <CardText>
           <SheetMusicView clef={this.state.clef} keySignature={this.state.keySignature} keys={[this.state.key]} />
           <KeyboardButtons onEntry={this.handleGuess} />
-          <button onClick={this.newQuestion}>Skip</button>
-          <div><RaisedButton label="Skip" onTouchTap={this.newQuestion} /></div>
+          <FlatButton label="Skip" onTouchTap={this.newQuestion} className="rx-sight-reading-practice--skip-btn" />
         </CardText>
       </Card>
     )

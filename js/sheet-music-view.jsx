@@ -76,7 +76,7 @@ class SheetMusicView extends React.Component {
 }
 SheetMusicView.defaultProps = {
   width: 150,
-  height: 150,
+  height: 125,
   clef: "treble"
 };
 module.exports = SheetMusicView;
