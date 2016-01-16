@@ -1,4 +1,4 @@
-# MidiTheory (working title)
+# Music Trainer (working title)
 
 A web application made for practicing reading sheet music, and perhaps more.
 
