@@ -16,6 +16,20 @@ This project is still in early development.
     * Identification can be made either by entry onto an on-screen button array
       * Could possibly look like a small keyboard (maybe just an octave in the selected key)
 
+## Build
+
+Before doing anything:
+
+    npm install
+
+To run the local test server (using webpack):
+
+    npm start
+
+To build:
+
+    # TODO
+
 ## License
 
 MIT

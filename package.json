@@ -1,0 +1,32 @@
+{
+  "name": "midi-theory",
+  "version": "0.0.1",
+  "description": "Music theory practice in the browser with MIDI",
+  "main": "index.js",
+  "dependencies": {
+    "babel-preset-react": "^6.3.13",
+    "react": "^0.14.6",
+    "react-dom": "^0.14.6"
+  },
+  "devDependencies": {
+    "babel": "^6.3.26",
+    "babel-core": "^6.4.0",
+    "babel-loader": "^6.2.1",
+    "react": "^0.14.6",
+    "react-hot-loader": "^1.3.0",
+    "react-router": "^1.0.3",
+    "webpack": "^1.12.11",
+    "webpack-dev-server": "^1.14.1"
+  },
+  "scripts": {
+    "start": "webpack-dev-server --hot --progress --colors",
+    "build": "webpack --progress --colors"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@bitbucket.org/BHSPitMonkey/midi-theory.git"
+  },
+  "author": "Stephen Eisenhauer",
+  "license": "MIT",
+  "homepage": "https://bitbucket.org/BHSPitMonkey/midi-theory#readme"
+}
