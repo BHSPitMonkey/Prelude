@@ -3,7 +3,6 @@ var ReactDOM = require('react-dom');
 var SheetMusicView = require('./sheet-music-view.jsx');
 var KeyboardButtons = require('./keyboard-buttons.jsx');
 var FlatButton = require('material-ui/lib/flat-button');
-var RaisedButton = require('material-ui/lib/raised-button');
 var Card = require('material-ui/lib/card/card');
 var CardTitle = require('material-ui/lib/card/card-title');
 var CardText = require('material-ui/lib/card/card-text');
@@ -21,25 +20,103 @@ class SightReadingPractice extends React.Component {
     // Prebind custom methods
     this.newQuestion = this.newQuestion.bind(this);
     this.handleGuess = this.handleGuess.bind(this);
+    this.componentDidMount = this.componentDidMount.bind(this);
+    this.onMidiAccessGranted = this.onMidiAccessGranted.bind(this);
+  }
+
+  // Pick random element from an array; TODO: Move this into a utility module
+  r(arr) {
+    return arr[Math.floor(Math.random() * arr.length)];
   }
 
   componentDidMount() {
-    // Subscribe to MIDI (and keyboard?) events and process them as guesses
-
+    // Initialize Web MIDI
+    if (navigator.requestMIDIAccess) {
+        navigator.requestMIDIAccess().then(this.onMidiAccessGranted.bind(this));
+    } else {
+        console.note("Web MIDI not supported in this browser. Try Chrome!");
+    }
   }
 
+  onMidiAccessGranted(midi) {
+    console.log("Got midi access: ", midi);
+
+    // Loop over all midi inputs
+    var inputs = midi.inputs.values();
+    var connected = false;
+    for (var input = inputs.next(); input && !input.done; input = inputs.next()) {
+      input.value.onmidimessage = this.onMidiMessage.bind(this);
+      connected = true;
+    }
+
+    // Tell the user if we found something
+    if (connected) {
+      this.context.snackbar("Found a MIDI input device!", 4000);
+    }
+
+    // Subscribe to port changes so we can handle new connections
+    // TODO
+  }
+
+  onMidiMessage(message) {
+    console.log("Got message", message.data, this);
+    var type     = message.data[0],
+        note     = message.data[1],
+        velocity = message.data[2];
+    console.log("Note: ", note);
+
+    // Handle MIDI guess
+    var keys = ['c', 'c#', 'd', 'd#', 'e', 'f', 'f#', 'g', 'g#', 'a', 'a#', 'b'];
+    var key = keys[note % 12];
+    var octave = Math.floor(note/12) - 1;
+    if (this.state.key.key == key) {
+      if (this.state.key.octave == octave) {
+        console.log("MIDI winner!");
+        this.newQuestion();
+      } else {
+        console.log("MIDI wrong octave...");
+      }
+    }
+    //console.log("Key", key, "Octave", octave);
+  }
+
+  /**
+   * Randomly generate a new question and return a state object
+   */
   getRandomState() {
-    // Choose random values
-    var r = function(arr) { return arr[Math.floor(Math.random() * arr.length)]; };
+    var r = this.r;
+
+    // Pick a clef and octave
     var clef = r(['treble', 'bass']);
-    var keySignatures = Object.keys(Vex.Flow.keySignature.keySpecs);
-    var keys = ['a', 'b', 'c', 'd', 'e', 'f', 'g'];
     var octaves = (clef == 'bass') ? ['2', '3'] : ['4', '5'];
+    var octave = r(octaves);
+
+    // Pick a key signature
+    var randomizeKeySignature = false; // TODO: Make a setting
+    if (randomizeKeySignature) {
+      var keySignatures = Object.keys(Vex.Flow.keySignature.keySpecs);
+      var keySignature = r(keySignatures);
+    } else {
+      var keySignature = 'C';
+    }
+
+    // Now we know a key signature; Do we want to just choose a key within it, or allow for accidentals?
+    var includeAccidentals = true; // TODO: Make a setting
+    var baseKeys = ['c', 'd', 'e', 'f', 'g', 'a', 'b'];
+    var key = r(baseKeys);
+    var modifier = null;
+    if (includeAccidentals) {
+      var useAccidental = r([true, false]);
+      //if (['c', ''])
+      //var keys = ['c', 'c#', 'd', 'd#', 'e', 'f', 'f#', 'g', 'g#', 'a', 'a#', 'b'];
+      //var keys = ['c#', 'd#', 'f#', 'g#', 'a#'];
+      //var key = r(keys);
+    }
 
     return {
       clef: clef,
-      keySignature: r(keySignatures),
-      key: r(keys) + '/' + r(octaves)
+      keySignature: keySignature,
+      key: {key:key, modifier:modifier, octave:octave}
     };
   }
 
@@ -47,7 +124,9 @@ class SightReadingPractice extends React.Component {
    * Generate a new question to ask and update state
    */
   newQuestion() {
-    this.setState(this.getRandomState());
+    var newState = this.getRandomState();
+    this.setState(newState);
+    console.log("New question is: ", newState.key);
   }
 
   /**
@@ -62,12 +141,26 @@ class SightReadingPractice extends React.Component {
    */
   handleGuess(entry) {
     // Compare entry with what's in state
-    if (this.state.key[0] == entry.toLowerCase()) {
+    if (this.state.key.key == entry) {
       console.log("Winner!");
+      var snack = this.r([
+        "Nice job!",
+        "Correct!",
+        "That's right!",
+        "Very good!",
+        "Way to go!"
+      ]);
       this.newQuestion();
     } else {
-      console.log("Wrong!");
+      var snack = this.r([
+        "Nope :(",
+        "Not quite...",
+        "Keep trying!",
+        "I don't think so...",
+        "Getting warmer..."
+      ]);
     }
+    this.context.snackbar(snack, 500);
   }
 
   render() {
@@ -76,11 +169,14 @@ class SightReadingPractice extends React.Component {
         <CardTitle title="What note is shown below?" />
         <CardText>
           <SheetMusicView clef={this.state.clef} keySignature={this.state.keySignature} keys={[this.state.key]} />
-          <KeyboardButtons onEntry={this.handleGuess} />
+          <KeyboardButtons onEntry={this.handleGuess} style={{margin: "10px auto"}} />
           <FlatButton label="Skip" onTouchTap={this.newQuestion} className="rx-sight-reading-practice--skip-btn" />
         </CardText>
       </Card>
     )
   }
 }
+SightReadingPractice.contextTypes = {
+  snackbar: React.PropTypes.func
+};
 module.exports = SightReadingPractice;

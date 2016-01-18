@@ -4,6 +4,7 @@
   "description": "Music theory practice in the browser with MIDI",
   "main": "index.js",
   "dependencies": {
+    "babel-plugin-transform-strict-mode": "^6.3.13",
     "babel-preset-react": "^6.3.13",
     "material-ui": "^0.14.2",
     "react": "^0.14.6",
@@ -21,7 +22,7 @@
     "webpack-dev-server": "^1.14.1"
   },
   "scripts": {
-    "start": "webpack-dev-server --hot --progress --colors",
+    "start": "webpack-dev-server --hot --progress --colors --host 0.0.0.0",
     "build": "webpack --progress --colors"
   },
   "repository": {

@@ -46,9 +46,22 @@ class SheetMusicView extends React.Component {
     stave.setContext(ctx).draw();
 
     // Create the notes
+    var keys = this.props.keys.map(function (keyObject) {
+      return keyObject.key + "/" + keyObject.octave;
+    });
+    console.log("Keys: ", keys);
+    var staveNote = new Vex.Flow.StaveNote({ clef: this.props.clef, keys: keys, duration: "q" });
+    for (var i=0; i<this.props.keys.length; i++) {
+      var key = this.props.keys[i].key;
+      if (key.length > 1) {
+        console.log("Adding accidental", key[1], "at index", i, "for key", key);
+        staveNote = staveNote.addAccidental(i, new Vex.Flow.Accidental(key[1]));
+      }
+    }
     var notes = [
-      new Vex.Flow.StaveNote({ clef: this.props.clef, keys: this.props.keys, duration: "q" }),
+      new Vex.Flow.StaveNote(staveNote)
     ];
+    console.log("Drawing notes", notes);
 
     // Create a voice in 1/4
     var voice = new Vex.Flow.Voice({

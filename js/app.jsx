@@ -4,6 +4,7 @@ var SightReadingPractice = require('./sight-reading-practice.jsx');
 var AppBar = require('material-ui/lib/app-bar');
 var LeftNav = require('material-ui/lib/left-nav');
 var MenuItem = require('material-ui/lib/menus/menu-item');
+var Snackbar = require('material-ui/lib/snackbar');
 
 /**
  * Top-level application component
@@ -12,44 +13,40 @@ class Application extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = {leftNavOpen: false};
+    this.state = {
+      leftNavOpen: false,
+      snackbarOpen: false,
+      snackbarMessage: "Hi! ^_^",
+      snackbarAutoHideDuration: 1000
+    };
 
     // Prebind custom methods
-    this.componentDidMount = this.componentDidMount.bind(this);
-    this.onMidiAccessGranted = this.onMidiAccessGranted.bind(this);
     this.toggleLeftNav = this.toggleLeftNav.bind(this);
     this.leftNavRequestChange = this.leftNavRequestChange.bind(this);
+    this.snackbarRequestClose = this.snackbarRequestClose.bind(this);
   }
-  componentDidMount() {
-    // Initialize Web MIDI
-    if (navigator.requestMIDIAccess) {
-        navigator.requestMIDIAccess().then(this.onMidiAccessGranted.bind(this));
-    } else {
-        console.note("Web MIDI not supported in this browser. Try Chrome!");
-    }
-  }
-  onMidiAccessGranted(midi) {
-    console.log("Got midi access: ", midi);
-
-    // Loop over all midi inputs
-    var inputs = midi.inputs.values();
-    for (var input = inputs.next(); input && !input.done; input = inputs.next()) {
-      input.value.onmidimessage = this.onMidiMessage;
-    }
-
-    // Subscribe to port changes so we can handle new connections
-    // TODO
-  }
-  onMidiMessage(message) {
-    console.log("Got message", message, this);
+  getChildContext() {
+    return {
+      snackbar: this.displaySnackbar.bind(this)
+    };
   }
   toggleLeftNav() {
     this.state.leftNavOpen = !this.state.leftNavOpen;
     this.setState(this.state);
   }
   leftNavRequestChange(open, reason) {
-    this.state.leftNavOpen = false;
-    this.setState(this.state);
+    this.setState({leftNavOpen: false});
+  }
+  snackbarRequestClose() {
+    this.setState({snackbarOpen: false});
+  }
+  displaySnackbar(message, duration) {
+    console.log("Type: ", typeof duration);
+    this.setState({
+      snackbarOpen: true,
+      snackbarMessage: message,
+      snackbarAutoHideDuration: (typeof duration !== "undefined") ? duration : 1000
+    });
   }
   render() {
     return (
@@ -64,10 +61,22 @@ class Application extends React.Component {
           onRequestChange={this.leftNavRequestChange}
           docked={false}>
           <MenuItem>Sight Reading Practice</MenuItem>
+          <MenuItem>Settings</MenuItem>
+          <MenuItem>About</MenuItem>
+          <MenuItem disabled={true}>Hi!</MenuItem>
         </LeftNav>
         <SightReadingPractice />
+        <Snackbar
+          open={this.state.snackbarOpen}
+          message={this.state.snackbarMessage}
+          autoHideDuration={this.state.snackbarAutoHideDuration}
+          onRequestClose={this.snackbarRequestClose}
+        />
       </div>
     );
   }
 }
+Application.childContextTypes = {
+  snackbar: React.PropTypes.func
+};
 module.exports = Application;

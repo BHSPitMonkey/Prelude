@@ -12,19 +12,16 @@ body {
 .rx-sheet-music-view > svg {
   display: block;
   margin: 0 auto;
-  transform: scale(1.5);
-}
-
-.rx-keyboard-buttons {
-  text-align: center;
-  margin: 10px;
-}
-
-.rx-keyboard-buttons button {
-  padding: 15px 10px;
+  transform: scale(1.75);
 }
 
 .rx-sight-reading-practice--skip-btn {
   margin: 40px auto !important;
   display: block !important;
+}
+
+.rx-keyboard-buttons button:focus {
+  /* box-shadow: inset 0 0 0 500px rgba(0, 0, 0, 0.1); */
+  -webkit-filter: brightness(0.9);
+  outline: none;
 }
