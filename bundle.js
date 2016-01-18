@@ -20015,7 +20015,7 @@
 	        React.createElement(
 	          MenuItem,
 	          { disabled: true },
-	          __VERSION__
+	          'Hi!'
 	        )
 	      ),
 	      React.createElement(SightReadingPractice, null),
