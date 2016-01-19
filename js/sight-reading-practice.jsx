@@ -200,7 +200,7 @@ class SightReadingPractice extends React.Component {
         <CardText>
           <SheetMusicView clef={this.state.clef} keySignature={this.state.keySignature} keys={[this.state.key]} />
           <KeyboardButtons onEntry={this.handleGuess} style={{margin: "10px auto"}} />
-          <FlatButton label="Skip" onTouchTap={this.newQuestion} className="rx-sight-reading-practice--skip-btn" />
+          <FlatButton label="Skip" onTouchTap={this.newQuestion} style={{display: "block", margin: "40px auto"}} />
         </CardText>
       </Card>
     )
