@@ -7,8 +7,14 @@ module.exports = {
     },
     module: {
         loaders: [
-            { test: /\.jsx?$/, loader: 'babel', exclude: /node_modules/, query: { presets:['react'] } },
-            { test: /\.js$/, exclude: /node_modules/, loader: 'babel-loader'},
+            {
+                test: /\.jsx?$/,
+                exclude: /(node_modules|bower_components)/,
+                loader: 'babel', // 'babel-loader' is also a legal name to reference
+                query: {
+                    presets: ['react', 'es2015']
+                }
+            },
             { test: /\.css$/, loader: "style!css" }
         ]
     },
