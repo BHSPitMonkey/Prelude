@@ -1,5 +1,6 @@
 var React = require('react');
 var ReactDOM = require('react-dom');
+import Vex from 'vexflow';
 
 /**
  * Visual display of a snippet of sheet music (wraps an engraving library)
