@@ -38,6 +38,9 @@ class SightReadingPractice extends React.Component {
     }
   }
 
+  /**
+   * Handler for after we've been granted the MIDI access we requested at launch
+   */
   onMidiAccessGranted(midi) {
     console.log("Got midi access: ", midi);
 
@@ -55,29 +58,48 @@ class SightReadingPractice extends React.Component {
     }
 
     // Subscribe to port changes so we can handle new connections
-    // TODO
+    midi.onstatechange = this.onMidiStateChange.bind(this);
   }
 
+  /**
+   * Handler for new MIDI devices connected after launch
+   */
+  onMidiStateChange(event) {
+    // We currently only care about inputs
+    if (event.port.type == "input") {
+      if (event.port.connection == "open") {
+        input.value.onmidimessage = this.onMidiMessage.bind(this);
+        this.context.snackbar("MIDI device connected!");
+      }
+    }
+  }
+
+  /**
+   * Handler for when a new MIDI message arrives from an input port
+   */
   onMidiMessage(message) {
     console.log("Got message", message.data, this);
     var type     = message.data[0],
         note     = message.data[1],
         velocity = message.data[2];
-    console.log("Note: ", note);
+    console.log("type: ", type);
 
-    // Handle MIDI guess
-    var keys = ['c', 'c#', 'd', 'd#', 'e', 'f', 'f#', 'g', 'g#', 'a', 'a#', 'b'];
-    var key = keys[note % 12];
-    var octave = Math.floor(note/12) - 1;
-    if (this.state.key.key == key) {
-      if (this.state.key.octave == octave) {
-        console.log("MIDI winner!");
-        this.newQuestion();
+    // 144 means Note On
+    if (type == 144) {
+      // Handle MIDI guess
+      var keys = ['c', 'c#', 'd', 'd#', 'e', 'f', 'f#', 'g', 'g#', 'a', 'a#', 'b'];
+      var key = keys[note % 12];
+      var octave = Math.floor(note/12) - 1;
+      if (this.state.key.key == key) {
+        if (this.state.key.octave == octave) {
+          this.correctGuess();
+        } else {
+          this.context.snackbar("Check your octave...");
+        }
       } else {
-        console.log("MIDI wrong octave...");
+        this.incorrectGuess();
       }
     }
-    //console.log("Key", key, "Octave", octave);
   }
 
   /**
@@ -142,24 +164,32 @@ class SightReadingPractice extends React.Component {
   handleGuess(entry) {
     // Compare entry with what's in state
     if (this.state.key.key == entry) {
-      console.log("Winner!");
-      var snack = this.r([
-        "Nice job!",
-        "Correct!",
-        "That's right!",
-        "Very good!",
-        "Way to go!"
-      ]);
-      this.newQuestion();
+      this.correctGuess();
     } else {
-      var snack = this.r([
-        "Nope :(",
-        "Not quite...",
-        "Keep trying!",
-        "I don't think so...",
-        "Getting warmer..."
-      ]);
+      this.incorrectGuess();
     }
+  }
+
+  correctGuess() {
+    this.newQuestion();
+    var snack = this.r([
+      "Nice job!",
+      "Correct!",
+      "That's right!",
+      "Very good!",
+      "Way to go!"
+    ]);
+    this.context.snackbar(snack, 500);
+  }
+
+  incorrectGuess() {
+    var snack = this.r([
+      "Nope :(",
+      "Not quite...",
+      "Keep trying!",
+      "I don't think so...",
+      "Getting warmer..."
+    ]);
     this.context.snackbar(snack, 500);
   }
 
