@@ -1,5 +1,5 @@
-var React = require('react');
-var ReactDOM = require('react-dom');
+import React from 'react';
+import * as ReactDOM from 'react-dom';
 import Vex from 'vexflow';
 
 /**
@@ -93,4 +93,4 @@ SheetMusicView.defaultProps = {
   height: 125,
   clef: "treble"
 };
-module.exports = SheetMusicView;
+export default SheetMusicView;

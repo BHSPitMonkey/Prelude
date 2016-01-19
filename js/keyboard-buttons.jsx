@@ -1,9 +1,8 @@
-var React = require('react');
-var ReactDOM = require('react-dom');
-var RaisedButton = require('material-ui/lib/raised-button');
-var Colors = require('material-ui/lib/styles/colors');
+import React from 'react';
+import RaisedButton from 'material-ui/lib/raised-button';
+import Colors from 'material-ui/lib/styles/colors';
 
-class KeyboardButtons extends React.Component {
+export default class extends React.Component {
   constructor(props) {
     super(props);
 
@@ -54,4 +53,3 @@ class KeyboardButtons extends React.Component {
     )
   }
 }
-module.exports = KeyboardButtons;

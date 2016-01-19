@@ -1,10 +1,9 @@
-var React = require('react');
-var ReactDOM = require('react-dom');
-var SightReadingPractice = require('./sight-reading-practice.jsx');
-var AppBar = require('material-ui/lib/app-bar');
-var LeftNav = require('material-ui/lib/left-nav');
-var MenuItem = require('material-ui/lib/menus/menu-item');
-var Snackbar = require('material-ui/lib/snackbar');
+import React from 'react';
+import AppBar from 'material-ui/lib/app-bar';
+import LeftNav from 'material-ui/lib/left-nav';
+import MenuItem from 'material-ui/lib/menus/menu-item';
+import Snackbar from 'material-ui/lib/snackbar';
+import SightReadingPractice from './sight-reading-practice.jsx';
 
 /**
  * Top-level application component
@@ -13,6 +12,7 @@ class Application extends React.Component {
   constructor(props) {
     super(props);
 
+    // Default state
     this.state = {
       leftNavOpen: false,
       snackbarOpen: false,
@@ -79,4 +79,4 @@ class Application extends React.Component {
 Application.childContextTypes = {
   snackbar: React.PropTypes.func
 };
-module.exports = Application;
+export default Application;

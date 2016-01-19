@@ -1,13 +1,13 @@
-var React = require('react');
-var ReactDOM = require('react-dom');
-var injectTapEventPlugin = require('react-tap-event-plugin');
-var Application = require('./app.jsx');
+import React from 'react';
+import { render } from 'react-dom'
+import injectTapEventPlugin from 'react-tap-event-plugin';
+import Application from './app.jsx';
 
 // Needed by Material UI
 injectTapEventPlugin();
 
 // Render top-level component to page
-ReactDOM.render(
+render(
   <Application />,
   document.getElementById('container')
 );

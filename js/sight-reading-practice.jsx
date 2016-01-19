@@ -1,11 +1,11 @@
-var React = require('react');
-var ReactDOM = require('react-dom');
-var SheetMusicView = require('./sheet-music-view.jsx');
-var KeyboardButtons = require('./keyboard-buttons.jsx');
-var FlatButton = require('material-ui/lib/flat-button');
-var Card = require('material-ui/lib/card/card');
-var CardTitle = require('material-ui/lib/card/card-title');
-var CardText = require('material-ui/lib/card/card-text');
+import React from 'react';
+import FlatButton from 'material-ui/lib/flat-button';
+import Card from 'material-ui/lib/card/card';
+import CardTitle from 'material-ui/lib/card/card-title';
+import CardText from 'material-ui/lib/card/card-text';
+import SheetMusicView from './sheet-music-view.jsx';
+import KeyboardButtons from './keyboard-buttons.jsx';
+import * as Midi from './midi';
 
 /**
  * Component providing the sight reading practice game (in entirety)
@@ -85,7 +85,7 @@ class SightReadingPractice extends React.Component {
     console.log("type: ", type);
 
     // 144 means Note On
-    if (type == 144) {
+    if (type == Midi.Types.NoteOn) {
       // Handle MIDI guess
       var keys = ['c', 'c#', 'd', 'd#', 'e', 'f', 'f#', 'g', 'g#', 'a', 'a#', 'b'];
       var key = keys[note % 12];
@@ -209,4 +209,4 @@ class SightReadingPractice extends React.Component {
 SightReadingPractice.contextTypes = {
   snackbar: React.PropTypes.func
 };
-module.exports = SightReadingPractice;
+export default SightReadingPractice;
