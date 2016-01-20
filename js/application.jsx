@@ -4,7 +4,9 @@ import AppBar from 'material-ui/lib/app-bar';
 import LeftNav from 'material-ui/lib/left-nav';
 import MenuItem from 'material-ui/lib/menus/menu-item';
 import Snackbar from 'material-ui/lib/snackbar';
-import SightReadingPractice from './sight-reading-practice.jsx';
+import HomeIcon from 'material-ui/lib/svg-icons/action/home';
+import InfoIcon from 'material-ui/lib/svg-icons/action/info';
+import MusicNoteIcon from 'material-ui/lib/svg-icons/image/music-note';
 
 /**
  * Top-level application component
@@ -24,9 +26,9 @@ class Application extends React.Component {
 
     // Menu items to routes map
     this.menuItems = {
-      "Home": "/",
-      "Sight Reading Practice": "/sightReading",
-      "About": "/about"
+      "Home": { route: "/", icon: <HomeIcon /> },
+      "Sight Reading Practice": { route: "/sightReading", icon: <MusicNoteIcon /> },
+      "About": { route: "/about", icon: <InfoIcon /> }
     };
 
     // Prebind custom methods
@@ -55,7 +57,7 @@ class Application extends React.Component {
     // (I can't seem to find any better way to do this with the MenuItem component,
     // at least without building my own MenuItem wrapper class)
     let text = e.target.innerText;
-    let route = this.menuItems[text];
+    let route = this.menuItems[text].route;
     this.setState({leftNavOpen: false}); // Close the menu
     this.context.router.push(route); // Go to the route
   }
@@ -71,13 +73,6 @@ class Application extends React.Component {
     });
   }
   render() {
-    // Data for the left nav menu
-    let menuItems = {
-      "Home": "/",
-      "Sight Reading Practice": "/sightReading",
-      "About": "/about"
-    };
-
     return (
       <div>
         <AppBar
@@ -90,8 +85,9 @@ class Application extends React.Component {
           onRequestChange={this.leftNavRequestChange}
           docked={false}>
           {
-            Object.keys(menuItems).map(function (text) {
-              return <MenuItem onTouchTap={this.leftNavMenuItemTouched} key={text}>{text}</MenuItem>
+            Object.keys(this.menuItems).map(function (text) {
+              let item = this.menuItems[text];
+              return <MenuItem onTouchTap={this.leftNavMenuItemTouched} key={text} leftIcon={item.icon}>{text}</MenuItem>
             }.bind(this))
           }
         </LeftNav>
