@@ -46,33 +46,40 @@ class SheetMusicView extends React.Component {
         keySig.addToStave(stave);
     stave.setContext(ctx).draw();
 
-    // Create the notes
+    // Format the key names in a way VexFlow will accept
     var keys = this.props.keys.map(function (keyObject) {
       return keyObject.key + "/" + keyObject.octave;
     });
-    console.log("Keys: ", keys);
-    var staveNote = new Vex.Flow.StaveNote({ clef: this.props.clef, keys: keys, duration: "q" });
+
+    // The StaveNote can have one or more keys (i.e. mono- or polyphonic)
+    var staveNote = new Vex.Flow.StaveNote({
+      clef: this.props.clef,
+      keys: keys,
+      duration: "q",
+      auto_stem: true
+    });
+
+    // Add accidentals to the StaveNote for each key as needed
     for (var i=0; i<this.props.keys.length; i++) {
       var key = this.props.keys[i].key;
+      key += "n";
       if (key.length > 1) {
         console.log("Adding accidental", key[1], "at index", i, "for key", key);
         staveNote = staveNote.addAccidental(i, new Vex.Flow.Accidental(key[1]));
       }
     }
-    var notes = [
-      new Vex.Flow.StaveNote(staveNote)
-    ];
-    console.log("Drawing notes", notes);
 
-    // Create a voice in 1/4
+    // Create a Voice in 1/4
     var voice = new Vex.Flow.Voice({
       num_beats: 1,
       beat_value: 4,
       resolution: Vex.Flow.RESOLUTION
     });
 
-    // Add notes to voice
-    voice.addTickables(notes);
+    // Add the StaveNotes from earlier to the Voice
+    voice.addTickables([
+      staveNote
+    ]);
 
     // Format and justify the notes to 500 pixels
     var formatter = new Vex.Flow.Formatter().
