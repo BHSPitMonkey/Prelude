@@ -34,7 +34,7 @@ export default class extends React.Component {
         <CardHeader
           title="Music Trainer"
           subtitle="Version TODO"
-          avatar="/img/icon-square.svg"/>
+          avatar="img/icon-square.svg"/>
           <CardText>
             <p>Music Trainer is a modern web application for helping you practice your musical abilities.</p>
             <p>The application was built by Stephen Eisenhauer using React, Material-UI, and VexFlow.</p>
