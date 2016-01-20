@@ -1,5 +1,5 @@
 import React from 'react';
-import { Router, Route, Link, browserHistory } from 'react-router'
+import { Router, Route, Link } from 'react-router'
 import AppBar from 'material-ui/lib/app-bar';
 import LeftNav from 'material-ui/lib/left-nav';
 import MenuItem from 'material-ui/lib/menus/menu-item';
@@ -57,7 +57,7 @@ class Application extends React.Component {
     let text = e.target.innerText;
     let route = this.menuItems[text];
     this.setState({leftNavOpen: false}); // Close the menu
-    browserHistory.push(route); // Go to the route
+    this.context.router.push(route); // Go to the route
   }
   snackbarRequestClose() {
     this.setState({snackbarOpen: false});
