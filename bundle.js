@@ -58326,7 +58326,7 @@
 	        _react2.default.createElement(_cardHeader2.default, {
 	          title: 'Music Trainer',
 	          subtitle: 'Version TODO',
-	          avatar: '/img/icon-square.svg' }),
+	          avatar: 'img/icon-square.svg' }),
 	        _react2.default.createElement(
 	          _cardText2.default,
 	          null,
