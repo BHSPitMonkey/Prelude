@@ -62,15 +62,15 @@
 
 	var _application2 = _interopRequireDefault(_application);
 
-	var _home = __webpack_require__(346);
+	var _home = __webpack_require__(333);
 
 	var _home2 = _interopRequireDefault(_home);
 
-	var _about = __webpack_require__(347);
+	var _about = __webpack_require__(344);
 
 	var _about2 = _interopRequireDefault(_about);
 
-	var _sightReadingPractice = __webpack_require__(330);
+	var _sightReadingPractice = __webpack_require__(352);
 
 	var _sightReadingPractice2 = _interopRequireDefault(_sightReadingPractice);
 
@@ -24956,9 +24956,17 @@
 
 	var _snackbar2 = _interopRequireDefault(_snackbar);
 
-	var _sightReadingPractice = __webpack_require__(330);
+	var _home = __webpack_require__(330);
 
-	var _sightReadingPractice2 = _interopRequireDefault(_sightReadingPractice);
+	var _home2 = _interopRequireDefault(_home);
+
+	var _info = __webpack_require__(331);
+
+	var _info2 = _interopRequireDefault(_info);
+
+	var _musicNote = __webpack_require__(332);
+
+	var _musicNote2 = _interopRequireDefault(_musicNote);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -24991,9 +24999,9 @@
 
 	    // Menu items to routes map
 	    _this.menuItems = {
-	      "Home": "/",
-	      "Sight Reading Practice": "/sightReading",
-	      "About": "/about"
+	      "Home": { route: "/", icon: _react2.default.createElement(_home2.default, null) },
+	      "Sight Reading Practice": { route: "/sightReading", icon: _react2.default.createElement(_musicNote2.default, null) },
+	      "About": { route: "/about", icon: _react2.default.createElement(_info2.default, null) }
 	    };
 
 	    // Prebind custom methods
@@ -25034,7 +25042,7 @@
 	      // (I can't seem to find any better way to do this with the MenuItem component,
 	      // at least without building my own MenuItem wrapper class)
 	      var text = e.target.innerText;
-	      var route = this.menuItems[text];
+	      var route = this.menuItems[text].route;
 	      this.setState({ leftNavOpen: false }); // Close the menu
 	      this.context.router.push(route); // Go to the route
 	    }
@@ -25056,13 +25064,6 @@
 	  }, {
 	    key: 'render',
 	    value: function render() {
-	      // Data for the left nav menu
-	      var menuItems = {
-	        "Home": "/",
-	        "Sight Reading Practice": "/sightReading",
-	        "About": "/about"
-	      };
-
 	      return _react2.default.createElement(
 	        'div',
 	        null,
@@ -25077,10 +25078,11 @@
 	            open: this.state.leftNavOpen,
 	            onRequestChange: this.leftNavRequestChange,
 	            docked: false },
-	          Object.keys(menuItems).map(function (text) {
+	          Object.keys(this.menuItems).map(function (text) {
+	            var item = this.menuItems[text];
 	            return _react2.default.createElement(
 	              _menuItem2.default,
-	              { onTouchTap: this.leftNavMenuItemTouched, key: text },
+	              { onTouchTap: this.leftNavMenuItemTouched, key: text, leftIcon: item.icon },
 	              text
 	            );
 	          }.bind(this))
@@ -40012,6 +40014,1900 @@
 
 	'use strict';
 
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reactAddonsPureRenderMixin = __webpack_require__(249);
+
+	var _reactAddonsPureRenderMixin2 = _interopRequireDefault(_reactAddonsPureRenderMixin);
+
+	var _svgIcon = __webpack_require__(294);
+
+	var _svgIcon2 = _interopRequireDefault(_svgIcon);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var ActionHome = _react2.default.createClass({
+	  displayName: 'ActionHome',
+
+	  mixins: [_reactAddonsPureRenderMixin2.default],
+
+	  render: function render() {
+	    return _react2.default.createElement(
+	      _svgIcon2.default,
+	      this.props,
+	      _react2.default.createElement('path', { d: 'M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z' })
+	    );
+	  }
+	});
+
+	exports.default = ActionHome;
+	module.exports = exports['default'];
+
+/***/ },
+/* 331 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reactAddonsPureRenderMixin = __webpack_require__(249);
+
+	var _reactAddonsPureRenderMixin2 = _interopRequireDefault(_reactAddonsPureRenderMixin);
+
+	var _svgIcon = __webpack_require__(294);
+
+	var _svgIcon2 = _interopRequireDefault(_svgIcon);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var ActionInfo = _react2.default.createClass({
+	  displayName: 'ActionInfo',
+
+	  mixins: [_reactAddonsPureRenderMixin2.default],
+
+	  render: function render() {
+	    return _react2.default.createElement(
+	      _svgIcon2.default,
+	      this.props,
+	      _react2.default.createElement('path', { d: 'M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z' })
+	    );
+	  }
+	});
+
+	exports.default = ActionInfo;
+	module.exports = exports['default'];
+
+/***/ },
+/* 332 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reactAddonsPureRenderMixin = __webpack_require__(249);
+
+	var _reactAddonsPureRenderMixin2 = _interopRequireDefault(_reactAddonsPureRenderMixin);
+
+	var _svgIcon = __webpack_require__(294);
+
+	var _svgIcon2 = _interopRequireDefault(_svgIcon);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var ImageMusicNote = _react2.default.createClass({
+	  displayName: 'ImageMusicNote',
+
+	  mixins: [_reactAddonsPureRenderMixin2.default],
+
+	  render: function render() {
+	    return _react2.default.createElement(
+	      _svgIcon2.default,
+	      this.props,
+	      _react2.default.createElement('path', { d: 'M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z' })
+	    );
+	  }
+	});
+
+	exports.default = ImageMusicNote;
+	module.exports = exports['default'];
+
+/***/ },
+/* 333 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reactRouter = __webpack_require__(159);
+
+	var _card = __webpack_require__(334);
+
+	var _card2 = _interopRequireDefault(_card);
+
+	var _cardTitle = __webpack_require__(338);
+
+	var _cardTitle2 = _interopRequireDefault(_cardTitle);
+
+	var _cardText = __webpack_require__(343);
+
+	var _cardText2 = _interopRequireDefault(_cardText);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	/**
+	 * Component providing the main/home screen
+	 */
+
+	var _class = function (_React$Component) {
+	  _inherits(_class, _React$Component);
+
+	  function _class() {
+	    _classCallCheck(this, _class);
+
+	    return _possibleConstructorReturn(this, Object.getPrototypeOf(_class).apply(this, arguments));
+	  }
+
+	  _createClass(_class, [{
+	    key: 'render',
+	    value: function render() {
+	      return _react2.default.createElement(
+	        _card2.default,
+	        { style: { maxWidth: "600px", margin: "0 auto" } },
+	        _react2.default.createElement(_cardTitle2.default, { title: 'Welcome!', subtitle: 'Use the menu to the upper-left to get started.' })
+	      );
+	    }
+	  }]);
+
+	  return _class;
+	}(_react2.default.Component);
+
+	exports.default = _class;
+
+/***/ },
+/* 334 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _paper = __webpack_require__(295);
+
+	var _paper2 = _interopRequireDefault(_paper);
+
+	var _stylePropable = __webpack_require__(223);
+
+	var _stylePropable2 = _interopRequireDefault(_stylePropable);
+
+	var _cardExpandable = __webpack_require__(335);
+
+	var _cardExpandable2 = _interopRequireDefault(_cardExpandable);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; }
+
+	var Card = _react2.default.createClass({
+	  displayName: 'Card',
+
+	  propTypes: {
+	    /**
+	     * Whether a click on this card component expands the card. Can be set on any child of the Card component.
+	     */
+	    actAsExpander: _react2.default.PropTypes.bool,
+
+	    /**
+	     * Can be used to render elements inside the Card.
+	     */
+	    children: _react2.default.PropTypes.node,
+
+	    /**
+	     * Whether this card component is expandable. Can be set on any child of the Card component.
+	     */
+	    expandable: _react2.default.PropTypes.bool,
+
+	    /**
+	     * Whether this card is initially expanded.
+	     */
+	    initiallyExpanded: _react2.default.PropTypes.bool,
+
+	    /**
+	     * Fired when the expandable state changes.
+	     */
+	    onExpandChange: _react2.default.PropTypes.func,
+
+	    /**
+	     * Whether this card component include a button to expand the card. CardTitle,
+	     * CardHeader and CardActions implement showExpandableButton. Any child component
+	     * of Card can implements showExpandableButton or forwards the property to a child
+	     * component supporting it.
+	     */
+	    showExpandableButton: _react2.default.PropTypes.bool,
+
+	    /**
+	     * Override the inline-styles of the root element.
+	     */
+	    style: _react2.default.PropTypes.object
+	  },
+
+	  mixins: [_stylePropable2.default],
+
+	  getDefaultProps: function getDefaultProps() {
+	    return {
+	      expandable: false,
+	      initiallyExpanded: false,
+	      actAsExpander: false
+	    };
+	  },
+	  getInitialState: function getInitialState() {
+	    return {
+	      expanded: this.props.initiallyExpanded ? true : false
+	    };
+	  },
+	  _onExpandable: function _onExpandable(event) {
+	    event.preventDefault();
+	    var newExpandedState = !(this.state.expanded === true);
+	    this.setState({ expanded: newExpandedState });
+	    if (this.props.onExpandChange) this.props.onExpandChange(newExpandedState);
+	  },
+	  render: function render() {
+	    var _this = this;
+
+	    var lastElement = undefined;
+	    var newChildren = _react2.default.Children.map(this.props.children, function (currentChild) {
+	      var doClone = false;
+	      var newChild = undefined;
+	      var newProps = {};
+	      var element = currentChild;
+	      if (!currentChild || !currentChild.props) {
+	        return null;
+	      }
+	      if (_this.state.expanded === false && currentChild.props.expandable === true) return;
+	      if (currentChild.props.actAsExpander === true) {
+	        doClone = true;
+	        newProps.onTouchTap = _this._onExpandable;
+	        newProps.style = _this.mergeStyles({ cursor: 'pointer' }, currentChild.props.style);
+	      }
+	      if (currentChild.props.showExpandableButton === true) {
+	        doClone = true;
+	        newChild = _react2.default.createElement(_cardExpandable2.default, { expanded: _this.state.expanded, onExpanding: _this._onExpandable });
+	      }
+	      if (doClone) {
+	        element = _react2.default.cloneElement(currentChild, newProps, currentChild.props.children, newChild);
+	      }
+	      return element;
+	    }, this);
+
+	    // If the last element is text or a title we should add
+	    // 8px padding to the bottom of the card
+	    var addBottomPadding = lastElement && (lastElement.type.displayName === 'CardText' || lastElement.type.displayName === 'CardTitle');
+	    var _props = this.props;
+	    var style = _props.style;
+
+	    var other = _objectWithoutProperties(_props, ['style']);
+
+	    var mergedStyles = this.mergeStyles({
+	      overflow: 'hidden',
+	      zIndex: 1
+	    }, style);
+
+	    return _react2.default.createElement(
+	      _paper2.default,
+	      _extends({}, other, { style: mergedStyles }),
+	      _react2.default.createElement(
+	        'div',
+	        { style: { paddingBottom: addBottomPadding ? 8 : 0 } },
+	        newChildren
+	      )
+	    );
+	  }
+	});
+
+	exports.default = Card;
+	module.exports = exports['default'];
+
+/***/ },
+/* 335 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _extend = __webpack_require__(268);
+
+	var _extend2 = _interopRequireDefault(_extend);
+
+	var _keyboardArrowUp = __webpack_require__(336);
+
+	var _keyboardArrowUp2 = _interopRequireDefault(_keyboardArrowUp);
+
+	var _keyboardArrowDown = __webpack_require__(337);
+
+	var _keyboardArrowDown2 = _interopRequireDefault(_keyboardArrowDown);
+
+	var _iconButton = __webpack_require__(243);
+
+	var _iconButton2 = _interopRequireDefault(_iconButton);
+
+	var _stylePropable = __webpack_require__(223);
+
+	var _stylePropable2 = _interopRequireDefault(_stylePropable);
+
+	var _lightRawTheme = __webpack_require__(263);
+
+	var _lightRawTheme2 = _interopRequireDefault(_lightRawTheme);
+
+	var _themeManager = __webpack_require__(267);
+
+	var _themeManager2 = _interopRequireDefault(_themeManager);
+
+	var _contextPure = __webpack_require__(244);
+
+	var _contextPure2 = _interopRequireDefault(_contextPure);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var CardExpandable = _react2.default.createClass({
+	  displayName: 'CardExpandable',
+
+	  propTypes: {
+	    expanded: _react2.default.PropTypes.bool,
+	    onExpanding: _react2.default.PropTypes.func.isRequired,
+
+	    /**
+	     * Override the inline-styles of the root element.
+	     */
+	    style: _react2.default.PropTypes.object
+	  },
+
+	  contextTypes: {
+	    muiTheme: _react2.default.PropTypes.object
+	  },
+
+	  //for passing default theme context to children
+	  childContextTypes: {
+	    muiTheme: _react2.default.PropTypes.object
+	  },
+
+	  mixins: [_stylePropable2.default, _contextPure2.default],
+
+	  statics: {
+	    getRelevantContextKeys: function getRelevantContextKeys(muiTheme) {
+	      return {
+	        isRtl: muiTheme.isRtl
+	      };
+	    },
+	    getChildrenClasses: function getChildrenClasses() {
+	      return [_iconButton2.default];
+	    }
+	  },
+
+	  getInitialState: function getInitialState() {
+	    return {
+	      muiTheme: this.context.muiTheme ? this.context.muiTheme : _themeManager2.default.getMuiTheme(_lightRawTheme2.default)
+	    };
+	  },
+	  getChildContext: function getChildContext() {
+	    return {
+	      muiTheme: this.state.muiTheme
+	    };
+	  },
+
+	  //to update theme inside state whenever a new theme is passed down
+	  //from the parent / owner using context
+	  componentWillReceiveProps: function componentWillReceiveProps(nextProps, nextContext) {
+	    var newMuiTheme = nextContext.muiTheme ? nextContext.muiTheme : this.state.muiTheme;
+	    this.setState({ muiTheme: newMuiTheme });
+	  },
+	  getStyles: function getStyles() {
+	    var contextKeys = this.constructor.getRelevantContextKeys(this.state.muiTheme);
+
+	    var directionStyle = contextKeys.isRtl ? {
+	      left: 4
+	    } : {
+	      right: 4
+	    };
+
+	    return {
+	      root: (0, _extend2.default)({
+	        top: 0,
+	        bottom: 0,
+	        margin: 'auto',
+	        position: 'absolute'
+	      }, directionStyle)
+	    };
+	  },
+	  render: function render() {
+	    var styles = this.getStyles();
+
+	    var expandable = undefined;
+	    if (this.props.expanded === true) expandable = _react2.default.createElement(_keyboardArrowUp2.default, null);else expandable = _react2.default.createElement(_keyboardArrowDown2.default, null);
+
+	    var mergedStyles = this.mergeStyles(styles.root, this.props.style);
+
+	    var expandableBtn = _react2.default.createElement(
+	      _iconButton2.default,
+	      {
+	        style: mergedStyles,
+	        onTouchTap: this.props.onExpanding },
+	      expandable
+	    );
+
+	    return expandableBtn;
+	  }
+	});
+
+	exports.default = CardExpandable;
+	module.exports = exports['default'];
+
+/***/ },
+/* 336 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reactAddonsPureRenderMixin = __webpack_require__(249);
+
+	var _reactAddonsPureRenderMixin2 = _interopRequireDefault(_reactAddonsPureRenderMixin);
+
+	var _svgIcon = __webpack_require__(294);
+
+	var _svgIcon2 = _interopRequireDefault(_svgIcon);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var HardwareKeyboardArrowUp = _react2.default.createClass({
+	  displayName: 'HardwareKeyboardArrowUp',
+
+	  mixins: [_reactAddonsPureRenderMixin2.default],
+
+	  render: function render() {
+	    return _react2.default.createElement(
+	      _svgIcon2.default,
+	      this.props,
+	      _react2.default.createElement('path', { d: 'M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z' })
+	    );
+	  }
+	});
+
+	exports.default = HardwareKeyboardArrowUp;
+	module.exports = exports['default'];
+
+/***/ },
+/* 337 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reactAddonsPureRenderMixin = __webpack_require__(249);
+
+	var _reactAddonsPureRenderMixin2 = _interopRequireDefault(_reactAddonsPureRenderMixin);
+
+	var _svgIcon = __webpack_require__(294);
+
+	var _svgIcon2 = _interopRequireDefault(_svgIcon);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var HardwareKeyboardArrowDown = _react2.default.createClass({
+	  displayName: 'HardwareKeyboardArrowDown',
+
+	  mixins: [_reactAddonsPureRenderMixin2.default],
+
+	  render: function render() {
+	    return _react2.default.createElement(
+	      _svgIcon2.default,
+	      this.props,
+	      _react2.default.createElement('path', { d: 'M7.41 7.84L12 12.42l4.59-4.58L18 9.25l-6 6-6-6z' })
+	    );
+	  }
+	});
+
+	exports.default = HardwareKeyboardArrowDown;
+	module.exports = exports['default'];
+
+/***/ },
+/* 338 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _styles = __webpack_require__(339);
+
+	var _styles2 = _interopRequireDefault(_styles);
+
+	var _stylePropable = __webpack_require__(223);
+
+	var _stylePropable2 = _interopRequireDefault(_stylePropable);
+
+	var _themeManager = __webpack_require__(267);
+
+	var _themeManager2 = _interopRequireDefault(_themeManager);
+
+	var _lightRawTheme = __webpack_require__(263);
+
+	var _lightRawTheme2 = _interopRequireDefault(_lightRawTheme);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var CardTitle = _react2.default.createClass({
+	  displayName: 'CardTitle',
+
+	  propTypes: {
+	    actAsExpander: _react2.default.PropTypes.bool,
+	    children: _react2.default.PropTypes.node,
+	    expandable: _react2.default.PropTypes.bool,
+	    showExpandableButton: _react2.default.PropTypes.bool,
+
+	    /**
+	     * Override the inline-styles of the root element.
+	     */
+	    style: _react2.default.PropTypes.object,
+	    subtitle: _react2.default.PropTypes.node,
+	    subtitleColor: _react2.default.PropTypes.string,
+	    subtitleStyle: _react2.default.PropTypes.object,
+	    title: _react2.default.PropTypes.node,
+	    titleColor: _react2.default.PropTypes.string,
+	    titleStyle: _react2.default.PropTypes.object
+	  },
+
+	  contextTypes: {
+	    muiTheme: _react2.default.PropTypes.object
+	  },
+
+	  //for passing default theme context to children
+	  childContextTypes: {
+	    muiTheme: _react2.default.PropTypes.object
+	  },
+
+	  mixins: [_stylePropable2.default],
+
+	  getDefaultProps: function getDefaultProps() {
+	    return {
+	      titleColor: _styles2.default.Colors.darkBlack,
+	      subtitleColor: _styles2.default.Colors.lightBlack
+	    };
+	  },
+	  getInitialState: function getInitialState() {
+	    return {
+	      muiTheme: this.context.muiTheme ? this.context.muiTheme : _themeManager2.default.getMuiTheme(_lightRawTheme2.default)
+	    };
+	  },
+	  getChildContext: function getChildContext() {
+	    return {
+	      muiTheme: this.state.muiTheme
+	    };
+	  },
+
+	  //to update theme inside state whenever a new theme is passed down
+	  //from the parent / owner using context
+	  componentWillReceiveProps: function componentWillReceiveProps(nextProps, nextContext) {
+	    var newMuiTheme = nextContext.muiTheme ? nextContext.muiTheme : this.state.muiTheme;
+	    this.setState({
+	      muiTheme: newMuiTheme
+	    });
+	  },
+	  getStyles: function getStyles() {
+	    return {
+	      root: {
+	        padding: 16,
+	        position: 'relative'
+	      },
+	      title: {
+	        fontSize: 24,
+	        color: this.props.titleColor,
+	        display: 'block',
+	        lineHeight: '36px'
+	      },
+	      subtitle: {
+	        fontSize: 14,
+	        color: this.props.subtitleColor,
+	        display: 'block'
+	      }
+	    };
+	  },
+	  render: function render() {
+	    var styles = this.getStyles();
+	    var rootStyle = this.prepareStyles(styles.root, this.props.style);
+	    var titleStyle = this.prepareStyles(styles.title, this.props.titleStyle);
+	    var subtitleStyle = this.prepareStyles(styles.subtitle, this.props.subtitleStyle);
+
+	    return _react2.default.createElement(
+	      'div',
+	      _extends({}, this.props, { style: rootStyle }),
+	      _react2.default.createElement(
+	        'span',
+	        { style: titleStyle },
+	        this.props.title
+	      ),
+	      _react2.default.createElement(
+	        'span',
+	        { style: subtitleStyle },
+	        this.props.subtitle
+	      ),
+	      this.props.children
+	    );
+	  }
+	});
+
+	exports.default = CardTitle;
+	module.exports = exports['default'];
+
+/***/ },
+/* 339 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.ZIndex = exports.getMuiTheme = exports.ThemeDecorator = exports.DarkRawTheme = exports.LightRawTheme = exports.lightBaseTheme = exports.Typography = exports.Transitions = exports.ThemeManager = exports.Spacing = exports.Colors = exports.AutoPrefix = undefined;
+
+	var _autoPrefix = __webpack_require__(228);
+
+	var _autoPrefix2 = _interopRequireDefault(_autoPrefix);
+
+	var _colors = __webpack_require__(242);
+
+	var _colors2 = _interopRequireDefault(_colors);
+
+	var _spacing = __webpack_require__(266);
+
+	var _spacing2 = _interopRequireDefault(_spacing);
+
+	var _themeManager = __webpack_require__(267);
+
+	var _themeManager2 = _interopRequireDefault(_themeManager);
+
+	var _transitions = __webpack_require__(246);
+
+	var _transitions2 = _interopRequireDefault(_transitions);
+
+	var _typography = __webpack_require__(241);
+
+	var _typography2 = _interopRequireDefault(_typography);
+
+	var _lightRawTheme = __webpack_require__(263);
+
+	var _lightRawTheme2 = _interopRequireDefault(_lightRawTheme);
+
+	var _lightBaseTheme = __webpack_require__(264);
+
+	var _lightBaseTheme2 = _interopRequireDefault(_lightBaseTheme);
+
+	var _darkRawTheme = __webpack_require__(340);
+
+	var _darkRawTheme2 = _interopRequireDefault(_darkRawTheme);
+
+	var _darkBaseTheme = __webpack_require__(341);
+
+	var _darkBaseTheme2 = _interopRequireDefault(_darkBaseTheme);
+
+	var _themeDecorator = __webpack_require__(342);
+
+	var _themeDecorator2 = _interopRequireDefault(_themeDecorator);
+
+	var _getMuiTheme = __webpack_require__(269);
+
+	var _getMuiTheme2 = _interopRequireDefault(_getMuiTheme);
+
+	var _zIndex = __webpack_require__(287);
+
+	var _zIndex2 = _interopRequireDefault(_zIndex);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	exports.AutoPrefix = _autoPrefix2.default;
+	exports.Colors = _colors2.default;
+	exports.Spacing = _spacing2.default;
+	exports.ThemeManager = _themeManager2.default;
+	exports.Transitions = _transitions2.default;
+	exports.Typography = _typography2.default;
+	exports.lightBaseTheme = _lightBaseTheme2.default;
+	exports.LightRawTheme = _lightRawTheme2.default;
+	exports.DarkRawTheme = _darkRawTheme2.default;
+	exports.ThemeDecorator = _themeDecorator2.default;
+	exports.getMuiTheme = _getMuiTheme2.default;
+	exports.ZIndex = _zIndex2.default;
+	exports.default = {
+	  AutoPrefix: _autoPrefix2.default,
+	  Colors: _colors2.default,
+	  Spacing: _spacing2.default,
+	  ThemeManager: _themeManager2.default,
+	  Transitions: _transitions2.default,
+	  Typography: _typography2.default,
+	  lightBaseTheme: _lightBaseTheme2.default,
+	  LightRawTheme: _lightRawTheme2.default,
+	  darkBaseTheme: _darkBaseTheme2.default,
+	  DarkRawTheme: _darkRawTheme2.default,
+	  ThemeDecorator: _themeDecorator2.default,
+	  getMuiTheme: _getMuiTheme2.default,
+	  ZIndex: _zIndex2.default
+	};
+
+/***/ },
+/* 340 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _darkBaseTheme = __webpack_require__(341);
+
+	var _darkBaseTheme2 = _interopRequireDefault(_darkBaseTheme);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	exports.default = _darkBaseTheme2.default;
+
+	// import deprecatedExport from '../../utils/deprecatedExport';
+
+	// export default deprecatedExport(
+	//   darkBaseTheme,
+	//   'material-ui/lib/styles/raw-themes/dark-raw-theme',
+	//   'material-ui/lib/styles/baseThemes/darkBaseTheme'
+	// );
+
+	module.exports = exports['default'];
+
+/***/ },
+/* 341 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _colors = __webpack_require__(242);
+
+	var _colors2 = _interopRequireDefault(_colors);
+
+	var _colorManipulator = __webpack_require__(265);
+
+	var _colorManipulator2 = _interopRequireDefault(_colorManipulator);
+
+	var _spacing = __webpack_require__(266);
+
+	var _spacing2 = _interopRequireDefault(_spacing);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	exports.default = {
+	  spacing: _spacing2.default,
+	  fontFamily: 'Roboto, sans-serif',
+	  palette: {
+	    primary1Color: _colors2.default.cyan700,
+	    primary2Color: _colors2.default.cyan700,
+	    primary3Color: _colors2.default.grey600,
+	    accent1Color: _colors2.default.pinkA200,
+	    accent2Color: _colors2.default.pinkA400,
+	    accent3Color: _colors2.default.pinkA100,
+	    textColor: _colors2.default.fullWhite,
+	    alternateTextColor: '#303030',
+	    canvasColor: '#303030',
+	    borderColor: _colorManipulator2.default.fade(_colors2.default.fullWhite, 0.3),
+	    disabledColor: _colorManipulator2.default.fade(_colors2.default.fullWhite, 0.3),
+	    pickerHeaderColor: _colorManipulator2.default.fade(_colors2.default.fullWhite, 0.12),
+	    clockCircleColor: _colorManipulator2.default.fade(_colors2.default.fullWhite, 0.12)
+	  }
+	};
+	module.exports = exports['default'];
+
+/***/ },
+/* 342 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	exports.default = function (customTheme) {
+
+	  return function (Component) {
+
+	    return _react2.default.createClass({
+
+	      childContextTypes: {
+	        muiTheme: _react2.default.PropTypes.object
+	      },
+
+	      getChildContext: function getChildContext() {
+	        return {
+	          muiTheme: customTheme
+	        };
+	      },
+	      render: function render() {
+	        return _react2.default.createElement(Component, this.props);
+	      }
+	    });
+	  };
+	};
+
+	module.exports = exports['default'];
+
+/***/ },
+/* 343 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _stylePropable = __webpack_require__(223);
+
+	var _stylePropable2 = _interopRequireDefault(_stylePropable);
+
+	var _themeManager = __webpack_require__(267);
+
+	var _themeManager2 = _interopRequireDefault(_themeManager);
+
+	var _lightRawTheme = __webpack_require__(263);
+
+	var _lightRawTheme2 = _interopRequireDefault(_lightRawTheme);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var CardText = _react2.default.createClass({
+	  displayName: 'CardText',
+
+	  propTypes: {
+	    actAsExpander: _react2.default.PropTypes.bool,
+	    children: _react2.default.PropTypes.node,
+	    color: _react2.default.PropTypes.string,
+	    expandable: _react2.default.PropTypes.bool,
+
+	    /**
+	     * Override the inline-styles of the root element.
+	     */
+	    style: _react2.default.PropTypes.object
+	  },
+
+	  contextTypes: {
+	    muiTheme: _react2.default.PropTypes.object
+	  },
+
+	  //for passing default theme context to children
+	  childContextTypes: {
+	    muiTheme: _react2.default.PropTypes.object
+	  },
+
+	  mixins: [_stylePropable2.default],
+
+	  getInitialState: function getInitialState() {
+	    return {
+	      muiTheme: this.context.muiTheme ? this.context.muiTheme : _themeManager2.default.getMuiTheme(_lightRawTheme2.default)
+	    };
+	  },
+	  getChildContext: function getChildContext() {
+	    return {
+	      muiTheme: this.state.muiTheme
+	    };
+	  },
+
+	  //to update theme inside state whenever a new theme is passed down
+	  //from the parent / owner using context
+	  componentWillReceiveProps: function componentWillReceiveProps(nextProps, nextContext) {
+	    var newMuiTheme = nextContext.muiTheme ? nextContext.muiTheme : this.state.muiTheme;
+	    this.setState({ muiTheme: newMuiTheme });
+	  },
+	  getStyles: function getStyles() {
+	    var themeVariables = this.state.muiTheme.cardText;
+	    return {
+	      root: {
+	        padding: 16,
+	        fontSize: '14px',
+	        color: this.props.color ? this.props.color : themeVariables.textColor
+	      }
+	    };
+	  },
+	  render: function render() {
+	    var styles = this.getStyles();
+	    var rootStyle = this.prepareStyles(styles.root, this.props.style);
+
+	    return _react2.default.createElement(
+	      'div',
+	      _extends({}, this.props, { style: rootStyle }),
+	      this.props.children
+	    );
+	  }
+	});
+
+	exports.default = CardText;
+	module.exports = exports['default'];
+
+/***/ },
+/* 344 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _card = __webpack_require__(334);
+
+	var _card2 = _interopRequireDefault(_card);
+
+	var _cardActions = __webpack_require__(345);
+
+	var _cardActions2 = _interopRequireDefault(_cardActions);
+
+	var _cardHeader = __webpack_require__(346);
+
+	var _cardHeader2 = _interopRequireDefault(_cardHeader);
+
+	var _cardMedia = __webpack_require__(348);
+
+	var _cardMedia2 = _interopRequireDefault(_cardMedia);
+
+	var _cardTitle = __webpack_require__(338);
+
+	var _cardTitle2 = _interopRequireDefault(_cardTitle);
+
+	var _flatButton = __webpack_require__(327);
+
+	var _flatButton2 = _interopRequireDefault(_flatButton);
+
+	var _cardText = __webpack_require__(343);
+
+	var _cardText2 = _interopRequireDefault(_cardText);
+
+	var _list = __webpack_require__(323);
+
+	var _list2 = _interopRequireDefault(_list);
+
+	var _listItem = __webpack_require__(319);
+
+	var _listItem2 = _interopRequireDefault(_listItem);
+
+	var _code = __webpack_require__(349);
+
+	var _code2 = _interopRequireDefault(_code);
+
+	var _person = __webpack_require__(350);
+
+	var _person2 = _interopRequireDefault(_person);
+
+	var _openInNew = __webpack_require__(351);
+
+	var _openInNew2 = _interopRequireDefault(_openInNew);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	/**
+	 * Component providing the About screen
+	 */
+
+	var _class = function (_React$Component) {
+	  _inherits(_class, _React$Component);
+
+	  function _class() {
+	    _classCallCheck(this, _class);
+
+	    return _possibleConstructorReturn(this, Object.getPrototypeOf(_class).apply(this, arguments));
+	  }
+
+	  _createClass(_class, [{
+	    key: 'render',
+	    value: function render() {
+	      var linkDefs = [{
+	        text: "Source Code on GitHub",
+	        url: "https://github.com/BHSPitMonkey/MusicTrainer",
+	        icon: _react2.default.createElement(_code2.default, null)
+	      }, {
+	        text: "Stephen Eisenhauer's Homepage",
+	        url: "http://stepheneisenhauer.com",
+	        icon: _react2.default.createElement(_person2.default, null)
+	      }];
+	      return _react2.default.createElement(
+	        _card2.default,
+	        { style: { maxWidth: "600px", margin: "0 auto" } },
+	        _react2.default.createElement(_cardHeader2.default, {
+	          title: 'Music Trainer',
+	          subtitle: 'Version TODO',
+	          avatar: 'img/icon-square.svg' }),
+	        _react2.default.createElement(
+	          _cardText2.default,
+	          null,
+	          _react2.default.createElement(
+	            'p',
+	            null,
+	            'Music Trainer is a modern web application for helping you practice your musical abilities.'
+	          ),
+	          _react2.default.createElement(
+	            'p',
+	            null,
+	            'The application was built by Stephen Eisenhauer using React, Material-UI, and VexFlow.'
+	          )
+	        ),
+	        _react2.default.createElement(
+	          _list2.default,
+	          null,
+	          linkDefs.map(function (item, i) {
+	            var leftIconClass = item.leftIconClass;
+	            return _react2.default.createElement(
+	              'a',
+	              { href: item.url, target: '_blank', style: { textDecoration: "none" }, key: i },
+	              _react2.default.createElement(_listItem2.default, { primaryText: item.text, leftIcon: item.icon, rightIcon: _react2.default.createElement(_openInNew2.default, null) })
+	            );
+	          })
+	        )
+	      );
+	    }
+	  }]);
+
+	  return _class;
+	}(_react2.default.Component);
+
+	exports.default = _class;
+
+/***/ },
+/* 345 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _stylePropable = __webpack_require__(223);
+
+	var _stylePropable2 = _interopRequireDefault(_stylePropable);
+
+	var _themeManager = __webpack_require__(267);
+
+	var _themeManager2 = _interopRequireDefault(_themeManager);
+
+	var _lightRawTheme = __webpack_require__(263);
+
+	var _lightRawTheme2 = _interopRequireDefault(_lightRawTheme);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var CardActions = _react2.default.createClass({
+	  displayName: 'CardActions',
+
+	  propTypes: {
+	    actAsExpander: _react2.default.PropTypes.bool,
+	    children: _react2.default.PropTypes.node,
+	    expandable: _react2.default.PropTypes.bool,
+	    showExpandableButton: _react2.default.PropTypes.bool,
+
+	    /**
+	     * Override the inline-styles of the root element.
+	     */
+	    style: _react2.default.PropTypes.object
+	  },
+
+	  contextTypes: {
+	    muiTheme: _react2.default.PropTypes.object
+	  },
+
+	  //for passing default theme context to children
+	  childContextTypes: {
+	    muiTheme: _react2.default.PropTypes.object
+	  },
+
+	  mixins: [_stylePropable2.default],
+
+	  getInitialState: function getInitialState() {
+	    return {
+	      muiTheme: this.context.muiTheme ? this.context.muiTheme : _themeManager2.default.getMuiTheme(_lightRawTheme2.default)
+	    };
+	  },
+	  getChildContext: function getChildContext() {
+	    return {
+	      muiTheme: this.state.muiTheme
+	    };
+	  },
+
+	  //to update theme inside state whenever a new theme is passed down
+	  //from the parent / owner using context
+	  componentWillReceiveProps: function componentWillReceiveProps(nextProps, nextContext) {
+	    var newMuiTheme = nextContext.muiTheme ? nextContext.muiTheme : this.state.muiTheme;
+	    this.setState({ muiTheme: newMuiTheme });
+	  },
+	  getStyles: function getStyles() {
+	    return {
+	      root: {
+	        padding: 8,
+	        position: 'relative'
+	      }
+	    };
+	  },
+	  render: function render() {
+	    var _this = this;
+
+	    var styles = this.getStyles();
+
+	    var children = _react2.default.Children.map(this.props.children, function (child) {
+	      return _react2.default.cloneElement(child, {
+	        style: _this.mergeStyles({ marginRight: 8 }, child.props.style)
+	      });
+	    });
+
+	    return _react2.default.createElement(
+	      'div',
+	      _extends({}, this.props, { style: this.prepareStyles(styles.root, this.props.style) }),
+	      children
+	    );
+	  }
+	});
+
+	exports.default = CardActions;
+	module.exports = exports['default'];
+
+/***/ },
+/* 346 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _styles = __webpack_require__(339);
+
+	var _styles2 = _interopRequireDefault(_styles);
+
+	var _avatar = __webpack_require__(347);
+
+	var _avatar2 = _interopRequireDefault(_avatar);
+
+	var _stylePropable = __webpack_require__(223);
+
+	var _stylePropable2 = _interopRequireDefault(_stylePropable);
+
+	var _themeManager = __webpack_require__(267);
+
+	var _themeManager2 = _interopRequireDefault(_themeManager);
+
+	var _lightRawTheme = __webpack_require__(263);
+
+	var _lightRawTheme2 = _interopRequireDefault(_lightRawTheme);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var CardHeader = _react2.default.createClass({
+	  displayName: 'CardHeader',
+
+	  propTypes: {
+	    actAsExpander: _react2.default.PropTypes.bool,
+	    avatar: _react2.default.PropTypes.node,
+	    children: _react2.default.PropTypes.node,
+	    expandable: _react2.default.PropTypes.bool,
+	    showExpandableButton: _react2.default.PropTypes.bool,
+
+	    /**
+	     * Override the inline-styles of the root element.
+	     */
+	    style: _react2.default.PropTypes.object,
+	    subtitle: _react2.default.PropTypes.node,
+	    subtitleColor: _react2.default.PropTypes.string,
+	    subtitleStyle: _react2.default.PropTypes.object,
+	    textStyle: _react2.default.PropTypes.object,
+	    title: _react2.default.PropTypes.node,
+	    titleColor: _react2.default.PropTypes.string,
+	    titleStyle: _react2.default.PropTypes.object
+	  },
+
+	  contextTypes: {
+	    muiTheme: _react2.default.PropTypes.object
+	  },
+
+	  //for passing default theme context to children
+	  childContextTypes: {
+	    muiTheme: _react2.default.PropTypes.object
+	  },
+
+	  mixins: [_stylePropable2.default],
+
+	  getDefaultProps: function getDefaultProps() {
+	    return {
+	      titleColor: _styles2.default.Colors.darkBlack,
+	      subtitleColor: _styles2.default.Colors.lightBlack,
+	      avatar: null
+	    };
+	  },
+	  getInitialState: function getInitialState() {
+	    return {
+	      muiTheme: this.context.muiTheme ? this.context.muiTheme : _themeManager2.default.getMuiTheme(_lightRawTheme2.default)
+	    };
+	  },
+	  getChildContext: function getChildContext() {
+	    return {
+	      muiTheme: this.state.muiTheme
+	    };
+	  },
+
+	  //to update theme inside state whenever a new theme is passed down
+	  //from the parent / owner using context
+	  componentWillReceiveProps: function componentWillReceiveProps(nextProps, nextContext) {
+	    var newMuiTheme = nextContext.muiTheme ? nextContext.muiTheme : this.state.muiTheme;
+	    this.setState({ muiTheme: newMuiTheme });
+	  },
+	  getStyles: function getStyles() {
+	    return {
+	      root: {
+	        height: 72,
+	        padding: 16,
+	        fontWeight: _styles2.default.Typography.fontWeightMedium,
+	        boxSizing: 'border-box',
+	        position: 'relative'
+	      },
+	      text: {
+	        display: 'inline-block',
+	        verticalAlign: 'top'
+	      },
+	      avatar: {
+	        marginRight: 16
+	      },
+	      title: {
+	        color: this.props.titleColor,
+	        display: 'block',
+	        fontSize: 15
+	      },
+	      subtitle: {
+	        color: this.props.subtitleColor,
+	        display: 'block',
+	        fontSize: 14
+	      }
+	    };
+	  },
+	  render: function render() {
+	    var styles = this.getStyles();
+	    var rootStyle = this.prepareStyles(styles.root, this.props.style);
+	    var textStyle = this.prepareStyles(styles.text, this.props.textStyle);
+	    var titleStyle = this.prepareStyles(styles.title, this.props.titleStyle);
+	    var subtitleStyle = this.prepareStyles(styles.subtitle, this.props.subtitleStyle);
+
+	    var avatar = this.props.avatar;
+	    if (_react2.default.isValidElement(this.props.avatar)) {
+	      var avatarMergedStyle = this.mergeStyles(styles.avatar, avatar.props.style);
+	      avatar = _react2.default.cloneElement(avatar, { style: avatarMergedStyle });
+	    } else if (avatar !== null) {
+	      avatar = _react2.default.createElement(_avatar2.default, { src: this.props.avatar, style: styles.avatar });
+	    }
+
+	    return _react2.default.createElement(
+	      'div',
+	      _extends({}, this.props, { style: rootStyle }),
+	      avatar,
+	      _react2.default.createElement(
+	        'div',
+	        { style: textStyle },
+	        _react2.default.createElement(
+	          'span',
+	          { style: titleStyle },
+	          this.props.title
+	        ),
+	        _react2.default.createElement(
+	          'span',
+	          { style: subtitleStyle },
+	          this.props.subtitle
+	        )
+	      ),
+	      this.props.children
+	    );
+	  }
+	});
+
+	exports.default = CardHeader;
+	module.exports = exports['default'];
+
+/***/ },
+/* 347 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _stylePropable = __webpack_require__(223);
+
+	var _stylePropable2 = _interopRequireDefault(_stylePropable);
+
+	var _colors = __webpack_require__(242);
+
+	var _colors2 = _interopRequireDefault(_colors);
+
+	var _lightRawTheme = __webpack_require__(263);
+
+	var _lightRawTheme2 = _interopRequireDefault(_lightRawTheme);
+
+	var _themeManager = __webpack_require__(267);
+
+	var _themeManager2 = _interopRequireDefault(_themeManager);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; }
+
+	var Avatar = _react2.default.createClass({
+	  displayName: 'Avatar',
+
+	  propTypes: {
+	    /**
+	     * The backgroundColor of the avatar. Does not apply to image avatars.
+	     */
+	    backgroundColor: _react2.default.PropTypes.string,
+
+	    /**
+	     * Can be used, for instance, to render a letter inside the avatar.
+	     */
+	    children: _react2.default.PropTypes.node,
+
+	    /**
+	     * The css class name of the root `div` or `img` element.
+	     */
+	    className: _react2.default.PropTypes.string,
+
+	    /**
+	     * The icon or letter's color.
+	     */
+	    color: _react2.default.PropTypes.string,
+
+	    /**
+	     * This is the SvgIcon or FontIcon to be used inside the avatar.
+	     */
+	    icon: _react2.default.PropTypes.element,
+
+	    /**
+	     * This is the size of the avatar in pixels.
+	     */
+	    size: _react2.default.PropTypes.number,
+
+	    /**
+	     * If passed in, this component will render an img element. Otherwise, a div will be rendered.
+	     */
+	    src: _react2.default.PropTypes.string,
+
+	    /**
+	     * Override the inline-styles of the root element.
+	     */
+	    style: _react2.default.PropTypes.object
+	  },
+
+	  contextTypes: {
+	    muiTheme: _react2.default.PropTypes.object
+	  },
+
+	  //for passing default theme context to children
+	  childContextTypes: {
+	    muiTheme: _react2.default.PropTypes.object
+	  },
+
+	  mixins: [_stylePropable2.default],
+
+	  getDefaultProps: function getDefaultProps() {
+	    return {
+	      backgroundColor: _colors2.default.grey400,
+	      color: _colors2.default.white,
+	      size: 40
+	    };
+	  },
+	  getInitialState: function getInitialState() {
+	    return {
+	      muiTheme: this.context.muiTheme ? this.context.muiTheme : _themeManager2.default.getMuiTheme(_lightRawTheme2.default)
+	    };
+	  },
+	  getChildContext: function getChildContext() {
+	    return {
+	      muiTheme: this.state.muiTheme
+	    };
+	  },
+
+	  //to update theme inside state whenever a new theme is passed down
+	  //from the parent / owner using context
+	  componentWillReceiveProps: function componentWillReceiveProps(nextProps, nextContext) {
+	    var newMuiTheme = nextContext.muiTheme ? nextContext.muiTheme : this.state.muiTheme;
+	    this.setState({ muiTheme: newMuiTheme });
+	  },
+	  render: function render() {
+	    var _props = this.props;
+	    var backgroundColor = _props.backgroundColor;
+	    var color = _props.color;
+	    var icon = _props.icon;
+	    var size = _props.size;
+	    var src = _props.src;
+	    var style = _props.style;
+	    var className = _props.className;
+
+	    var other = _objectWithoutProperties(_props, ['backgroundColor', 'color', 'icon', 'size', 'src', 'style', 'className']);
+
+	    var styles = {
+	      root: {
+	        height: size,
+	        width: size,
+	        userSelect: 'none',
+	        borderRadius: '50%',
+	        display: 'inline-block'
+	      }
+	    };
+
+	    if (src) {
+	      var borderColor = this.state.muiTheme.avatar.borderColor;
+
+	      if (borderColor) {
+	        styles.root = this.mergeStyles(styles.root, {
+	          height: size - 2,
+	          width: size - 2,
+	          border: 'solid 1px ' + borderColor
+	        });
+	      }
+
+	      return _react2.default.createElement('img', _extends({}, other, {
+	        src: src,
+	        style: this.prepareStyles(styles.root, style),
+	        className: className
+	      }));
+	    } else {
+	      styles.root = this.mergeStyles(styles.root, {
+	        backgroundColor: backgroundColor,
+	        textAlign: 'center',
+	        lineHeight: size + 'px',
+	        fontSize: size / 2 + 4,
+	        color: color
+	      });
+
+	      var styleIcon = {
+	        margin: 8
+	      };
+
+	      var iconElement = icon ? _react2.default.cloneElement(icon, {
+	        color: color,
+	        style: this.mergeStyles(styleIcon, icon.props.style)
+	      }) : null;
+
+	      return _react2.default.createElement(
+	        'div',
+	        _extends({}, other, {
+	          style: this.prepareStyles(styles.root, style),
+	          className: className
+	        }),
+	        iconElement,
+	        this.props.children
+	      );
+	    }
+	  }
+	});
+
+	exports.default = Avatar;
+	module.exports = exports['default'];
+
+/***/ },
+/* 348 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _styles = __webpack_require__(339);
+
+	var _styles2 = _interopRequireDefault(_styles);
+
+	var _stylePropable = __webpack_require__(223);
+
+	var _stylePropable2 = _interopRequireDefault(_stylePropable);
+
+	var _themeManager = __webpack_require__(267);
+
+	var _themeManager2 = _interopRequireDefault(_themeManager);
+
+	var _lightRawTheme = __webpack_require__(263);
+
+	var _lightRawTheme2 = _interopRequireDefault(_lightRawTheme);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var CardMedia = _react2.default.createClass({
+	  displayName: 'CardMedia',
+
+	  propTypes: {
+	    actAsExpander: _react2.default.PropTypes.bool,
+	    children: _react2.default.PropTypes.node,
+	    expandable: _react2.default.PropTypes.bool,
+	    mediaStyle: _react2.default.PropTypes.object,
+	    overlay: _react2.default.PropTypes.node,
+	    overlayContainerStyle: _react2.default.PropTypes.object,
+	    overlayContentStyle: _react2.default.PropTypes.object,
+	    overlayStyle: _react2.default.PropTypes.object,
+
+	    /**
+	     * Override the inline-styles of the root element.
+	     */
+	    style: _react2.default.PropTypes.object
+	  },
+
+	  contextTypes: {
+	    muiTheme: _react2.default.PropTypes.object
+	  },
+
+	  //for passing default theme context to children
+	  childContextTypes: {
+	    muiTheme: _react2.default.PropTypes.object
+	  },
+
+	  mixins: [_stylePropable2.default],
+
+	  getInitialState: function getInitialState() {
+	    return {
+	      muiTheme: this.context.muiTheme ? this.context.muiTheme : _themeManager2.default.getMuiTheme(_lightRawTheme2.default)
+	    };
+	  },
+	  getChildContext: function getChildContext() {
+	    return {
+	      muiTheme: this.state.muiTheme
+	    };
+	  },
+
+	  //to update theme inside state whenever a new theme is passed down
+	  //from the parent / owner using context
+	  componentWillReceiveProps: function componentWillReceiveProps(nextProps, nextContext) {
+	    var newMuiTheme = nextContext.muiTheme ? nextContext.muiTheme : this.state.muiTheme;
+	    this.setState({ muiTheme: newMuiTheme });
+	  },
+	  getStyles: function getStyles() {
+	    return {
+	      root: {
+	        position: 'relative'
+	      },
+	      overlayContainer: {
+	        position: 'absolute',
+	        top: 0,
+	        bottom: 0,
+	        right: 0,
+	        left: 0
+	      },
+	      overlay: {
+	        height: '100%',
+	        position: 'relative'
+	      },
+	      overlayContent: {
+	        position: 'absolute',
+	        bottom: 0,
+	        right: 0,
+	        left: 0,
+	        paddingTop: 8,
+	        background: _styles2.default.Colors.lightBlack
+	      },
+	      media: {},
+	      mediaChild: {
+	        verticalAlign: 'top',
+	        maxWidth: '100%',
+	        minWidth: '100%',
+	        width: '100%'
+	      }
+	    };
+	  },
+	  render: function render() {
+	    var _this = this;
+
+	    var styles = this.getStyles();
+	    var rootStyle = this.prepareStyles(styles.root, this.props.style);
+	    var mediaStyle = this.prepareStyles(styles.media, this.props.mediaStyle);
+	    var overlayContainerStyle = this.prepareStyles(styles.overlayContainer, this.props.overlayContainerStyle);
+	    var overlayContentStyle = this.prepareStyles(styles.overlayContent, this.props.overlayContentStyle);
+	    var overlayStyle = this.prepareStyles(styles.overlay, this.props.overlayStyle);
+
+	    var children = _react2.default.Children.map(this.props.children, function (child) {
+	      return _react2.default.cloneElement(child, { style: _this.prepareStyles(styles.mediaChild, child.props.style) });
+	    });
+
+	    var overlayChildren = _react2.default.Children.map(this.props.overlay, function (child) {
+	      if (child.type.displayName === 'CardHeader' || child.type.displayName === 'CardTitle') {
+	        return _react2.default.cloneElement(child, {
+	          titleColor: _styles2.default.Colors.darkWhite,
+	          subtitleColor: _styles2.default.Colors.lightWhite
+	        });
+	      } else if (child.type.displayName === 'CardText') {
+	        return _react2.default.cloneElement(child, {
+	          color: _styles2.default.Colors.darkWhite
+	        });
+	      } else {
+	        return child;
+	      }
+	    });
+
+	    return _react2.default.createElement(
+	      'div',
+	      _extends({}, this.props, { style: rootStyle }),
+	      _react2.default.createElement(
+	        'div',
+	        { style: mediaStyle },
+	        children
+	      ),
+	      this.props.overlay ? _react2.default.createElement(
+	        'div',
+	        { style: overlayContainerStyle },
+	        _react2.default.createElement(
+	          'div',
+	          { style: overlayStyle },
+	          _react2.default.createElement(
+	            'div',
+	            { style: overlayContentStyle },
+	            overlayChildren
+	          )
+	        )
+	      ) : ''
+	    );
+	  }
+	});
+
+	exports.default = CardMedia;
+	module.exports = exports['default'];
+
+/***/ },
+/* 349 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reactAddonsPureRenderMixin = __webpack_require__(249);
+
+	var _reactAddonsPureRenderMixin2 = _interopRequireDefault(_reactAddonsPureRenderMixin);
+
+	var _svgIcon = __webpack_require__(294);
+
+	var _svgIcon2 = _interopRequireDefault(_svgIcon);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var ActionCode = _react2.default.createClass({
+	  displayName: 'ActionCode',
+
+	  mixins: [_reactAddonsPureRenderMixin2.default],
+
+	  render: function render() {
+	    return _react2.default.createElement(
+	      _svgIcon2.default,
+	      this.props,
+	      _react2.default.createElement('path', { d: 'M9.4 16.6L4.8 12l4.6-4.6L8 6l-6 6 6 6 1.4-1.4zm5.2 0l4.6-4.6-4.6-4.6L16 6l6 6-6 6-1.4-1.4z' })
+	    );
+	  }
+	});
+
+	exports.default = ActionCode;
+	module.exports = exports['default'];
+
+/***/ },
+/* 350 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reactAddonsPureRenderMixin = __webpack_require__(249);
+
+	var _reactAddonsPureRenderMixin2 = _interopRequireDefault(_reactAddonsPureRenderMixin);
+
+	var _svgIcon = __webpack_require__(294);
+
+	var _svgIcon2 = _interopRequireDefault(_svgIcon);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var SocialPerson = _react2.default.createClass({
+	  displayName: 'SocialPerson',
+
+	  mixins: [_reactAddonsPureRenderMixin2.default],
+
+	  render: function render() {
+	    return _react2.default.createElement(
+	      _svgIcon2.default,
+	      this.props,
+	      _react2.default.createElement('path', { d: 'M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z' })
+	    );
+	  }
+	});
+
+	exports.default = SocialPerson;
+	module.exports = exports['default'];
+
+/***/ },
+/* 351 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reactAddonsPureRenderMixin = __webpack_require__(249);
+
+	var _reactAddonsPureRenderMixin2 = _interopRequireDefault(_reactAddonsPureRenderMixin);
+
+	var _svgIcon = __webpack_require__(294);
+
+	var _svgIcon2 = _interopRequireDefault(_svgIcon);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var ActionOpenInNew = _react2.default.createClass({
+	  displayName: 'ActionOpenInNew',
+
+	  mixins: [_reactAddonsPureRenderMixin2.default],
+
+	  render: function render() {
+	    return _react2.default.createElement(
+	      _svgIcon2.default,
+	      this.props,
+	      _react2.default.createElement('path', { d: 'M19 19H5V5h7V3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z' })
+	    );
+	  }
+	});
+
+	exports.default = ActionOpenInNew;
+	module.exports = exports['default'];
+
+/***/ },
+/* 352 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 	Object.defineProperty(exports, "__esModule", {
@@ -40026,27 +41922,27 @@
 
 	var _flatButton2 = _interopRequireDefault(_flatButton);
 
-	var _card = __webpack_require__(331);
+	var _card = __webpack_require__(334);
 
 	var _card2 = _interopRequireDefault(_card);
 
-	var _cardTitle = __webpack_require__(335);
+	var _cardTitle = __webpack_require__(338);
 
 	var _cardTitle2 = _interopRequireDefault(_cardTitle);
 
-	var _cardText = __webpack_require__(340);
+	var _cardText = __webpack_require__(343);
 
 	var _cardText2 = _interopRequireDefault(_cardText);
 
-	var _sheetMusicView = __webpack_require__(341);
+	var _sheetMusicView = __webpack_require__(353);
 
 	var _sheetMusicView2 = _interopRequireDefault(_sheetMusicView);
 
-	var _keyboardButtons = __webpack_require__(343);
+	var _keyboardButtons = __webpack_require__(355);
 
 	var _keyboardButtons2 = _interopRequireDefault(_keyboardButtons);
 
-	var _midi = __webpack_require__(345);
+	var _midi = __webpack_require__(357);
 
 	var Midi = _interopRequireWildcard(_midi);
 
@@ -40298,822 +42194,7 @@
 	exports.default = SightReadingPractice;
 
 /***/ },
-/* 331 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-
-	var _react = __webpack_require__(1);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	var _paper = __webpack_require__(295);
-
-	var _paper2 = _interopRequireDefault(_paper);
-
-	var _stylePropable = __webpack_require__(223);
-
-	var _stylePropable2 = _interopRequireDefault(_stylePropable);
-
-	var _cardExpandable = __webpack_require__(332);
-
-	var _cardExpandable2 = _interopRequireDefault(_cardExpandable);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; }
-
-	var Card = _react2.default.createClass({
-	  displayName: 'Card',
-
-	  propTypes: {
-	    /**
-	     * Whether a click on this card component expands the card. Can be set on any child of the Card component.
-	     */
-	    actAsExpander: _react2.default.PropTypes.bool,
-
-	    /**
-	     * Can be used to render elements inside the Card.
-	     */
-	    children: _react2.default.PropTypes.node,
-
-	    /**
-	     * Whether this card component is expandable. Can be set on any child of the Card component.
-	     */
-	    expandable: _react2.default.PropTypes.bool,
-
-	    /**
-	     * Whether this card is initially expanded.
-	     */
-	    initiallyExpanded: _react2.default.PropTypes.bool,
-
-	    /**
-	     * Fired when the expandable state changes.
-	     */
-	    onExpandChange: _react2.default.PropTypes.func,
-
-	    /**
-	     * Whether this card component include a button to expand the card. CardTitle,
-	     * CardHeader and CardActions implement showExpandableButton. Any child component
-	     * of Card can implements showExpandableButton or forwards the property to a child
-	     * component supporting it.
-	     */
-	    showExpandableButton: _react2.default.PropTypes.bool,
-
-	    /**
-	     * Override the inline-styles of the root element.
-	     */
-	    style: _react2.default.PropTypes.object
-	  },
-
-	  mixins: [_stylePropable2.default],
-
-	  getDefaultProps: function getDefaultProps() {
-	    return {
-	      expandable: false,
-	      initiallyExpanded: false,
-	      actAsExpander: false
-	    };
-	  },
-	  getInitialState: function getInitialState() {
-	    return {
-	      expanded: this.props.initiallyExpanded ? true : false
-	    };
-	  },
-	  _onExpandable: function _onExpandable(event) {
-	    event.preventDefault();
-	    var newExpandedState = !(this.state.expanded === true);
-	    this.setState({ expanded: newExpandedState });
-	    if (this.props.onExpandChange) this.props.onExpandChange(newExpandedState);
-	  },
-	  render: function render() {
-	    var _this = this;
-
-	    var lastElement = undefined;
-	    var newChildren = _react2.default.Children.map(this.props.children, function (currentChild) {
-	      var doClone = false;
-	      var newChild = undefined;
-	      var newProps = {};
-	      var element = currentChild;
-	      if (!currentChild || !currentChild.props) {
-	        return null;
-	      }
-	      if (_this.state.expanded === false && currentChild.props.expandable === true) return;
-	      if (currentChild.props.actAsExpander === true) {
-	        doClone = true;
-	        newProps.onTouchTap = _this._onExpandable;
-	        newProps.style = _this.mergeStyles({ cursor: 'pointer' }, currentChild.props.style);
-	      }
-	      if (currentChild.props.showExpandableButton === true) {
-	        doClone = true;
-	        newChild = _react2.default.createElement(_cardExpandable2.default, { expanded: _this.state.expanded, onExpanding: _this._onExpandable });
-	      }
-	      if (doClone) {
-	        element = _react2.default.cloneElement(currentChild, newProps, currentChild.props.children, newChild);
-	      }
-	      return element;
-	    }, this);
-
-	    // If the last element is text or a title we should add
-	    // 8px padding to the bottom of the card
-	    var addBottomPadding = lastElement && (lastElement.type.displayName === 'CardText' || lastElement.type.displayName === 'CardTitle');
-	    var _props = this.props;
-	    var style = _props.style;
-
-	    var other = _objectWithoutProperties(_props, ['style']);
-
-	    var mergedStyles = this.mergeStyles({
-	      overflow: 'hidden',
-	      zIndex: 1
-	    }, style);
-
-	    return _react2.default.createElement(
-	      _paper2.default,
-	      _extends({}, other, { style: mergedStyles }),
-	      _react2.default.createElement(
-	        'div',
-	        { style: { paddingBottom: addBottomPadding ? 8 : 0 } },
-	        newChildren
-	      )
-	    );
-	  }
-	});
-
-	exports.default = Card;
-	module.exports = exports['default'];
-
-/***/ },
-/* 332 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-
-	var _react = __webpack_require__(1);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	var _extend = __webpack_require__(268);
-
-	var _extend2 = _interopRequireDefault(_extend);
-
-	var _keyboardArrowUp = __webpack_require__(333);
-
-	var _keyboardArrowUp2 = _interopRequireDefault(_keyboardArrowUp);
-
-	var _keyboardArrowDown = __webpack_require__(334);
-
-	var _keyboardArrowDown2 = _interopRequireDefault(_keyboardArrowDown);
-
-	var _iconButton = __webpack_require__(243);
-
-	var _iconButton2 = _interopRequireDefault(_iconButton);
-
-	var _stylePropable = __webpack_require__(223);
-
-	var _stylePropable2 = _interopRequireDefault(_stylePropable);
-
-	var _lightRawTheme = __webpack_require__(263);
-
-	var _lightRawTheme2 = _interopRequireDefault(_lightRawTheme);
-
-	var _themeManager = __webpack_require__(267);
-
-	var _themeManager2 = _interopRequireDefault(_themeManager);
-
-	var _contextPure = __webpack_require__(244);
-
-	var _contextPure2 = _interopRequireDefault(_contextPure);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	var CardExpandable = _react2.default.createClass({
-	  displayName: 'CardExpandable',
-
-	  propTypes: {
-	    expanded: _react2.default.PropTypes.bool,
-	    onExpanding: _react2.default.PropTypes.func.isRequired,
-
-	    /**
-	     * Override the inline-styles of the root element.
-	     */
-	    style: _react2.default.PropTypes.object
-	  },
-
-	  contextTypes: {
-	    muiTheme: _react2.default.PropTypes.object
-	  },
-
-	  //for passing default theme context to children
-	  childContextTypes: {
-	    muiTheme: _react2.default.PropTypes.object
-	  },
-
-	  mixins: [_stylePropable2.default, _contextPure2.default],
-
-	  statics: {
-	    getRelevantContextKeys: function getRelevantContextKeys(muiTheme) {
-	      return {
-	        isRtl: muiTheme.isRtl
-	      };
-	    },
-	    getChildrenClasses: function getChildrenClasses() {
-	      return [_iconButton2.default];
-	    }
-	  },
-
-	  getInitialState: function getInitialState() {
-	    return {
-	      muiTheme: this.context.muiTheme ? this.context.muiTheme : _themeManager2.default.getMuiTheme(_lightRawTheme2.default)
-	    };
-	  },
-	  getChildContext: function getChildContext() {
-	    return {
-	      muiTheme: this.state.muiTheme
-	    };
-	  },
-
-	  //to update theme inside state whenever a new theme is passed down
-	  //from the parent / owner using context
-	  componentWillReceiveProps: function componentWillReceiveProps(nextProps, nextContext) {
-	    var newMuiTheme = nextContext.muiTheme ? nextContext.muiTheme : this.state.muiTheme;
-	    this.setState({ muiTheme: newMuiTheme });
-	  },
-	  getStyles: function getStyles() {
-	    var contextKeys = this.constructor.getRelevantContextKeys(this.state.muiTheme);
-
-	    var directionStyle = contextKeys.isRtl ? {
-	      left: 4
-	    } : {
-	      right: 4
-	    };
-
-	    return {
-	      root: (0, _extend2.default)({
-	        top: 0,
-	        bottom: 0,
-	        margin: 'auto',
-	        position: 'absolute'
-	      }, directionStyle)
-	    };
-	  },
-	  render: function render() {
-	    var styles = this.getStyles();
-
-	    var expandable = undefined;
-	    if (this.props.expanded === true) expandable = _react2.default.createElement(_keyboardArrowUp2.default, null);else expandable = _react2.default.createElement(_keyboardArrowDown2.default, null);
-
-	    var mergedStyles = this.mergeStyles(styles.root, this.props.style);
-
-	    var expandableBtn = _react2.default.createElement(
-	      _iconButton2.default,
-	      {
-	        style: mergedStyles,
-	        onTouchTap: this.props.onExpanding },
-	      expandable
-	    );
-
-	    return expandableBtn;
-	  }
-	});
-
-	exports.default = CardExpandable;
-	module.exports = exports['default'];
-
-/***/ },
-/* 333 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-
-	var _react = __webpack_require__(1);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	var _reactAddonsPureRenderMixin = __webpack_require__(249);
-
-	var _reactAddonsPureRenderMixin2 = _interopRequireDefault(_reactAddonsPureRenderMixin);
-
-	var _svgIcon = __webpack_require__(294);
-
-	var _svgIcon2 = _interopRequireDefault(_svgIcon);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	var HardwareKeyboardArrowUp = _react2.default.createClass({
-	  displayName: 'HardwareKeyboardArrowUp',
-
-	  mixins: [_reactAddonsPureRenderMixin2.default],
-
-	  render: function render() {
-	    return _react2.default.createElement(
-	      _svgIcon2.default,
-	      this.props,
-	      _react2.default.createElement('path', { d: 'M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z' })
-	    );
-	  }
-	});
-
-	exports.default = HardwareKeyboardArrowUp;
-	module.exports = exports['default'];
-
-/***/ },
-/* 334 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-
-	var _react = __webpack_require__(1);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	var _reactAddonsPureRenderMixin = __webpack_require__(249);
-
-	var _reactAddonsPureRenderMixin2 = _interopRequireDefault(_reactAddonsPureRenderMixin);
-
-	var _svgIcon = __webpack_require__(294);
-
-	var _svgIcon2 = _interopRequireDefault(_svgIcon);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	var HardwareKeyboardArrowDown = _react2.default.createClass({
-	  displayName: 'HardwareKeyboardArrowDown',
-
-	  mixins: [_reactAddonsPureRenderMixin2.default],
-
-	  render: function render() {
-	    return _react2.default.createElement(
-	      _svgIcon2.default,
-	      this.props,
-	      _react2.default.createElement('path', { d: 'M7.41 7.84L12 12.42l4.59-4.58L18 9.25l-6 6-6-6z' })
-	    );
-	  }
-	});
-
-	exports.default = HardwareKeyboardArrowDown;
-	module.exports = exports['default'];
-
-/***/ },
-/* 335 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-
-	var _react = __webpack_require__(1);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	var _styles = __webpack_require__(336);
-
-	var _styles2 = _interopRequireDefault(_styles);
-
-	var _stylePropable = __webpack_require__(223);
-
-	var _stylePropable2 = _interopRequireDefault(_stylePropable);
-
-	var _themeManager = __webpack_require__(267);
-
-	var _themeManager2 = _interopRequireDefault(_themeManager);
-
-	var _lightRawTheme = __webpack_require__(263);
-
-	var _lightRawTheme2 = _interopRequireDefault(_lightRawTheme);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	var CardTitle = _react2.default.createClass({
-	  displayName: 'CardTitle',
-
-	  propTypes: {
-	    actAsExpander: _react2.default.PropTypes.bool,
-	    children: _react2.default.PropTypes.node,
-	    expandable: _react2.default.PropTypes.bool,
-	    showExpandableButton: _react2.default.PropTypes.bool,
-
-	    /**
-	     * Override the inline-styles of the root element.
-	     */
-	    style: _react2.default.PropTypes.object,
-	    subtitle: _react2.default.PropTypes.node,
-	    subtitleColor: _react2.default.PropTypes.string,
-	    subtitleStyle: _react2.default.PropTypes.object,
-	    title: _react2.default.PropTypes.node,
-	    titleColor: _react2.default.PropTypes.string,
-	    titleStyle: _react2.default.PropTypes.object
-	  },
-
-	  contextTypes: {
-	    muiTheme: _react2.default.PropTypes.object
-	  },
-
-	  //for passing default theme context to children
-	  childContextTypes: {
-	    muiTheme: _react2.default.PropTypes.object
-	  },
-
-	  mixins: [_stylePropable2.default],
-
-	  getDefaultProps: function getDefaultProps() {
-	    return {
-	      titleColor: _styles2.default.Colors.darkBlack,
-	      subtitleColor: _styles2.default.Colors.lightBlack
-	    };
-	  },
-	  getInitialState: function getInitialState() {
-	    return {
-	      muiTheme: this.context.muiTheme ? this.context.muiTheme : _themeManager2.default.getMuiTheme(_lightRawTheme2.default)
-	    };
-	  },
-	  getChildContext: function getChildContext() {
-	    return {
-	      muiTheme: this.state.muiTheme
-	    };
-	  },
-
-	  //to update theme inside state whenever a new theme is passed down
-	  //from the parent / owner using context
-	  componentWillReceiveProps: function componentWillReceiveProps(nextProps, nextContext) {
-	    var newMuiTheme = nextContext.muiTheme ? nextContext.muiTheme : this.state.muiTheme;
-	    this.setState({
-	      muiTheme: newMuiTheme
-	    });
-	  },
-	  getStyles: function getStyles() {
-	    return {
-	      root: {
-	        padding: 16,
-	        position: 'relative'
-	      },
-	      title: {
-	        fontSize: 24,
-	        color: this.props.titleColor,
-	        display: 'block',
-	        lineHeight: '36px'
-	      },
-	      subtitle: {
-	        fontSize: 14,
-	        color: this.props.subtitleColor,
-	        display: 'block'
-	      }
-	    };
-	  },
-	  render: function render() {
-	    var styles = this.getStyles();
-	    var rootStyle = this.prepareStyles(styles.root, this.props.style);
-	    var titleStyle = this.prepareStyles(styles.title, this.props.titleStyle);
-	    var subtitleStyle = this.prepareStyles(styles.subtitle, this.props.subtitleStyle);
-
-	    return _react2.default.createElement(
-	      'div',
-	      _extends({}, this.props, { style: rootStyle }),
-	      _react2.default.createElement(
-	        'span',
-	        { style: titleStyle },
-	        this.props.title
-	      ),
-	      _react2.default.createElement(
-	        'span',
-	        { style: subtitleStyle },
-	        this.props.subtitle
-	      ),
-	      this.props.children
-	    );
-	  }
-	});
-
-	exports.default = CardTitle;
-	module.exports = exports['default'];
-
-/***/ },
-/* 336 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	exports.ZIndex = exports.getMuiTheme = exports.ThemeDecorator = exports.DarkRawTheme = exports.LightRawTheme = exports.lightBaseTheme = exports.Typography = exports.Transitions = exports.ThemeManager = exports.Spacing = exports.Colors = exports.AutoPrefix = undefined;
-
-	var _autoPrefix = __webpack_require__(228);
-
-	var _autoPrefix2 = _interopRequireDefault(_autoPrefix);
-
-	var _colors = __webpack_require__(242);
-
-	var _colors2 = _interopRequireDefault(_colors);
-
-	var _spacing = __webpack_require__(266);
-
-	var _spacing2 = _interopRequireDefault(_spacing);
-
-	var _themeManager = __webpack_require__(267);
-
-	var _themeManager2 = _interopRequireDefault(_themeManager);
-
-	var _transitions = __webpack_require__(246);
-
-	var _transitions2 = _interopRequireDefault(_transitions);
-
-	var _typography = __webpack_require__(241);
-
-	var _typography2 = _interopRequireDefault(_typography);
-
-	var _lightRawTheme = __webpack_require__(263);
-
-	var _lightRawTheme2 = _interopRequireDefault(_lightRawTheme);
-
-	var _lightBaseTheme = __webpack_require__(264);
-
-	var _lightBaseTheme2 = _interopRequireDefault(_lightBaseTheme);
-
-	var _darkRawTheme = __webpack_require__(337);
-
-	var _darkRawTheme2 = _interopRequireDefault(_darkRawTheme);
-
-	var _darkBaseTheme = __webpack_require__(338);
-
-	var _darkBaseTheme2 = _interopRequireDefault(_darkBaseTheme);
-
-	var _themeDecorator = __webpack_require__(339);
-
-	var _themeDecorator2 = _interopRequireDefault(_themeDecorator);
-
-	var _getMuiTheme = __webpack_require__(269);
-
-	var _getMuiTheme2 = _interopRequireDefault(_getMuiTheme);
-
-	var _zIndex = __webpack_require__(287);
-
-	var _zIndex2 = _interopRequireDefault(_zIndex);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	exports.AutoPrefix = _autoPrefix2.default;
-	exports.Colors = _colors2.default;
-	exports.Spacing = _spacing2.default;
-	exports.ThemeManager = _themeManager2.default;
-	exports.Transitions = _transitions2.default;
-	exports.Typography = _typography2.default;
-	exports.lightBaseTheme = _lightBaseTheme2.default;
-	exports.LightRawTheme = _lightRawTheme2.default;
-	exports.DarkRawTheme = _darkRawTheme2.default;
-	exports.ThemeDecorator = _themeDecorator2.default;
-	exports.getMuiTheme = _getMuiTheme2.default;
-	exports.ZIndex = _zIndex2.default;
-	exports.default = {
-	  AutoPrefix: _autoPrefix2.default,
-	  Colors: _colors2.default,
-	  Spacing: _spacing2.default,
-	  ThemeManager: _themeManager2.default,
-	  Transitions: _transitions2.default,
-	  Typography: _typography2.default,
-	  lightBaseTheme: _lightBaseTheme2.default,
-	  LightRawTheme: _lightRawTheme2.default,
-	  darkBaseTheme: _darkBaseTheme2.default,
-	  DarkRawTheme: _darkRawTheme2.default,
-	  ThemeDecorator: _themeDecorator2.default,
-	  getMuiTheme: _getMuiTheme2.default,
-	  ZIndex: _zIndex2.default
-	};
-
-/***/ },
-/* 337 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-
-	var _darkBaseTheme = __webpack_require__(338);
-
-	var _darkBaseTheme2 = _interopRequireDefault(_darkBaseTheme);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	exports.default = _darkBaseTheme2.default;
-
-	// import deprecatedExport from '../../utils/deprecatedExport';
-
-	// export default deprecatedExport(
-	//   darkBaseTheme,
-	//   'material-ui/lib/styles/raw-themes/dark-raw-theme',
-	//   'material-ui/lib/styles/baseThemes/darkBaseTheme'
-	// );
-
-	module.exports = exports['default'];
-
-/***/ },
-/* 338 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-
-	var _colors = __webpack_require__(242);
-
-	var _colors2 = _interopRequireDefault(_colors);
-
-	var _colorManipulator = __webpack_require__(265);
-
-	var _colorManipulator2 = _interopRequireDefault(_colorManipulator);
-
-	var _spacing = __webpack_require__(266);
-
-	var _spacing2 = _interopRequireDefault(_spacing);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	exports.default = {
-	  spacing: _spacing2.default,
-	  fontFamily: 'Roboto, sans-serif',
-	  palette: {
-	    primary1Color: _colors2.default.cyan700,
-	    primary2Color: _colors2.default.cyan700,
-	    primary3Color: _colors2.default.grey600,
-	    accent1Color: _colors2.default.pinkA200,
-	    accent2Color: _colors2.default.pinkA400,
-	    accent3Color: _colors2.default.pinkA100,
-	    textColor: _colors2.default.fullWhite,
-	    alternateTextColor: '#303030',
-	    canvasColor: '#303030',
-	    borderColor: _colorManipulator2.default.fade(_colors2.default.fullWhite, 0.3),
-	    disabledColor: _colorManipulator2.default.fade(_colors2.default.fullWhite, 0.3),
-	    pickerHeaderColor: _colorManipulator2.default.fade(_colors2.default.fullWhite, 0.12),
-	    clockCircleColor: _colorManipulator2.default.fade(_colors2.default.fullWhite, 0.12)
-	  }
-	};
-	module.exports = exports['default'];
-
-/***/ },
-/* 339 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-
-	var _react = __webpack_require__(1);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	exports.default = function (customTheme) {
-
-	  return function (Component) {
-
-	    return _react2.default.createClass({
-
-	      childContextTypes: {
-	        muiTheme: _react2.default.PropTypes.object
-	      },
-
-	      getChildContext: function getChildContext() {
-	        return {
-	          muiTheme: customTheme
-	        };
-	      },
-	      render: function render() {
-	        return _react2.default.createElement(Component, this.props);
-	      }
-	    });
-	  };
-	};
-
-	module.exports = exports['default'];
-
-/***/ },
-/* 340 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-
-	var _react = __webpack_require__(1);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	var _stylePropable = __webpack_require__(223);
-
-	var _stylePropable2 = _interopRequireDefault(_stylePropable);
-
-	var _themeManager = __webpack_require__(267);
-
-	var _themeManager2 = _interopRequireDefault(_themeManager);
-
-	var _lightRawTheme = __webpack_require__(263);
-
-	var _lightRawTheme2 = _interopRequireDefault(_lightRawTheme);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	var CardText = _react2.default.createClass({
-	  displayName: 'CardText',
-
-	  propTypes: {
-	    actAsExpander: _react2.default.PropTypes.bool,
-	    children: _react2.default.PropTypes.node,
-	    color: _react2.default.PropTypes.string,
-	    expandable: _react2.default.PropTypes.bool,
-
-	    /**
-	     * Override the inline-styles of the root element.
-	     */
-	    style: _react2.default.PropTypes.object
-	  },
-
-	  contextTypes: {
-	    muiTheme: _react2.default.PropTypes.object
-	  },
-
-	  //for passing default theme context to children
-	  childContextTypes: {
-	    muiTheme: _react2.default.PropTypes.object
-	  },
-
-	  mixins: [_stylePropable2.default],
-
-	  getInitialState: function getInitialState() {
-	    return {
-	      muiTheme: this.context.muiTheme ? this.context.muiTheme : _themeManager2.default.getMuiTheme(_lightRawTheme2.default)
-	    };
-	  },
-	  getChildContext: function getChildContext() {
-	    return {
-	      muiTheme: this.state.muiTheme
-	    };
-	  },
-
-	  //to update theme inside state whenever a new theme is passed down
-	  //from the parent / owner using context
-	  componentWillReceiveProps: function componentWillReceiveProps(nextProps, nextContext) {
-	    var newMuiTheme = nextContext.muiTheme ? nextContext.muiTheme : this.state.muiTheme;
-	    this.setState({ muiTheme: newMuiTheme });
-	  },
-	  getStyles: function getStyles() {
-	    var themeVariables = this.state.muiTheme.cardText;
-	    return {
-	      root: {
-	        padding: 16,
-	        fontSize: '14px',
-	        color: this.props.color ? this.props.color : themeVariables.textColor
-	      }
-	    };
-	  },
-	  render: function render() {
-	    var styles = this.getStyles();
-	    var rootStyle = this.prepareStyles(styles.root, this.props.style);
-
-	    return _react2.default.createElement(
-	      'div',
-	      _extends({}, this.props, { style: rootStyle }),
-	      this.props.children
-	    );
-	  }
-	});
-
-	exports.default = CardText;
-	module.exports = exports['default'];
-
-/***/ },
-/* 341 */
+/* 353 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -41132,7 +42213,7 @@
 
 	var ReactDOM = _interopRequireWildcard(_reactDom);
 
-	var _vexflow = __webpack_require__(342);
+	var _vexflow = __webpack_require__(354);
 
 	var _vexflow2 = _interopRequireDefault(_vexflow);
 
@@ -41256,7 +42337,7 @@
 	exports.default = SheetMusicView;
 
 /***/ },
-/* 342 */
+/* 354 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -57127,7 +58208,7 @@
 	//# sourceMappingURL=vexflow-debug.js.map
 
 /***/ },
-/* 343 */
+/* 355 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -57142,7 +58223,7 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _raisedButton = __webpack_require__(344);
+	var _raisedButton = __webpack_require__(356);
 
 	var _raisedButton2 = _interopRequireDefault(_raisedButton);
 
@@ -57237,7 +58318,7 @@
 	exports.default = _class;
 
 /***/ },
-/* 344 */
+/* 356 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -57554,7 +58635,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 345 */
+/* 357 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -57576,962 +58657,6 @@
 	  ChannelAftertouch: 0xD0,
 	  PitchWheel: 0xE0
 	};
-
-/***/ },
-/* 346 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-
-	var _react = __webpack_require__(1);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	var _reactRouter = __webpack_require__(159);
-
-	var _card = __webpack_require__(331);
-
-	var _card2 = _interopRequireDefault(_card);
-
-	var _cardTitle = __webpack_require__(335);
-
-	var _cardTitle2 = _interopRequireDefault(_cardTitle);
-
-	var _cardText = __webpack_require__(340);
-
-	var _cardText2 = _interopRequireDefault(_cardText);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-	/**
-	 * Component providing the main/home screen
-	 */
-
-	var _class = function (_React$Component) {
-	  _inherits(_class, _React$Component);
-
-	  function _class() {
-	    _classCallCheck(this, _class);
-
-	    return _possibleConstructorReturn(this, Object.getPrototypeOf(_class).apply(this, arguments));
-	  }
-
-	  _createClass(_class, [{
-	    key: 'render',
-	    value: function render() {
-	      return _react2.default.createElement(
-	        _card2.default,
-	        { style: { maxWidth: "600px", margin: "0 auto" } },
-	        _react2.default.createElement(_cardTitle2.default, { title: 'Welcome!', subtitle: 'Use the menu to the upper-left to get started.' })
-	      );
-	    }
-	  }]);
-
-	  return _class;
-	}(_react2.default.Component);
-
-	exports.default = _class;
-
-/***/ },
-/* 347 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-
-	var _react = __webpack_require__(1);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	var _card = __webpack_require__(331);
-
-	var _card2 = _interopRequireDefault(_card);
-
-	var _cardActions = __webpack_require__(348);
-
-	var _cardActions2 = _interopRequireDefault(_cardActions);
-
-	var _cardHeader = __webpack_require__(349);
-
-	var _cardHeader2 = _interopRequireDefault(_cardHeader);
-
-	var _cardMedia = __webpack_require__(351);
-
-	var _cardMedia2 = _interopRequireDefault(_cardMedia);
-
-	var _cardTitle = __webpack_require__(335);
-
-	var _cardTitle2 = _interopRequireDefault(_cardTitle);
-
-	var _flatButton = __webpack_require__(327);
-
-	var _flatButton2 = _interopRequireDefault(_flatButton);
-
-	var _cardText = __webpack_require__(340);
-
-	var _cardText2 = _interopRequireDefault(_cardText);
-
-	var _list = __webpack_require__(323);
-
-	var _list2 = _interopRequireDefault(_list);
-
-	var _listItem = __webpack_require__(319);
-
-	var _listItem2 = _interopRequireDefault(_listItem);
-
-	var _code = __webpack_require__(352);
-
-	var _code2 = _interopRequireDefault(_code);
-
-	var _person = __webpack_require__(353);
-
-	var _person2 = _interopRequireDefault(_person);
-
-	var _openInNew = __webpack_require__(354);
-
-	var _openInNew2 = _interopRequireDefault(_openInNew);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-	/**
-	 * Component providing the About screen
-	 */
-
-	var _class = function (_React$Component) {
-	  _inherits(_class, _React$Component);
-
-	  function _class() {
-	    _classCallCheck(this, _class);
-
-	    return _possibleConstructorReturn(this, Object.getPrototypeOf(_class).apply(this, arguments));
-	  }
-
-	  _createClass(_class, [{
-	    key: 'render',
-	    value: function render() {
-	      var linkDefs = [{
-	        text: "Source Code on GitHub",
-	        url: "https://github.com/BHSPitMonkey/MusicTrainer",
-	        icon: _react2.default.createElement(_code2.default, null)
-	      }, {
-	        text: "Stephen Eisenhauer's Homepage",
-	        url: "http://stepheneisenhauer.com",
-	        icon: _react2.default.createElement(_person2.default, null)
-	      }];
-	      return _react2.default.createElement(
-	        _card2.default,
-	        { style: { maxWidth: "600px", margin: "0 auto" } },
-	        _react2.default.createElement(_cardHeader2.default, {
-	          title: 'Music Trainer',
-	          subtitle: 'Version TODO',
-	          avatar: 'img/icon-square.svg' }),
-	        _react2.default.createElement(
-	          _cardText2.default,
-	          null,
-	          _react2.default.createElement(
-	            'p',
-	            null,
-	            'Music Trainer is a modern web application for helping you practice your musical abilities.'
-	          ),
-	          _react2.default.createElement(
-	            'p',
-	            null,
-	            'The application was built by Stephen Eisenhauer using React, Material-UI, and VexFlow.'
-	          )
-	        ),
-	        _react2.default.createElement(
-	          _list2.default,
-	          null,
-	          linkDefs.map(function (item, i) {
-	            var leftIconClass = item.leftIconClass;
-	            return _react2.default.createElement(
-	              'a',
-	              { href: item.url, target: '_blank', style: { textDecoration: "none" }, key: i },
-	              _react2.default.createElement(_listItem2.default, { primaryText: item.text, leftIcon: item.icon, rightIcon: _react2.default.createElement(_openInNew2.default, null) })
-	            );
-	          })
-	        )
-	      );
-	    }
-	  }]);
-
-	  return _class;
-	}(_react2.default.Component);
-
-	exports.default = _class;
-
-/***/ },
-/* 348 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-
-	var _react = __webpack_require__(1);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	var _stylePropable = __webpack_require__(223);
-
-	var _stylePropable2 = _interopRequireDefault(_stylePropable);
-
-	var _themeManager = __webpack_require__(267);
-
-	var _themeManager2 = _interopRequireDefault(_themeManager);
-
-	var _lightRawTheme = __webpack_require__(263);
-
-	var _lightRawTheme2 = _interopRequireDefault(_lightRawTheme);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	var CardActions = _react2.default.createClass({
-	  displayName: 'CardActions',
-
-	  propTypes: {
-	    actAsExpander: _react2.default.PropTypes.bool,
-	    children: _react2.default.PropTypes.node,
-	    expandable: _react2.default.PropTypes.bool,
-	    showExpandableButton: _react2.default.PropTypes.bool,
-
-	    /**
-	     * Override the inline-styles of the root element.
-	     */
-	    style: _react2.default.PropTypes.object
-	  },
-
-	  contextTypes: {
-	    muiTheme: _react2.default.PropTypes.object
-	  },
-
-	  //for passing default theme context to children
-	  childContextTypes: {
-	    muiTheme: _react2.default.PropTypes.object
-	  },
-
-	  mixins: [_stylePropable2.default],
-
-	  getInitialState: function getInitialState() {
-	    return {
-	      muiTheme: this.context.muiTheme ? this.context.muiTheme : _themeManager2.default.getMuiTheme(_lightRawTheme2.default)
-	    };
-	  },
-	  getChildContext: function getChildContext() {
-	    return {
-	      muiTheme: this.state.muiTheme
-	    };
-	  },
-
-	  //to update theme inside state whenever a new theme is passed down
-	  //from the parent / owner using context
-	  componentWillReceiveProps: function componentWillReceiveProps(nextProps, nextContext) {
-	    var newMuiTheme = nextContext.muiTheme ? nextContext.muiTheme : this.state.muiTheme;
-	    this.setState({ muiTheme: newMuiTheme });
-	  },
-	  getStyles: function getStyles() {
-	    return {
-	      root: {
-	        padding: 8,
-	        position: 'relative'
-	      }
-	    };
-	  },
-	  render: function render() {
-	    var _this = this;
-
-	    var styles = this.getStyles();
-
-	    var children = _react2.default.Children.map(this.props.children, function (child) {
-	      return _react2.default.cloneElement(child, {
-	        style: _this.mergeStyles({ marginRight: 8 }, child.props.style)
-	      });
-	    });
-
-	    return _react2.default.createElement(
-	      'div',
-	      _extends({}, this.props, { style: this.prepareStyles(styles.root, this.props.style) }),
-	      children
-	    );
-	  }
-	});
-
-	exports.default = CardActions;
-	module.exports = exports['default'];
-
-/***/ },
-/* 349 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-
-	var _react = __webpack_require__(1);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	var _styles = __webpack_require__(336);
-
-	var _styles2 = _interopRequireDefault(_styles);
-
-	var _avatar = __webpack_require__(350);
-
-	var _avatar2 = _interopRequireDefault(_avatar);
-
-	var _stylePropable = __webpack_require__(223);
-
-	var _stylePropable2 = _interopRequireDefault(_stylePropable);
-
-	var _themeManager = __webpack_require__(267);
-
-	var _themeManager2 = _interopRequireDefault(_themeManager);
-
-	var _lightRawTheme = __webpack_require__(263);
-
-	var _lightRawTheme2 = _interopRequireDefault(_lightRawTheme);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	var CardHeader = _react2.default.createClass({
-	  displayName: 'CardHeader',
-
-	  propTypes: {
-	    actAsExpander: _react2.default.PropTypes.bool,
-	    avatar: _react2.default.PropTypes.node,
-	    children: _react2.default.PropTypes.node,
-	    expandable: _react2.default.PropTypes.bool,
-	    showExpandableButton: _react2.default.PropTypes.bool,
-
-	    /**
-	     * Override the inline-styles of the root element.
-	     */
-	    style: _react2.default.PropTypes.object,
-	    subtitle: _react2.default.PropTypes.node,
-	    subtitleColor: _react2.default.PropTypes.string,
-	    subtitleStyle: _react2.default.PropTypes.object,
-	    textStyle: _react2.default.PropTypes.object,
-	    title: _react2.default.PropTypes.node,
-	    titleColor: _react2.default.PropTypes.string,
-	    titleStyle: _react2.default.PropTypes.object
-	  },
-
-	  contextTypes: {
-	    muiTheme: _react2.default.PropTypes.object
-	  },
-
-	  //for passing default theme context to children
-	  childContextTypes: {
-	    muiTheme: _react2.default.PropTypes.object
-	  },
-
-	  mixins: [_stylePropable2.default],
-
-	  getDefaultProps: function getDefaultProps() {
-	    return {
-	      titleColor: _styles2.default.Colors.darkBlack,
-	      subtitleColor: _styles2.default.Colors.lightBlack,
-	      avatar: null
-	    };
-	  },
-	  getInitialState: function getInitialState() {
-	    return {
-	      muiTheme: this.context.muiTheme ? this.context.muiTheme : _themeManager2.default.getMuiTheme(_lightRawTheme2.default)
-	    };
-	  },
-	  getChildContext: function getChildContext() {
-	    return {
-	      muiTheme: this.state.muiTheme
-	    };
-	  },
-
-	  //to update theme inside state whenever a new theme is passed down
-	  //from the parent / owner using context
-	  componentWillReceiveProps: function componentWillReceiveProps(nextProps, nextContext) {
-	    var newMuiTheme = nextContext.muiTheme ? nextContext.muiTheme : this.state.muiTheme;
-	    this.setState({ muiTheme: newMuiTheme });
-	  },
-	  getStyles: function getStyles() {
-	    return {
-	      root: {
-	        height: 72,
-	        padding: 16,
-	        fontWeight: _styles2.default.Typography.fontWeightMedium,
-	        boxSizing: 'border-box',
-	        position: 'relative'
-	      },
-	      text: {
-	        display: 'inline-block',
-	        verticalAlign: 'top'
-	      },
-	      avatar: {
-	        marginRight: 16
-	      },
-	      title: {
-	        color: this.props.titleColor,
-	        display: 'block',
-	        fontSize: 15
-	      },
-	      subtitle: {
-	        color: this.props.subtitleColor,
-	        display: 'block',
-	        fontSize: 14
-	      }
-	    };
-	  },
-	  render: function render() {
-	    var styles = this.getStyles();
-	    var rootStyle = this.prepareStyles(styles.root, this.props.style);
-	    var textStyle = this.prepareStyles(styles.text, this.props.textStyle);
-	    var titleStyle = this.prepareStyles(styles.title, this.props.titleStyle);
-	    var subtitleStyle = this.prepareStyles(styles.subtitle, this.props.subtitleStyle);
-
-	    var avatar = this.props.avatar;
-	    if (_react2.default.isValidElement(this.props.avatar)) {
-	      var avatarMergedStyle = this.mergeStyles(styles.avatar, avatar.props.style);
-	      avatar = _react2.default.cloneElement(avatar, { style: avatarMergedStyle });
-	    } else if (avatar !== null) {
-	      avatar = _react2.default.createElement(_avatar2.default, { src: this.props.avatar, style: styles.avatar });
-	    }
-
-	    return _react2.default.createElement(
-	      'div',
-	      _extends({}, this.props, { style: rootStyle }),
-	      avatar,
-	      _react2.default.createElement(
-	        'div',
-	        { style: textStyle },
-	        _react2.default.createElement(
-	          'span',
-	          { style: titleStyle },
-	          this.props.title
-	        ),
-	        _react2.default.createElement(
-	          'span',
-	          { style: subtitleStyle },
-	          this.props.subtitle
-	        )
-	      ),
-	      this.props.children
-	    );
-	  }
-	});
-
-	exports.default = CardHeader;
-	module.exports = exports['default'];
-
-/***/ },
-/* 350 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-
-	var _react = __webpack_require__(1);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	var _stylePropable = __webpack_require__(223);
-
-	var _stylePropable2 = _interopRequireDefault(_stylePropable);
-
-	var _colors = __webpack_require__(242);
-
-	var _colors2 = _interopRequireDefault(_colors);
-
-	var _lightRawTheme = __webpack_require__(263);
-
-	var _lightRawTheme2 = _interopRequireDefault(_lightRawTheme);
-
-	var _themeManager = __webpack_require__(267);
-
-	var _themeManager2 = _interopRequireDefault(_themeManager);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; }
-
-	var Avatar = _react2.default.createClass({
-	  displayName: 'Avatar',
-
-	  propTypes: {
-	    /**
-	     * The backgroundColor of the avatar. Does not apply to image avatars.
-	     */
-	    backgroundColor: _react2.default.PropTypes.string,
-
-	    /**
-	     * Can be used, for instance, to render a letter inside the avatar.
-	     */
-	    children: _react2.default.PropTypes.node,
-
-	    /**
-	     * The css class name of the root `div` or `img` element.
-	     */
-	    className: _react2.default.PropTypes.string,
-
-	    /**
-	     * The icon or letter's color.
-	     */
-	    color: _react2.default.PropTypes.string,
-
-	    /**
-	     * This is the SvgIcon or FontIcon to be used inside the avatar.
-	     */
-	    icon: _react2.default.PropTypes.element,
-
-	    /**
-	     * This is the size of the avatar in pixels.
-	     */
-	    size: _react2.default.PropTypes.number,
-
-	    /**
-	     * If passed in, this component will render an img element. Otherwise, a div will be rendered.
-	     */
-	    src: _react2.default.PropTypes.string,
-
-	    /**
-	     * Override the inline-styles of the root element.
-	     */
-	    style: _react2.default.PropTypes.object
-	  },
-
-	  contextTypes: {
-	    muiTheme: _react2.default.PropTypes.object
-	  },
-
-	  //for passing default theme context to children
-	  childContextTypes: {
-	    muiTheme: _react2.default.PropTypes.object
-	  },
-
-	  mixins: [_stylePropable2.default],
-
-	  getDefaultProps: function getDefaultProps() {
-	    return {
-	      backgroundColor: _colors2.default.grey400,
-	      color: _colors2.default.white,
-	      size: 40
-	    };
-	  },
-	  getInitialState: function getInitialState() {
-	    return {
-	      muiTheme: this.context.muiTheme ? this.context.muiTheme : _themeManager2.default.getMuiTheme(_lightRawTheme2.default)
-	    };
-	  },
-	  getChildContext: function getChildContext() {
-	    return {
-	      muiTheme: this.state.muiTheme
-	    };
-	  },
-
-	  //to update theme inside state whenever a new theme is passed down
-	  //from the parent / owner using context
-	  componentWillReceiveProps: function componentWillReceiveProps(nextProps, nextContext) {
-	    var newMuiTheme = nextContext.muiTheme ? nextContext.muiTheme : this.state.muiTheme;
-	    this.setState({ muiTheme: newMuiTheme });
-	  },
-	  render: function render() {
-	    var _props = this.props;
-	    var backgroundColor = _props.backgroundColor;
-	    var color = _props.color;
-	    var icon = _props.icon;
-	    var size = _props.size;
-	    var src = _props.src;
-	    var style = _props.style;
-	    var className = _props.className;
-
-	    var other = _objectWithoutProperties(_props, ['backgroundColor', 'color', 'icon', 'size', 'src', 'style', 'className']);
-
-	    var styles = {
-	      root: {
-	        height: size,
-	        width: size,
-	        userSelect: 'none',
-	        borderRadius: '50%',
-	        display: 'inline-block'
-	      }
-	    };
-
-	    if (src) {
-	      var borderColor = this.state.muiTheme.avatar.borderColor;
-
-	      if (borderColor) {
-	        styles.root = this.mergeStyles(styles.root, {
-	          height: size - 2,
-	          width: size - 2,
-	          border: 'solid 1px ' + borderColor
-	        });
-	      }
-
-	      return _react2.default.createElement('img', _extends({}, other, {
-	        src: src,
-	        style: this.prepareStyles(styles.root, style),
-	        className: className
-	      }));
-	    } else {
-	      styles.root = this.mergeStyles(styles.root, {
-	        backgroundColor: backgroundColor,
-	        textAlign: 'center',
-	        lineHeight: size + 'px',
-	        fontSize: size / 2 + 4,
-	        color: color
-	      });
-
-	      var styleIcon = {
-	        margin: 8
-	      };
-
-	      var iconElement = icon ? _react2.default.cloneElement(icon, {
-	        color: color,
-	        style: this.mergeStyles(styleIcon, icon.props.style)
-	      }) : null;
-
-	      return _react2.default.createElement(
-	        'div',
-	        _extends({}, other, {
-	          style: this.prepareStyles(styles.root, style),
-	          className: className
-	        }),
-	        iconElement,
-	        this.props.children
-	      );
-	    }
-	  }
-	});
-
-	exports.default = Avatar;
-	module.exports = exports['default'];
-
-/***/ },
-/* 351 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-
-	var _react = __webpack_require__(1);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	var _styles = __webpack_require__(336);
-
-	var _styles2 = _interopRequireDefault(_styles);
-
-	var _stylePropable = __webpack_require__(223);
-
-	var _stylePropable2 = _interopRequireDefault(_stylePropable);
-
-	var _themeManager = __webpack_require__(267);
-
-	var _themeManager2 = _interopRequireDefault(_themeManager);
-
-	var _lightRawTheme = __webpack_require__(263);
-
-	var _lightRawTheme2 = _interopRequireDefault(_lightRawTheme);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	var CardMedia = _react2.default.createClass({
-	  displayName: 'CardMedia',
-
-	  propTypes: {
-	    actAsExpander: _react2.default.PropTypes.bool,
-	    children: _react2.default.PropTypes.node,
-	    expandable: _react2.default.PropTypes.bool,
-	    mediaStyle: _react2.default.PropTypes.object,
-	    overlay: _react2.default.PropTypes.node,
-	    overlayContainerStyle: _react2.default.PropTypes.object,
-	    overlayContentStyle: _react2.default.PropTypes.object,
-	    overlayStyle: _react2.default.PropTypes.object,
-
-	    /**
-	     * Override the inline-styles of the root element.
-	     */
-	    style: _react2.default.PropTypes.object
-	  },
-
-	  contextTypes: {
-	    muiTheme: _react2.default.PropTypes.object
-	  },
-
-	  //for passing default theme context to children
-	  childContextTypes: {
-	    muiTheme: _react2.default.PropTypes.object
-	  },
-
-	  mixins: [_stylePropable2.default],
-
-	  getInitialState: function getInitialState() {
-	    return {
-	      muiTheme: this.context.muiTheme ? this.context.muiTheme : _themeManager2.default.getMuiTheme(_lightRawTheme2.default)
-	    };
-	  },
-	  getChildContext: function getChildContext() {
-	    return {
-	      muiTheme: this.state.muiTheme
-	    };
-	  },
-
-	  //to update theme inside state whenever a new theme is passed down
-	  //from the parent / owner using context
-	  componentWillReceiveProps: function componentWillReceiveProps(nextProps, nextContext) {
-	    var newMuiTheme = nextContext.muiTheme ? nextContext.muiTheme : this.state.muiTheme;
-	    this.setState({ muiTheme: newMuiTheme });
-	  },
-	  getStyles: function getStyles() {
-	    return {
-	      root: {
-	        position: 'relative'
-	      },
-	      overlayContainer: {
-	        position: 'absolute',
-	        top: 0,
-	        bottom: 0,
-	        right: 0,
-	        left: 0
-	      },
-	      overlay: {
-	        height: '100%',
-	        position: 'relative'
-	      },
-	      overlayContent: {
-	        position: 'absolute',
-	        bottom: 0,
-	        right: 0,
-	        left: 0,
-	        paddingTop: 8,
-	        background: _styles2.default.Colors.lightBlack
-	      },
-	      media: {},
-	      mediaChild: {
-	        verticalAlign: 'top',
-	        maxWidth: '100%',
-	        minWidth: '100%',
-	        width: '100%'
-	      }
-	    };
-	  },
-	  render: function render() {
-	    var _this = this;
-
-	    var styles = this.getStyles();
-	    var rootStyle = this.prepareStyles(styles.root, this.props.style);
-	    var mediaStyle = this.prepareStyles(styles.media, this.props.mediaStyle);
-	    var overlayContainerStyle = this.prepareStyles(styles.overlayContainer, this.props.overlayContainerStyle);
-	    var overlayContentStyle = this.prepareStyles(styles.overlayContent, this.props.overlayContentStyle);
-	    var overlayStyle = this.prepareStyles(styles.overlay, this.props.overlayStyle);
-
-	    var children = _react2.default.Children.map(this.props.children, function (child) {
-	      return _react2.default.cloneElement(child, { style: _this.prepareStyles(styles.mediaChild, child.props.style) });
-	    });
-
-	    var overlayChildren = _react2.default.Children.map(this.props.overlay, function (child) {
-	      if (child.type.displayName === 'CardHeader' || child.type.displayName === 'CardTitle') {
-	        return _react2.default.cloneElement(child, {
-	          titleColor: _styles2.default.Colors.darkWhite,
-	          subtitleColor: _styles2.default.Colors.lightWhite
-	        });
-	      } else if (child.type.displayName === 'CardText') {
-	        return _react2.default.cloneElement(child, {
-	          color: _styles2.default.Colors.darkWhite
-	        });
-	      } else {
-	        return child;
-	      }
-	    });
-
-	    return _react2.default.createElement(
-	      'div',
-	      _extends({}, this.props, { style: rootStyle }),
-	      _react2.default.createElement(
-	        'div',
-	        { style: mediaStyle },
-	        children
-	      ),
-	      this.props.overlay ? _react2.default.createElement(
-	        'div',
-	        { style: overlayContainerStyle },
-	        _react2.default.createElement(
-	          'div',
-	          { style: overlayStyle },
-	          _react2.default.createElement(
-	            'div',
-	            { style: overlayContentStyle },
-	            overlayChildren
-	          )
-	        )
-	      ) : ''
-	    );
-	  }
-	});
-
-	exports.default = CardMedia;
-	module.exports = exports['default'];
-
-/***/ },
-/* 352 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-
-	var _react = __webpack_require__(1);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	var _reactAddonsPureRenderMixin = __webpack_require__(249);
-
-	var _reactAddonsPureRenderMixin2 = _interopRequireDefault(_reactAddonsPureRenderMixin);
-
-	var _svgIcon = __webpack_require__(294);
-
-	var _svgIcon2 = _interopRequireDefault(_svgIcon);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	var ActionCode = _react2.default.createClass({
-	  displayName: 'ActionCode',
-
-	  mixins: [_reactAddonsPureRenderMixin2.default],
-
-	  render: function render() {
-	    return _react2.default.createElement(
-	      _svgIcon2.default,
-	      this.props,
-	      _react2.default.createElement('path', { d: 'M9.4 16.6L4.8 12l4.6-4.6L8 6l-6 6 6 6 1.4-1.4zm5.2 0l4.6-4.6-4.6-4.6L16 6l6 6-6 6-1.4-1.4z' })
-	    );
-	  }
-	});
-
-	exports.default = ActionCode;
-	module.exports = exports['default'];
-
-/***/ },
-/* 353 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-
-	var _react = __webpack_require__(1);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	var _reactAddonsPureRenderMixin = __webpack_require__(249);
-
-	var _reactAddonsPureRenderMixin2 = _interopRequireDefault(_reactAddonsPureRenderMixin);
-
-	var _svgIcon = __webpack_require__(294);
-
-	var _svgIcon2 = _interopRequireDefault(_svgIcon);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	var SocialPerson = _react2.default.createClass({
-	  displayName: 'SocialPerson',
-
-	  mixins: [_reactAddonsPureRenderMixin2.default],
-
-	  render: function render() {
-	    return _react2.default.createElement(
-	      _svgIcon2.default,
-	      this.props,
-	      _react2.default.createElement('path', { d: 'M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z' })
-	    );
-	  }
-	});
-
-	exports.default = SocialPerson;
-	module.exports = exports['default'];
-
-/***/ },
-/* 354 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-
-	var _react = __webpack_require__(1);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	var _reactAddonsPureRenderMixin = __webpack_require__(249);
-
-	var _reactAddonsPureRenderMixin2 = _interopRequireDefault(_reactAddonsPureRenderMixin);
-
-	var _svgIcon = __webpack_require__(294);
-
-	var _svgIcon2 = _interopRequireDefault(_svgIcon);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	var ActionOpenInNew = _react2.default.createClass({
-	  displayName: 'ActionOpenInNew',
-
-	  mixins: [_reactAddonsPureRenderMixin2.default],
-
-	  render: function render() {
-	    return _react2.default.createElement(
-	      _svgIcon2.default,
-	      this.props,
-	      _react2.default.createElement('path', { d: 'M19 19H5V5h7V3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z' })
-	    );
-	  }
-	});
-
-	exports.default = ActionOpenInNew;
-	module.exports = exports['default'];
 
 /***/ }
 /******/ ]);
