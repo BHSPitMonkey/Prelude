@@ -129,6 +129,13 @@ class SightReadingPractice extends React.Component {
     var modifier = null;
     if (includeAccidentals) {
       var useAccidental = r([true, false]);
+      if (useAccidental) {
+        // Only add a sharp to a key that can receive it
+        if (['c', 'd', 'f', 'g', 'a'].includes(key)) {
+          key += '#';
+        }
+        // TODO: key += r(['#', 'b']) (Guess checker can't handle flats yet)
+      }
       //if (['c', ''])
       //var keys = ['c', 'c#', 'd', 'd#', 'e', 'f', 'f#', 'g', 'g#', 'a', 'a#', 'b'];
       //var keys = ['c#', 'd#', 'f#', 'g#', 'a#'];
@@ -195,12 +202,12 @@ class SightReadingPractice extends React.Component {
 
   render() {
     return (
-      <Card className="rx-sight-reading-practice">
+      <Card className="rx-sight-reading-practice" style={{maxWidth: "600px", margin: "0 auto"}}>
         <CardTitle title="What note is shown below?" />
         <CardText>
           <SheetMusicView clef={this.state.clef} keySignature={this.state.keySignature} keys={[this.state.key]} />
           <KeyboardButtons onEntry={this.handleGuess} style={{margin: "10px auto"}} />
-          <FlatButton label="Skip" onTouchTap={this.newQuestion} style={{display: "block", margin: "40px auto"}} />
+          <FlatButton label="Skip" onTouchTap={this.newQuestion} style={{display: "block", margin: "40px auto 20px"}} />
         </CardText>
       </Card>
     )

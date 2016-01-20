@@ -4,5 +4,16 @@
   "short_name": "Music Trainer",
   "display": "standalone",
   "theme_color": "#00bcd4",
-  "background_color": "#eee"
+  "background_color": "#eee",
+  "icons": [
+    {
+      "src": "img/icon-144.png",
+      "sizes": "144x144",
+      "type": "image/png"
+    },
+    {
+      "src": "img/icon.svg",
+      "sizes": "48x48 72x72 96x96 128x128 256x256"
+    }
+  ]
 }

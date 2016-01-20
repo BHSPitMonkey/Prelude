@@ -1,4 +1,5 @@
 import React from 'react';
+import { Router, Route, Link, browserHistory } from 'react-router'
 import AppBar from 'material-ui/lib/app-bar';
 import LeftNav from 'material-ui/lib/left-nav';
 import MenuItem from 'material-ui/lib/menus/menu-item';
@@ -9,6 +10,7 @@ import SightReadingPractice from './sight-reading-practice.jsx';
  * Top-level application component
  */
 class Application extends React.Component {
+
   constructor(props) {
     super(props);
 
@@ -20,9 +22,17 @@ class Application extends React.Component {
       snackbarAutoHideDuration: 1000
     };
 
+    // Menu items to routes map
+    this.menuItems = {
+      "Home": "/",
+      "Sight Reading Practice": "/sightReading",
+      "About": "/about"
+    };
+
     // Prebind custom methods
     this.toggleLeftNav = this.toggleLeftNav.bind(this);
     this.leftNavRequestChange = this.leftNavRequestChange.bind(this);
+    this.leftNavMenuItemTouched = this.leftNavMenuItemTouched.bind(this);
     this.snackbarRequestClose = this.snackbarRequestClose.bind(this);
   }
   getChildContext() {
@@ -37,6 +47,18 @@ class Application extends React.Component {
   leftNavRequestChange(open, reason) {
     this.setState({leftNavOpen: false});
   }
+  leftNavChange(e, key, payload) {
+    console.log("Change", e, key, payload);
+  }
+  leftNavMenuItemTouched(e) {
+    // Lookup the route from our menu config object based on the menu item text
+    // (I can't seem to find any better way to do this with the MenuItem component,
+    // at least without building my own MenuItem wrapper class)
+    let text = e.target.innerText;
+    let route = this.menuItems[text];
+    this.setState({leftNavOpen: false}); // Close the menu
+    browserHistory.push(route); // Go to the route
+  }
   snackbarRequestClose() {
     this.setState({snackbarOpen: false});
   }
@@ -49,6 +71,13 @@ class Application extends React.Component {
     });
   }
   render() {
+    // Data for the left nav menu
+    let menuItems = {
+      "Home": "/",
+      "Sight Reading Practice": "/sightReading",
+      "About": "/about"
+    };
+
     return (
       <div>
         <AppBar
@@ -60,12 +89,13 @@ class Application extends React.Component {
           open={this.state.leftNavOpen}
           onRequestChange={this.leftNavRequestChange}
           docked={false}>
-          <MenuItem>Sight Reading Practice</MenuItem>
-          <MenuItem>Settings</MenuItem>
-          <MenuItem>About</MenuItem>
-          <MenuItem disabled={true}>Hi!</MenuItem>
+          {
+            Object.keys(menuItems).map(function (text) {
+              return <MenuItem onTouchTap={this.leftNavMenuItemTouched} key={text}>{text}</MenuItem>
+            }.bind(this))
+          }
         </LeftNav>
-        <SightReadingPractice />
+        <div style={{padding: "10px"}}>{this.props.children}</div>
         <Snackbar
           open={this.state.snackbarOpen}
           message={this.state.snackbarMessage}
@@ -76,6 +106,9 @@ class Application extends React.Component {
     );
   }
 }
+Application.contextTypes = {
+  router: React.PropTypes.object
+};
 Application.childContextTypes = {
   snackbar: React.PropTypes.func
 };
