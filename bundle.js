@@ -70,9 +70,9 @@
 
 	var _about2 = _interopRequireDefault(_about);
 
-	var _sightReadingPractice = __webpack_require__(355);
+	var _sightReadingPracticeIntro = __webpack_require__(355);
 
-	var _sightReadingPractice2 = _interopRequireDefault(_sightReadingPractice);
+	var _sightReadingPracticeIntro2 = _interopRequireDefault(_sightReadingPracticeIntro);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -88,7 +88,7 @@
 	    { path: '/', component: _application2.default },
 	    _react2.default.createElement(_reactRouter.IndexRoute, { component: _home2.default }),
 	    _react2.default.createElement(_reactRouter.Route, { path: 'about', component: _about2.default }),
-	    _react2.default.createElement(_reactRouter.Route, { path: 'sightReading', component: _sightReadingPractice2.default }),
+	    _react2.default.createElement(_reactRouter.Route, { path: 'sightReading', component: _sightReadingPracticeIntro2.default }),
 	    _react2.default.createElement(_reactRouter.Route, { path: '*', component: _home2.default })
 	  )
 	), document.getElementById('container'));
@@ -24926,8 +24926,6 @@
 
 	'use strict';
 
-	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
-
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 	Object.defineProperty(exports, "__esModule", {
@@ -24994,7 +24992,10 @@
 	      leftNavOpen: false,
 	      snackbarOpen: false,
 	      snackbarMessage: "Hi! ^_^",
-	      snackbarAutoHideDuration: 1000
+	      snackbarAutoHideDuration: 1000,
+	      appBarTitle: "Music Trainer",
+	      appBarLeftElement: null,
+	      appBarRightElement: null
 	    };
 
 	    // Menu items to routes map
@@ -25016,7 +25017,8 @@
 	    key: 'getChildContext',
 	    value: function getChildContext() {
 	      return {
-	        snackbar: this.displaySnackbar.bind(this)
+	        snackbar: this.displaySnackbar.bind(this),
+	        appbar: this.updateAppBar.bind(this)
 	      };
 	    }
 	  }, {
@@ -25054,11 +25056,23 @@
 	  }, {
 	    key: 'displaySnackbar',
 	    value: function displaySnackbar(message, duration) {
-	      console.log("Type: ", typeof duration === 'undefined' ? 'undefined' : _typeof(duration));
 	      this.setState({
 	        snackbarOpen: true,
 	        snackbarMessage: message,
 	        snackbarAutoHideDuration: typeof duration !== "undefined" ? duration : 1000
+	      });
+	    }
+	    /**
+	     * Used in child contexts to update the app bar
+	     */
+
+	  }, {
+	    key: 'updateAppBar',
+	    value: function updateAppBar(title, leftElement, rightElement) {
+	      this.setState({
+	        appBarTitle: title,
+	        appBarLeftElement: leftElement,
+	        appBarRightElement: rightElement
 	      });
 	    }
 	  }, {
@@ -25068,9 +25082,10 @@
 	        'div',
 	        null,
 	        _react2.default.createElement(_appBar2.default, {
-	          title: 'Music Trainer',
-	          onLeftIconButtonTouchTap: this.toggleLeftNav,
-	          iconClassNameRight: 'muidocs-icon-navigation-expand-more'
+	          title: this.state.appBarTitle,
+	          iconElementLeft: this.state.appBarLeftElement,
+	          iconElementRight: this.state.appBarRightElement,
+	          onLeftIconButtonTouchTap: this.toggleLeftNav
 	        }),
 	        _react2.default.createElement(
 	          _leftNav2.default,
@@ -25109,7 +25124,8 @@
 	  router: _react2.default.PropTypes.object
 	};
 	Application.childContextTypes = {
-	  snackbar: _react2.default.PropTypes.func
+	  snackbar: _react2.default.PropTypes.func,
+	  appbar: _react2.default.PropTypes.func
 	};
 	exports.default = Application;
 
@@ -40181,16 +40197,26 @@
 	 * Component providing the main/home screen
 	 */
 
-	var _class = function (_React$Component) {
-	  _inherits(_class, _React$Component);
+	var Home = function (_React$Component) {
+	  _inherits(Home, _React$Component);
 
-	  function _class() {
-	    _classCallCheck(this, _class);
+	  function Home(props) {
+	    _classCallCheck(this, Home);
 
-	    return _possibleConstructorReturn(this, Object.getPrototypeOf(_class).apply(this, arguments));
+	    // Prebind custom methods
+
+	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Home).call(this, props));
+
+	    _this.componentWillMount = _this.componentWillMount.bind(_this);
+	    return _this;
 	  }
 
-	  _createClass(_class, [{
+	  _createClass(Home, [{
+	    key: 'componentWillMount',
+	    value: function componentWillMount() {
+	      this.context.appbar("Music Trainer");
+	    }
+	  }, {
 	    key: 'render',
 	    value: function render() {
 	      // Logic behind display of Add To Home Screen cards
@@ -40270,10 +40296,14 @@
 	    }
 	  }]);
 
-	  return _class;
+	  return Home;
 	}(_react2.default.Component);
 
-	exports.default = _class;
+	Home.contextTypes = {
+	  snackbar: _react2.default.PropTypes.func,
+	  appbar: _react2.default.PropTypes.func
+	};
+	exports.default = Home;
 
 /***/ },
 /* 334 */
@@ -41698,16 +41728,26 @@
 	 * Component providing the About screen
 	 */
 
-	var _class = function (_React$Component) {
-	  _inherits(_class, _React$Component);
+	var About = function (_React$Component) {
+	  _inherits(About, _React$Component);
 
-	  function _class() {
-	    _classCallCheck(this, _class);
+	  function About(props) {
+	    _classCallCheck(this, About);
 
-	    return _possibleConstructorReturn(this, Object.getPrototypeOf(_class).apply(this, arguments));
+	    // Prebind custom methods
+
+	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(About).call(this, props));
+
+	    _this.componentWillMount = _this.componentWillMount.bind(_this);
+	    return _this;
 	  }
 
-	  _createClass(_class, [{
+	  _createClass(About, [{
+	    key: 'componentWillMount',
+	    value: function componentWillMount() {
+	      this.context.appbar("About");
+	    }
+	  }, {
 	    key: 'render',
 	    value: function render() {
 	      var linkDefs = [{
@@ -41756,10 +41796,14 @@
 	    }
 	  }]);
 
-	  return _class;
+	  return About;
 	}(_react2.default.Component);
 
-	exports.default = _class;
+	About.contextTypes = {
+	  snackbar: _react2.default.PropTypes.func,
+	  appbar: _react2.default.PropTypes.func
+	};
+	exports.default = About;
 
 /***/ },
 /* 350 */
@@ -42178,6 +42222,568 @@
 
 	var _flatButton2 = _interopRequireDefault(_flatButton);
 
+	var _list = __webpack_require__(323);
+
+	var _list2 = _interopRequireDefault(_list);
+
+	var _listItem = __webpack_require__(319);
+
+	var _listItem2 = _interopRequireDefault(_listItem);
+
+	var _divider = __webpack_require__(356);
+
+	var _divider2 = _interopRequireDefault(_divider);
+
+	var _checkbox = __webpack_require__(358);
+
+	var _checkbox2 = _interopRequireDefault(_checkbox);
+
+	var _toggle = __webpack_require__(304);
+
+	var _toggle2 = _interopRequireDefault(_toggle);
+
+	var _sightReadingPractice = __webpack_require__(361);
+
+	var _sightReadingPractice2 = _interopRequireDefault(_sightReadingPractice);
+
+	var _card = __webpack_require__(342);
+
+	var _card2 = _interopRequireDefault(_card);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	/**
+	 * Intro screen for the Sight Reading practice mode
+	 *
+	 * Intended to show user-configurable settings for the practice session
+	 * before starting, along with a button to begin.
+	 */
+
+	var SightReadingPracticeIntro = function (_React$Component) {
+	  _inherits(SightReadingPracticeIntro, _React$Component);
+
+	  function SightReadingPracticeIntro(props) {
+	    _classCallCheck(this, SightReadingPracticeIntro);
+
+	    // Initial state (TODO: Load the preferences from persistent storage somehow)
+
+	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(SightReadingPracticeIntro).call(this, props));
+
+	    _this.state = {
+	      started: false
+	    };
+
+	    // Prebind custom methods
+	    _this.componentWillMount = _this.componentWillMount.bind(_this);
+	    _this.start = _this.start.bind(_this);
+	    return _this;
+	  }
+
+	  _createClass(SightReadingPracticeIntro, [{
+	    key: 'componentWillMount',
+	    value: function componentWillMount() {
+	      this.context.appbar("Sight Reading", null, _react2.default.createElement(_flatButton2.default, { label: 'Start', onTouchTap: this.start }));
+	    }
+	  }, {
+	    key: 'start',
+	    value: function start() {
+	      this.setState({ started: true });
+	      // TODO: Persist chosen settings
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      if (this.state.started) {
+	        // TODO: Bind settings state to props
+	        return _react2.default.createElement(_sightReadingPractice2.default, null);
+	      } else {
+	        return _react2.default.createElement(
+	          _card2.default,
+	          null,
+	          _react2.default.createElement(
+	            _list2.default,
+	            { subheader: 'Which clef(s) would you like to practice?' },
+	            _react2.default.createElement(_listItem2.default, { primaryText: 'Treble clef', leftCheckbox: _react2.default.createElement(_checkbox2.default, null) }),
+	            _react2.default.createElement(_listItem2.default, { primaryText: 'Bass clef', leftCheckbox: _react2.default.createElement(_checkbox2.default, null) })
+	          ),
+	          _react2.default.createElement(_divider2.default, null),
+	          _react2.default.createElement(
+	            _list2.default,
+	            { subheader: 'Which would you like to include?' },
+	            _react2.default.createElement(_listItem2.default, { primaryText: 'Single notes', leftCheckbox: _react2.default.createElement(_checkbox2.default, null) }),
+	            _react2.default.createElement(_listItem2.default, { primaryText: 'Chords', leftCheckbox: _react2.default.createElement(_checkbox2.default, null) }),
+	            _react2.default.createElement(_listItem2.default, { primaryText: 'Non-chordal clusters', leftCheckbox: _react2.default.createElement(_checkbox2.default, null) })
+	          ),
+	          _react2.default.createElement(_divider2.default, null),
+	          _react2.default.createElement(
+	            _list2.default,
+	            { subheader: 'Other options' },
+	            _react2.default.createElement(_listItem2.default, { primaryText: 'Randomize key signature', rightToggle: _react2.default.createElement(_toggle2.default, null) }),
+	            _react2.default.createElement(_listItem2.default, { primaryText: 'Include accidentals', rightToggle: _react2.default.createElement(_toggle2.default, null) })
+	          )
+	        );
+	      }
+	    }
+	  }]);
+
+	  return SightReadingPracticeIntro;
+	}(_react2.default.Component);
+
+	SightReadingPracticeIntro.contextTypes = {
+	  snackbar: _react2.default.PropTypes.func,
+	  appbar: _react2.default.PropTypes.func
+	};
+	exports.default = SightReadingPracticeIntro;
+
+/***/ },
+/* 356 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _muiThemeable = __webpack_require__(357);
+
+	var _muiThemeable2 = _interopRequireDefault(_muiThemeable);
+
+	var _styles = __webpack_require__(227);
+
+	var _styles2 = _interopRequireDefault(_styles);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; }
+
+	var propTypes = {
+	  /**
+	   * CSS class that will be added to the divider's root element
+	   */
+	  className: _react2.default.PropTypes.string,
+
+	  /**
+	   * If true, the divider will be indented 72px
+	   */
+	  inset: _react2.default.PropTypes.bool,
+
+	  /**
+	   * Override the inline-styles of the list divider's root element
+	   */
+	  style: _react2.default.PropTypes.object
+	};
+
+	var defaultProps = {
+	  inset: false
+	};
+
+	var Divider = function Divider(_ref) {
+	  var inset = _ref.inset;
+	  var muiTheme = _ref.muiTheme;
+	  var style = _ref.style;
+
+	  var other = _objectWithoutProperties(_ref, ['inset', 'muiTheme', 'style']);
+
+	  var styles = {
+	    root: {
+	      margin: 0,
+	      marginTop: -1,
+	      marginLeft: inset ? 72 : 0,
+	      height: 1,
+	      border: 'none',
+	      backgroundColor: muiTheme.rawTheme.palette.borderColor
+	    }
+	  };
+
+	  return _react2.default.createElement('hr', _extends({}, other, { style: _styles2.default.prepareStyles(muiTheme, styles.root, style) }));
+	};
+
+	Divider.displayName = 'Divider';
+	Divider.propTypes = propTypes;
+	Divider.defaultProps = defaultProps;
+	Divider = (0, _muiThemeable2.default)(Divider);
+
+	exports.default = Divider;
+	module.exports = exports['default'];
+
+/***/ },
+/* 357 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.default = muiThemeable;
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _lightRawTheme = __webpack_require__(263);
+
+	var _lightRawTheme2 = _interopRequireDefault(_lightRawTheme);
+
+	var _themeManager = __webpack_require__(267);
+
+	var _themeManager2 = _interopRequireDefault(_themeManager);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function getDisplayName(WrappedComponent) {
+	  return WrappedComponent.displayName || WrappedComponent.name || 'Component';
+	}
+
+	function muiThemeable(WrappedComponent) {
+	  var MuiComponent = function MuiComponent(props, _ref) {
+	    var _ref$muiTheme = _ref.muiTheme;
+	    var muiTheme = _ref$muiTheme === undefined ? _themeManager2.default.getMuiTheme(_lightRawTheme2.default) : _ref$muiTheme;
+
+	    return _react2.default.createElement(WrappedComponent, _extends({}, props, { muiTheme: muiTheme }));
+	  };
+
+	  MuiComponent.displayName = getDisplayName(WrappedComponent);
+	  MuiComponent.contextTypes = {
+	    muiTheme: _react2.default.PropTypes.object
+	  };
+	  MuiComponent.childContextTypes = {
+	    muiTheme: _react2.default.PropTypes.object
+	  };
+
+	  return MuiComponent;
+	}
+	module.exports = exports['default'];
+
+/***/ },
+/* 358 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _enhancedSwitch = __webpack_require__(305);
+
+	var _enhancedSwitch2 = _interopRequireDefault(_enhancedSwitch);
+
+	var _stylePropable = __webpack_require__(223);
+
+	var _stylePropable2 = _interopRequireDefault(_stylePropable);
+
+	var _transitions = __webpack_require__(246);
+
+	var _transitions2 = _interopRequireDefault(_transitions);
+
+	var _checkBoxOutlineBlank = __webpack_require__(359);
+
+	var _checkBoxOutlineBlank2 = _interopRequireDefault(_checkBoxOutlineBlank);
+
+	var _checkBox = __webpack_require__(360);
+
+	var _checkBox2 = _interopRequireDefault(_checkBox);
+
+	var _lightRawTheme = __webpack_require__(263);
+
+	var _lightRawTheme2 = _interopRequireDefault(_lightRawTheme);
+
+	var _themeManager = __webpack_require__(267);
+
+	var _themeManager2 = _interopRequireDefault(_themeManager);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; }
+
+	var Checkbox = _react2.default.createClass({
+	  displayName: 'Checkbox',
+
+	  propTypes: {
+	    checked: _react2.default.PropTypes.bool,
+	    checkedIcon: _react2.default.PropTypes.element,
+	    defaultChecked: _react2.default.PropTypes.bool,
+	    disabled: _react2.default.PropTypes.bool,
+	    iconStyle: _react2.default.PropTypes.object,
+	    labelPosition: _react2.default.PropTypes.oneOf(['left', 'right']),
+	    labelStyle: _react2.default.PropTypes.object,
+	    onCheck: _react2.default.PropTypes.func,
+	    unCheckedIcon: _react2.default.PropTypes.element,
+	    valueLink: _react2.default.PropTypes.object
+	  },
+
+	  contextTypes: {
+	    muiTheme: _react2.default.PropTypes.object
+	  },
+
+	  //for passing default theme context to children
+	  childContextTypes: {
+	    muiTheme: _react2.default.PropTypes.object
+	  },
+
+	  mixins: [_stylePropable2.default],
+
+	  getInitialState: function getInitialState() {
+	    return {
+	      switched: this.props.checked || this.props.defaultChecked || this.props.valueLink && this.props.valueLink.value || false,
+	      muiTheme: this.context.muiTheme ? this.context.muiTheme : _themeManager2.default.getMuiTheme(_lightRawTheme2.default)
+	    };
+	  },
+	  getChildContext: function getChildContext() {
+	    return {
+	      muiTheme: this.state.muiTheme
+	    };
+	  },
+
+	  //to update theme inside state whenever a new theme is passed down
+	  //from the parent / owner using context
+	  componentWillReceiveProps: function componentWillReceiveProps(nextProps, nextContext) {
+	    var newMuiTheme = nextContext.muiTheme ? nextContext.muiTheme : this.state.muiTheme;
+	    this.setState({
+	      muiTheme: newMuiTheme,
+	      switched: this.props.checked !== nextProps.checked ? nextProps.checked : this.state.switched
+	    });
+	  },
+	  getTheme: function getTheme() {
+	    return this.state.muiTheme.checkbox;
+	  },
+	  getStyles: function getStyles() {
+	    var checkboxSize = 24;
+	    var styles = {
+	      icon: {
+	        height: checkboxSize,
+	        width: checkboxSize
+	      },
+	      check: {
+	        position: 'absolute',
+	        opacity: 0,
+	        transform: 'scale(0)',
+	        transitionOrigin: '50% 50%',
+	        transition: _transitions2.default.easeOut('450ms', 'opacity', '0ms') + ', ' + _transitions2.default.easeOut('0ms', 'transform', '450ms'),
+	        fill: this.getTheme().checkedColor
+	      },
+	      box: {
+	        position: 'absolute',
+	        opacity: 1,
+	        fill: this.getTheme().boxColor,
+	        transition: _transitions2.default.easeOut('2s', null, '200ms')
+	      },
+	      checkWhenSwitched: {
+	        opacity: 1,
+	        transform: 'scale(1)',
+	        transition: _transitions2.default.easeOut('0ms', 'opacity', '0ms') + ', ' + _transitions2.default.easeOut('800ms', 'transform', '0ms')
+	      },
+	      boxWhenSwitched: {
+	        transition: _transitions2.default.easeOut('100ms', null, '0ms'),
+	        fill: this.getTheme().checkedColor
+	      },
+	      checkWhenDisabled: {
+	        fill: this.getTheme().disabledColor
+	      },
+	      boxWhenDisabled: {
+	        fill: this.getTheme().disabledColor
+	      },
+	      label: {
+	        color: this.props.disabled ? this.getTheme().labelDisabledColor : this.getTheme().labelColor
+	      }
+	    };
+
+	    return styles;
+	  },
+	  isChecked: function isChecked() {
+	    return this.refs.enhancedSwitch.isSwitched();
+	  },
+	  setChecked: function setChecked(newCheckedValue) {
+	    this.refs.enhancedSwitch.setSwitched(newCheckedValue);
+	  },
+	  _handleCheck: function _handleCheck(e, isInputChecked) {
+	    if (this.props.onCheck) this.props.onCheck(e, isInputChecked);
+	  },
+	  _handleStateChange: function _handleStateChange(newSwitched) {
+	    this.setState({ switched: newSwitched });
+	  },
+	  render: function render() {
+	    var _props = this.props;
+	    var iconStyle = _props.iconStyle;
+	    var onCheck = _props.onCheck;
+	    var checkedIcon = _props.checkedIcon;
+	    var unCheckedIcon = _props.unCheckedIcon;
+
+	    var other = _objectWithoutProperties(_props, ['iconStyle', 'onCheck', 'checkedIcon', 'unCheckedIcon']);
+
+	    var styles = this.getStyles();
+	    var boxStyles = this.mergeStyles(styles.box, this.state.switched && styles.boxWhenSwitched, iconStyle, this.props.disabled && styles.boxWhenDisabled);
+	    var checkStyles = this.mergeStyles(styles.check, this.state.switched && styles.checkWhenSwitched, iconStyle, this.props.disabled && styles.checkWhenDisabled);
+
+	    var checkedElement = checkedIcon ? _react2.default.cloneElement(checkedIcon, {
+	      style: this.mergeStyles(checkStyles, checkedIcon.props.style)
+	    }) : _react2.default.createElement(_checkBox2.default, {
+	      style: checkStyles
+	    });
+
+	    var unCheckedElement = unCheckedIcon ? _react2.default.cloneElement(unCheckedIcon, {
+	      style: this.mergeStyles(boxStyles, unCheckedIcon.props.style)
+	    }) : _react2.default.createElement(_checkBoxOutlineBlank2.default, {
+	      style: boxStyles
+	    });
+
+	    var checkboxElement = _react2.default.createElement(
+	      'div',
+	      null,
+	      unCheckedElement,
+	      checkedElement
+	    );
+
+	    var rippleColor = this.state.switched ? checkStyles.fill : boxStyles.fill;
+	    var mergedIconStyle = this.mergeStyles(styles.icon, iconStyle);
+
+	    var labelStyle = this.mergeStyles(styles.label, this.props.labelStyle);
+
+	    var enhancedSwitchProps = {
+	      ref: 'enhancedSwitch',
+	      inputType: 'checkbox',
+	      switched: this.state.switched,
+	      switchElement: checkboxElement,
+	      rippleColor: rippleColor,
+	      iconStyle: mergedIconStyle,
+	      onSwitch: this._handleCheck,
+	      labelStyle: labelStyle,
+	      onParentShouldUpdate: this._handleStateChange,
+	      defaultSwitched: this.props.defaultChecked,
+	      labelPosition: this.props.labelPosition ? this.props.labelPosition : 'right'
+	    };
+
+	    return _react2.default.createElement(_enhancedSwitch2.default, _extends({}, other, enhancedSwitchProps));
+	  }
+	});
+
+	exports.default = Checkbox;
+	module.exports = exports['default'];
+
+/***/ },
+/* 359 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reactAddonsPureRenderMixin = __webpack_require__(249);
+
+	var _reactAddonsPureRenderMixin2 = _interopRequireDefault(_reactAddonsPureRenderMixin);
+
+	var _svgIcon = __webpack_require__(294);
+
+	var _svgIcon2 = _interopRequireDefault(_svgIcon);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var ToggleCheckBoxOutlineBlank = _react2.default.createClass({
+	  displayName: 'ToggleCheckBoxOutlineBlank',
+
+	  mixins: [_reactAddonsPureRenderMixin2.default],
+
+	  render: function render() {
+	    return _react2.default.createElement(
+	      _svgIcon2.default,
+	      this.props,
+	      _react2.default.createElement('path', { d: 'M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z' })
+	    );
+	  }
+	});
+
+	exports.default = ToggleCheckBoxOutlineBlank;
+	module.exports = exports['default'];
+
+/***/ },
+/* 360 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reactAddonsPureRenderMixin = __webpack_require__(249);
+
+	var _reactAddonsPureRenderMixin2 = _interopRequireDefault(_reactAddonsPureRenderMixin);
+
+	var _svgIcon = __webpack_require__(294);
+
+	var _svgIcon2 = _interopRequireDefault(_svgIcon);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var ToggleCheckBox = _react2.default.createClass({
+	  displayName: 'ToggleCheckBox',
+
+	  mixins: [_reactAddonsPureRenderMixin2.default],
+
+	  render: function render() {
+	    return _react2.default.createElement(
+	      _svgIcon2.default,
+	      this.props,
+	      _react2.default.createElement('path', { d: 'M19 3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.11 0 2-.9 2-2V5c0-1.1-.89-2-2-2zm-9 14l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z' })
+	    );
+	  }
+	});
+
+	exports.default = ToggleCheckBox;
+	module.exports = exports['default'];
+
+/***/ },
+/* 361 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _flatButton = __webpack_require__(327);
+
+	var _flatButton2 = _interopRequireDefault(_flatButton);
+
 	var _card = __webpack_require__(343);
 
 	var _card2 = _interopRequireDefault(_card);
@@ -42190,15 +42796,23 @@
 
 	var _cardText2 = _interopRequireDefault(_cardText);
 
-	var _sheetMusicView = __webpack_require__(356);
+	var _iconButton = __webpack_require__(243);
+
+	var _iconButton2 = _interopRequireDefault(_iconButton);
+
+	var _arrowBack = __webpack_require__(362);
+
+	var _arrowBack2 = _interopRequireDefault(_arrowBack);
+
+	var _sheetMusicView = __webpack_require__(363);
 
 	var _sheetMusicView2 = _interopRequireDefault(_sheetMusicView);
 
-	var _keyboardButtons = __webpack_require__(358);
+	var _keyboardButtons = __webpack_require__(365);
 
 	var _keyboardButtons2 = _interopRequireDefault(_keyboardButtons);
 
-	var _midi = __webpack_require__(360);
+	var _midi = __webpack_require__(367);
 
 	var Midi = _interopRequireWildcard(_midi);
 
@@ -42242,6 +42856,15 @@
 	    key: 'r',
 	    value: function r(arr) {
 	      return arr[Math.floor(Math.random() * arr.length)];
+	    }
+	  }, {
+	    key: 'componentWillMount',
+	    value: function componentWillMount() {
+	      this.context.appbar("Sight Reading", _react2.default.createElement(
+	        _iconButton2.default,
+	        null,
+	        _react2.default.createElement(_arrowBack2.default, null)
+	      ));
 	    }
 	  }, {
 	    key: 'componentDidMount',
@@ -42445,12 +43068,54 @@
 	}(_react2.default.Component);
 
 	SightReadingPractice.contextTypes = {
-	  snackbar: _react2.default.PropTypes.func
+	  snackbar: _react2.default.PropTypes.func,
+	  appbar: _react2.default.PropTypes.func
 	};
 	exports.default = SightReadingPractice;
 
 /***/ },
-/* 356 */
+/* 362 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reactAddonsPureRenderMixin = __webpack_require__(249);
+
+	var _reactAddonsPureRenderMixin2 = _interopRequireDefault(_reactAddonsPureRenderMixin);
+
+	var _svgIcon = __webpack_require__(294);
+
+	var _svgIcon2 = _interopRequireDefault(_svgIcon);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var NavigationArrowBack = _react2.default.createClass({
+	  displayName: 'NavigationArrowBack',
+
+	  mixins: [_reactAddonsPureRenderMixin2.default],
+
+	  render: function render() {
+	    return _react2.default.createElement(
+	      _svgIcon2.default,
+	      this.props,
+	      _react2.default.createElement('path', { d: 'M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z' })
+	    );
+	  }
+	});
+
+	exports.default = NavigationArrowBack;
+	module.exports = exports['default'];
+
+/***/ },
+/* 363 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -42469,7 +43134,7 @@
 
 	var ReactDOM = _interopRequireWildcard(_reactDom);
 
-	var _vexflow = __webpack_require__(357);
+	var _vexflow = __webpack_require__(364);
 
 	var _vexflow2 = _interopRequireDefault(_vexflow);
 
@@ -42593,7 +43258,7 @@
 	exports.default = SheetMusicView;
 
 /***/ },
-/* 357 */
+/* 364 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -58464,7 +59129,7 @@
 	//# sourceMappingURL=vexflow-debug.js.map
 
 /***/ },
-/* 358 */
+/* 365 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -58479,7 +59144,7 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _raisedButton = __webpack_require__(359);
+	var _raisedButton = __webpack_require__(366);
 
 	var _raisedButton2 = _interopRequireDefault(_raisedButton);
 
@@ -58574,7 +59239,7 @@
 	exports.default = _class;
 
 /***/ },
-/* 359 */
+/* 366 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -58891,7 +59556,7 @@
 	module.exports = exports['default'];
 
 /***/ },
-/* 360 */
+/* 367 */
 /***/ function(module, exports) {
 
 	"use strict";
