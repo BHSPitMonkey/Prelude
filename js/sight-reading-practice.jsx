@@ -3,6 +3,8 @@ import FlatButton from 'material-ui/lib/flat-button';
 import Card from 'material-ui/lib/card/card';
 import CardTitle from 'material-ui/lib/card/card-title';
 import CardText from 'material-ui/lib/card/card-text';
+import IconButton from 'material-ui/lib/icon-button';
+import NavigationBackIcon from 'material-ui/lib/svg-icons/navigation/arrow-back';
 import SheetMusicView from './sheet-music-view.jsx';
 import KeyboardButtons from './keyboard-buttons.jsx';
 import * as Midi from './midi';
@@ -27,6 +29,13 @@ class SightReadingPractice extends React.Component {
   // Pick random element from an array; TODO: Move this into a utility module
   r(arr) {
     return arr[Math.floor(Math.random() * arr.length)];
+  }
+
+  componentWillMount() {
+    this.context.appbar(
+      "Sight Reading",
+      <IconButton><NavigationBackIcon /></IconButton>
+    );
   }
 
   componentDidMount() {
@@ -214,6 +223,7 @@ class SightReadingPractice extends React.Component {
   }
 }
 SightReadingPractice.contextTypes = {
-  snackbar: React.PropTypes.func
+  snackbar: React.PropTypes.func,
+  appbar: React.PropTypes.func,
 };
 export default SightReadingPractice;

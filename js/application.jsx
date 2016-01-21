@@ -21,7 +21,10 @@ class Application extends React.Component {
       leftNavOpen: false,
       snackbarOpen: false,
       snackbarMessage: "Hi! ^_^",
-      snackbarAutoHideDuration: 1000
+      snackbarAutoHideDuration: 1000,
+      appBarTitle: "Music Trainer",
+      appBarLeftElement: null,
+      appBarRightElement: null,
     };
 
     // Menu items to routes map
@@ -39,7 +42,8 @@ class Application extends React.Component {
   }
   getChildContext() {
     return {
-      snackbar: this.displaySnackbar.bind(this)
+      snackbar: this.displaySnackbar.bind(this),
+      appbar: this.updateAppBar.bind(this),
     };
   }
   toggleLeftNav() {
@@ -65,20 +69,30 @@ class Application extends React.Component {
     this.setState({snackbarOpen: false});
   }
   displaySnackbar(message, duration) {
-    console.log("Type: ", typeof duration);
     this.setState({
       snackbarOpen: true,
       snackbarMessage: message,
       snackbarAutoHideDuration: (typeof duration !== "undefined") ? duration : 1000
     });
   }
+  /**
+   * Used in child contexts to update the app bar
+   */
+  updateAppBar(title, leftElement, rightElement) {
+    this.setState({
+      appBarTitle: title,
+      appBarLeftElement: leftElement,
+      appBarRightElement: rightElement,
+    });
+  }
   render() {
     return (
       <div>
         <AppBar
-          title="Music Trainer"
+          title={this.state.appBarTitle}
+          iconElementLeft={this.state.appBarLeftElement}
+          iconElementRight={this.state.appBarRightElement}
           onLeftIconButtonTouchTap={this.toggleLeftNav}
-          iconClassNameRight="muidocs-icon-navigation-expand-more"
         />
         <LeftNav
           open={this.state.leftNavOpen}
@@ -106,6 +120,7 @@ Application.contextTypes = {
   router: React.PropTypes.object
 };
 Application.childContextTypes = {
-  snackbar: React.PropTypes.func
+  snackbar: React.PropTypes.func,
+  appbar: React.PropTypes.func,
 };
 export default Application;

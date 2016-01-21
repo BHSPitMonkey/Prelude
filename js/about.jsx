@@ -15,7 +15,16 @@ import Card from './common/card.jsx';
 /**
  * Component providing the About screen
  */
-export default class extends React.Component {
+class About extends React.Component {
+  constructor(props) {
+    super(props);
+
+    // Prebind custom methods
+    this.componentWillMount = this.componentWillMount.bind(this);
+  }
+  componentWillMount() {
+    this.context.appbar("About");
+  }
   render() {
     let linkDefs = [
       {
@@ -55,3 +64,8 @@ export default class extends React.Component {
     )
   }
 }
+About.contextTypes = {
+  snackbar: React.PropTypes.func,
+  appbar: React.PropTypes.func,
+};
+export default About;

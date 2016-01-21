@@ -9,7 +9,16 @@ import TipCard from './common/tip-card.jsx';
 /**
  * Component providing the main/home screen
  */
-export default class extends React.Component {
+class Home extends React.Component {
+  constructor(props) {
+    super(props);
+
+    // Prebind custom methods
+    this.componentWillMount = this.componentWillMount.bind(this);
+  }
+  componentWillMount() {
+    this.context.appbar("Music Trainer");
+  }
   render() {
     // Logic behind display of Add To Home Screen cards
     let addToHomeCard = null;
@@ -66,3 +75,8 @@ export default class extends React.Component {
     )
   }
 }
+Home.contextTypes = {
+  snackbar: React.PropTypes.func,
+  appbar: React.PropTypes.func,
+};
+export default Home;
