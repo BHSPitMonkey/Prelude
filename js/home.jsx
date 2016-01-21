@@ -27,14 +27,18 @@ export default class extends React.Component {
         );
       } else {
         addToHomeCard = (
-          <Card><CardText>Thanks for adding Music Trainer to your home screen!</CardText></Card>
+          <Card>
+            <CardText>Thanks for adding Music Trainer to your home screen!</CardText>
+          </Card>
         );
       }
     } else {
       // Assume Chrome for Android
       if (query.homescreen == "1") {
         addToHomeCard = (
-          <Card>Thanks for adding Music Trainer to your home screen!</Card>
+          <Card>
+            <CardText>Thanks for adding Music Trainer to your home screen!</CardText>
+          </Card>
         );
       } else {
         addToHomeCard = (
