@@ -1,5 +1,4 @@
 import React from 'react';
-import Card from 'material-ui/lib/card/card';
 import CardActions from 'material-ui/lib/card/card-actions';
 import CardHeader from 'material-ui/lib/card/card-header';
 import CardMedia from 'material-ui/lib/card/card-media';
@@ -11,6 +10,7 @@ import ListItem from 'material-ui/lib/lists/list-item';
 import CodeIcon from 'material-ui/lib/svg-icons/action/code';
 import PersonIcon from 'material-ui/lib/svg-icons/social/person';
 import OpenInNewIcon from 'material-ui/lib/svg-icons/action/open-in-new';
+import Card from './common/card.jsx';
 
 /**
  * Component providing the About screen
