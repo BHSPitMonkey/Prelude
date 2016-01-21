@@ -40229,7 +40229,11 @@
 	          addToHomeCard = _react2.default.createElement(
 	            _card2.default,
 	            null,
-	            'Thanks for adding Music Trainer to your home screen!'
+	            _react2.default.createElement(
+	              _cardText2.default,
+	              null,
+	              'Thanks for adding Music Trainer to your home screen!'
+	            )
 	          );
 	        } else {
 	          addToHomeCard = _react2.default.createElement(
