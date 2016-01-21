@@ -29,7 +29,7 @@ export default class extends React.Component {
             You can connect your favorite MIDI instrument and use it to answer note identification challenges!
           </CardText>
         </Card>
-        { // TODO: Only display this tip where supported, and don't show it if user is already in webapp mode }
+        { /* TODO: Only display this tip where supported, and don't show it if user is already in webapp mode */ }
         <Card style={cardStyle}>
           <CardHeader
             title="Tip"
