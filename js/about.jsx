@@ -41,11 +41,11 @@ class About extends React.Component {
     return (
       <Card style={{maxWidth: "600px", margin: "0 auto"}}>
         <CardHeader
-          title="Music Trainer"
+          title="Prelude"
           subtitle="Version TODO"
           avatar="img/icon-square.svg"/>
           <CardText>
-            <p>Music Trainer is a modern web application for helping you practice your musical abilities.</p>
+            <p>Prelude is a modern web application for helping you practice your musical abilities.</p>
             <p>The application was built by Stephen Eisenhauer using React, Material-UI, and VexFlow.</p>
           </CardText>
         <List>

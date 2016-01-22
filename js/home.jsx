@@ -17,7 +17,7 @@ class Home extends React.Component {
     this.componentWillMount = this.componentWillMount.bind(this);
   }
   componentWillMount() {
-    this.context.appbar("Music Trainer");
+    this.context.appbar("Prelude");
   }
   render() {
     // Logic behind display of Add To Home Screen cards
@@ -37,7 +37,7 @@ class Home extends React.Component {
       } else {
         addToHomeCard = (
           <Card>
-            <CardText>Thanks for adding Music Trainer to your home screen!</CardText>
+            <CardText>Thanks for adding Prelude to your home screen!</CardText>
           </Card>
         );
       }
@@ -46,7 +46,7 @@ class Home extends React.Component {
       if (query.homescreen == "1") {
         addToHomeCard = (
           <Card>
-            <CardText>Thanks for adding Music Trainer to your home screen!</CardText>
+            <CardText>Thanks for adding Prelude to your home screen!</CardText>
           </Card>
         );
       } else {

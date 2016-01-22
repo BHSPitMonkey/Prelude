@@ -22,7 +22,7 @@ class Application extends React.Component {
       snackbarOpen: false,
       snackbarMessage: "Hi! ^_^",
       snackbarAutoHideDuration: 1000,
-      appBarTitle: "Music Trainer",
+      appBarTitle: "Prelude",
       appBarLeftElement: null,
       appBarRightElement: null,
     };

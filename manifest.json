@@ -1,7 +1,7 @@
 {
   "lang": "en",
-  "name": "Music Trainer",
-  "short_name": "Music Trainer",
+  "name": "Prelude",
+  "short_name": "Prelude",
   "start_url": "./#/?homescreen=1",
   "display": "standalone",
   "theme_color": "#00bcd4",

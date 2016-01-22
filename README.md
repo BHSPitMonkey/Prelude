@@ -1,4 +1,4 @@
-# Music Trainer (working title)
+# Prelude
 
 A web application made for practicing reading sheet music, and perhaps more.
 
