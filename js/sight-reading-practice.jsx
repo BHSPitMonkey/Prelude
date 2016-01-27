@@ -3,8 +3,6 @@ import FlatButton from 'material-ui/lib/flat-button';
 import Card from 'material-ui/lib/card/card';
 import CardTitle from 'material-ui/lib/card/card-title';
 import CardText from 'material-ui/lib/card/card-text';
-import IconButton from 'material-ui/lib/icon-button';
-import NavigationBackIcon from 'material-ui/lib/svg-icons/navigation/arrow-back';
 import SheetMusicView from './sheet-music-view.jsx';
 import KeyboardButtons from './keyboard-buttons.jsx';
 import * as Midi from './midi';
@@ -29,13 +27,6 @@ class SightReadingPractice extends React.Component {
   // Pick random element from an array; TODO: Move this into a utility module
   r(arr) {
     return arr[Math.floor(Math.random() * arr.length)];
-  }
-
-  componentWillMount() {
-    this.context.appbar(
-      "Sight Reading",
-      <IconButton><NavigationBackIcon /></IconButton>
-    );
   }
 
   componentDidMount() {
@@ -117,8 +108,21 @@ class SightReadingPractice extends React.Component {
   getRandomState() {
     var r = this.r;
 
-    // Pick a clef and octave
-    var clef = r(['treble', 'bass']);
+    // Pick a clef (probably should just do this once in the constructor or componentWillMount)
+    let allClefs = ['treble', 'bass'];
+    let clefs = [];
+    allClefs.forEach((clef) => {
+      if (this.props.prefs["clefs." + clef] == true) {
+        clefs.push(clef);
+      }
+    });
+    if (clefs.length == 0) {
+      console.log("No clefs were selected; Defaulting to all clefs.");
+      clefs = allClefs;
+    }
+    let clef = r(clefs);
+
+    // Pick a suitable octave for the clef
     var octaves = (clef == 'bass') ? ['2', '3'] : ['4', '5'];
     var octave = r(octaves);
 
@@ -132,11 +136,10 @@ class SightReadingPractice extends React.Component {
     }
 
     // Now we know a key signature; Do we want to just choose a key within it, or allow for accidentals?
-    var includeAccidentals = true; // TODO: Make a setting
     var baseKeys = ['c', 'd', 'e', 'f', 'g', 'a', 'b'];
     var key = r(baseKeys);
     var modifier = null;
-    if (includeAccidentals) {
+    if (this.props.prefs.accidentals) {
       var useAccidental = r([true, false]);
       if (useAccidental) {
         // Only add a sharp to a key that can receive it
