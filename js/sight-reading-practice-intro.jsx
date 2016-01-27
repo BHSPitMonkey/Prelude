@@ -3,42 +3,11 @@ import FlatButton from 'material-ui/lib/flat-button';
 import IconButton from 'material-ui/lib/icon-button';
 import NavigationBackIcon from 'material-ui/lib/svg-icons/navigation/arrow-back';
 import List from 'material-ui/lib/lists/list';
-import ListItem from 'material-ui/lib/lists/list-item';
 import Divider from 'material-ui/lib/divider';
-import Checkbox from 'material-ui/lib/checkbox';
-import Toggle from 'material-ui/lib/toggle';
 import SightReadingPractice from './sight-reading-practice.jsx';
 import Card from './common/card.jsx';
-
-class PrefsToggle extends React.Component {
-  render() {
-    return (
-      <ListItem
-        primaryText={this.props.text}
-        rightToggle={<Toggle
-          name={this.props.name}
-          defaultToggled={this.props.defaultState}
-          onToggle={this.props.onSwitch}
-        />}
-      />
-    );
-  }
-}
-
-class PrefsCheckbox extends React.Component {
-  render() {
-    return (
-      <ListItem
-        primaryText={this.props.text}
-        leftCheckbox={<Checkbox
-          name={this.props.name}
-          defaultChecked={this.props.defaultState}
-          onCheck={this.props.onSwitch}
-        />}
-      />
-    );
-  }
-}
+import PrefsToggle from './common/prefs-toggle.jsx';
+import PrefsCheckbox from './common/prefs-checkbox.jsx';
 
 /**
  * Intro screen for the Sight Reading practice mode
