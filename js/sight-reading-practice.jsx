@@ -42,8 +42,6 @@ class SightReadingPractice extends React.Component {
    * Handler for after we've been granted the MIDI access we requested at launch
    */
   onMidiAccessGranted(midi) {
-    console.log("Got midi access: ", midi);
-
     // Loop over all midi inputs
     var inputs = midi.inputs.values();
     var connected = false;
@@ -78,11 +76,9 @@ class SightReadingPractice extends React.Component {
    * Handler for when a new MIDI message arrives from an input port
    */
   onMidiMessage(message) {
-    console.log("Got message", message.data, this);
     var type     = message.data[0],
         note     = message.data[1],
         velocity = message.data[2];
-    console.log("type: ", type);
 
     // 144 means Note On
     if (type == Midi.Types.NoteOn) {
@@ -127,8 +123,7 @@ class SightReadingPractice extends React.Component {
     var octave = r(octaves);
 
     // Pick a key signature
-    var randomizeKeySignature = false; // TODO: Make a setting
-    if (randomizeKeySignature) {
+    if (this.props.prefs.randomizeKeySignature) {
       var keySignatures = Object.keys(Vex.Flow.keySignature.keySpecs);
       var keySignature = r(keySignatures);
     } else {
@@ -167,7 +162,6 @@ class SightReadingPractice extends React.Component {
   newQuestion() {
     var newState = this.getRandomState();
     this.setState(newState);
-    console.log("New question is: ", newState.key);
   }
 
   /**

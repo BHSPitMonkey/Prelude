@@ -10,6 +10,36 @@ import Toggle from 'material-ui/lib/toggle';
 import SightReadingPractice from './sight-reading-practice.jsx';
 import Card from './common/card.jsx';
 
+class PrefsToggle extends React.Component {
+  render() {
+    return (
+      <ListItem
+        primaryText={this.props.text}
+        rightToggle={<Toggle
+          name={this.props.name}
+          defaultToggled={this.props.defaultState}
+          onToggle={this.props.onSwitch}
+        />}
+      />
+    );
+  }
+}
+
+class PrefsCheckbox extends React.Component {
+  render() {
+    return (
+      <ListItem
+        primaryText={this.props.text}
+        leftCheckbox={<Checkbox
+          name={this.props.name}
+          defaultChecked={this.props.defaultState}
+          onCheck={this.props.onSwitch}
+        />}
+      />
+    );
+  }
+}
+
 /**
  * Intro screen for the Sight Reading practice mode
  *
@@ -26,6 +56,9 @@ class SightReadingPracticeIntro extends React.Component {
         prefs = JSON.stringify({
             "clefs.treble": true,
             "clefs.bass": true,
+            "types.single": true,
+            "types.chords": false,
+            "types.clusters": false,
             randomizeKeySignature: false,
             accidentals: true,
         });
@@ -43,23 +76,28 @@ class SightReadingPracticeIntro extends React.Component {
     this.end = this.end.bind(this);
     this.onToggle = this.onToggle.bind(this);
   }
+
   /**
    * Save the prefs currently in the state into localStorage
    */
   persistPrefs() {
     localStorage["prefs.sightReading"] = JSON.stringify(this.state.prefs);
   }
+
   /**
-   * Overridden setState which persists prefs to localStorage afterward
+   * Overridden setState which persists prefs changes to localStorage
    */
   setState(changes) {
     super.setState(changes);
-    // TODO: Only do this if prefs is part of the changes
-    this.persistPrefs();
+    if ('prefs' in changes) {
+      this.persistPrefs();
+    }
   }
+
   componentWillMount() {
     this.end();
   }
+
   /**
    * Begin the practice session
    * TODO: Possibly do this using routing in the future
@@ -72,6 +110,10 @@ class SightReadingPracticeIntro extends React.Component {
       <IconButton onTouchTap={this.end}><NavigationBackIcon /></IconButton>
     );
   }
+
+  /**
+   * End the practice session and return to the intro/prefs screen
+   */
   end() {
     this.setState({started: false});
     this.context.appbar(
@@ -80,6 +122,7 @@ class SightReadingPracticeIntro extends React.Component {
       <FlatButton label="Start" onTouchTap={this.start} />
     );
   }
+
   /**
    * Handler for all toggle switches and checkboxes
    */
@@ -87,9 +130,9 @@ class SightReadingPracticeIntro extends React.Component {
     let name = e.target.name;
     let prefs = this.state.prefs;
     prefs[name] = enabled;
-    console.log(prefs);
     this.setState({prefs: prefs});
   }
+
   render() {
     if (this.state.started) {
       return (
@@ -99,19 +142,19 @@ class SightReadingPracticeIntro extends React.Component {
       return (
         <Card>
           <List subheader="Which clef(s) would you like to practice?">
-            <ListItem primaryText="Treble clef" leftCheckbox={<Checkbox name="clefs.treble" defaultChecked={this.state.prefs["clefs.treble"]} onCheck={this.onToggle} />} />
-            <ListItem primaryText="Bass clef" leftCheckbox={<Checkbox name="clefs.bass" defaultChecked={this.state.prefs["clefs.bass"]} onCheck={this.onToggle} />} />
+            <PrefsCheckbox text="Treble clef" name="clefs.treble" defaultState={this.state.prefs["clefs.treble"]} onSwitch={this.onToggle} />
+            <PrefsCheckbox text="Bass clef" name="clefs.bass" defaultState={this.state.prefs["clefs.bass"]} onSwitch={this.onToggle} />
           </List>
           <Divider />
           <List subheader="Which would you like to include?">
-            <ListItem primaryText="Single notes" leftCheckbox={<Checkbox />} />
-            <ListItem primaryText="Chords" leftCheckbox={<Checkbox />} />
-            <ListItem primaryText="Non-chordal clusters" leftCheckbox={<Checkbox />} />
+            <PrefsCheckbox text="Single notes" name="types.single" defaultState={this.state.prefs["types.single"]} onSwitch={this.onToggle} />
+            <PrefsCheckbox text="Chords" name="types.chords" defaultState={this.state.prefs["types.chords"]} onSwitch={this.onToggle} />
+            <PrefsCheckbox text="Non-chordal clusters" name="types.clusters" defaultState={this.state.prefs["types.clusters"]} onSwitch={this.onToggle} />
           </List>
           <Divider />
           <List subheader="Other options">
-            <ListItem primaryText="Randomize key signature" rightToggle={<Toggle name="randomizeKeySignature" defaultToggled={this.state.prefs.randomizeKeySignature} onToggle={this.onToggle} />} />
-            <ListItem primaryText="Include accidentals" rightToggle={<Toggle name="accidentals" defaultToggled={this.state.prefs.accidentals} onToggle={this.onToggle} />} />
+            <PrefsToggle text="Randomize key signature" name="randomizeKeySignature" defaultState={this.state.prefs.randomizeKeySignature} onSwitch={this.onToggle} />
+            <PrefsToggle text="Include accidentals" name="accidentals" defaultState={this.state.prefs.accidentals} onSwitch={this.onToggle} />
           </List>
         </Card>
       );

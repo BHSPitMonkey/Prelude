@@ -63,7 +63,6 @@ class SheetMusicView extends React.Component {
     for (var i=0; i<this.props.keys.length; i++) {
       var key = this.props.keys[i].key;
       if (key.length > 1) {
-        console.log("Adding accidental", key[1], "at index", i, "for key", key);
         staveNote = staveNote.addAccidental(i, new Vex.Flow.Accidental(key[1]));
       }
     }
