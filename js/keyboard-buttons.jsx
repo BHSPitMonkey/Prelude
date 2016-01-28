@@ -15,7 +15,9 @@ export default class extends React.Component {
   onButtonPress(event) {
     let key = event.target.getAttribute('data-key');
     this.props.onEntry(key);
-    this.synth.play(key, 0.25);
+    if (this.props.enableSound) {
+      this.synth.play(key, 0.25);
+    }
   }
   renderKey(key) {
     var showLabels = this.props.showLabels;

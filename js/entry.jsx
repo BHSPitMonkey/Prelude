@@ -6,6 +6,7 @@ import Application from './application.jsx';
 import Home from './home.jsx';
 import About from './about.jsx';
 import SightReadingPracticeIntro from './sight-reading-practice-intro.jsx';
+import PerfectPitchPracticeIntro from './perfect-pitch-practice-intro.jsx';
 
 // Needed by Material UI
 injectTapEventPlugin();
@@ -17,6 +18,7 @@ render(
       <IndexRoute component={Home} />
       <Route path="about" component={About}/>
       <Route path="sightReading" component={SightReadingPracticeIntro}/>
+      <Route path="perfectPitch" component={PerfectPitchPracticeIntro}/>
       <Route path="*" component={Home}/>
     </Route>
   </Router>,

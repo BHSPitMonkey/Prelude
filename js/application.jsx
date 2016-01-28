@@ -7,6 +7,7 @@ import Snackbar from 'material-ui/lib/snackbar';
 import HomeIcon from 'material-ui/lib/svg-icons/action/home';
 import InfoIcon from 'material-ui/lib/svg-icons/action/info';
 import MusicNoteIcon from 'material-ui/lib/svg-icons/image/music-note';
+import HearingIcon from 'material-ui/lib/svg-icons/av/hearing';
 
 /**
  * Top-level application component
@@ -31,6 +32,7 @@ class Application extends React.Component {
     this.menuItems = {
       "Home": { route: "/", icon: <HomeIcon /> },
       "Sight Reading Practice": { route: "/sightReading", icon: <MusicNoteIcon /> },
+      "Perfect Pitch Practice": { route: "/perfectPitch", icon: <HearingIcon /> },
       "About": { route: "/about", icon: <InfoIcon /> }
     };
 

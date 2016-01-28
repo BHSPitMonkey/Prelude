@@ -1,24 +1,29 @@
 import React from 'react';
 import FlatButton from 'material-ui/lib/flat-button';
+import FloatingActionButton from 'material-ui/lib/floating-action-button';
+import PlayArrow from 'material-ui/lib/svg-icons/av/play-arrow';
 import Card from 'material-ui/lib/card/card';
 import CardTitle from 'material-ui/lib/card/card-title';
 import CardText from 'material-ui/lib/card/card-text';
-import SheetMusicView from './sheet-music-view.jsx';
 import KeyboardButtons from './keyboard-buttons.jsx';
 import * as Midi from './midi';
+import Synth from './synth.js';
 
 /**
  * Component providing the sight reading practice game (in entirety)
  */
-class SightReadingPractice extends React.Component {
+class PerfectPitchPractice extends React.Component {
   constructor(props) {
     super(props);
 
     // Initial state
     this.state = this.getRandomState();
 
+    this.synth = new Synth();
+
     // Prebind custom methods
     this.newQuestion = this.newQuestion.bind(this);
+    this.playSound = this.playSound.bind(this);
     this.handleGuess = this.handleGuess.bind(this);
     this.componentDidMount = this.componentDidMount.bind(this);
     this.onMidiAccessGranted = this.onMidiAccessGranted.bind(this);
@@ -87,11 +92,7 @@ class SightReadingPractice extends React.Component {
       var key = keys[note % 12];
       var octave = Math.floor(note/12) - 1;
       if (this.state.key.key == key) {
-        if (this.state.key.octave == octave) {
-          this.correctGuess();
-        } else {
-          this.context.snackbar("Check your octave...");
-        }
+        this.correctGuess();
       } else {
         this.incorrectGuess();
       }
@@ -103,32 +104,6 @@ class SightReadingPractice extends React.Component {
    */
   getRandomState() {
     var r = this.r;
-
-    // Pick a clef (probably should just do this once in the constructor or componentWillMount)
-    let allClefs = ['treble', 'bass'];
-    let clefs = [];
-    allClefs.forEach((clef) => {
-      if (this.props.prefs["clefs." + clef] == true) {
-        clefs.push(clef);
-      }
-    });
-    if (clefs.length == 0) {
-      console.log("No clefs were selected; Defaulting to all clefs.");
-      clefs = allClefs;
-    }
-    let clef = r(clefs);
-
-    // Pick a suitable octave for the clef
-    var octaves = (clef == 'bass') ? ['2', '3'] : ['4', '5'];
-    var octave = r(octaves);
-
-    // Pick a key signature
-    if (this.props.prefs.randomizeKeySignature) {
-      var keySignatures = Object.keys(Vex.Flow.keySignature.keySpecs);
-      var keySignature = r(keySignatures);
-    } else {
-      var keySignature = 'C';
-    }
 
     // Now we know a key signature; Do we want to just choose a key within it, or allow for accidentals?
     var baseKeys = ['c', 'd', 'e', 'f', 'g', 'a', 'b'];
@@ -143,16 +118,10 @@ class SightReadingPractice extends React.Component {
         }
         // TODO: key += r(['#', 'b']) (Guess checker can't handle flats yet)
       }
-      //if (['c', ''])
-      //var keys = ['c', 'c#', 'd', 'd#', 'e', 'f', 'f#', 'g', 'g#', 'a', 'a#', 'b'];
-      //var keys = ['c#', 'd#', 'f#', 'g#', 'a#'];
-      //var key = r(keys);
     }
 
     return {
-      clef: clef,
-      keySignature: keySignature,
-      key: {key:key, modifier:modifier, octave:octave}
+      key: {key:key, modifier:modifier}
     };
   }
 
@@ -162,6 +131,14 @@ class SightReadingPractice extends React.Component {
   newQuestion() {
     var newState = this.getRandomState();
     this.setState(newState);
+    this.playSound(null, newState.key.key);
+  }
+
+  playSound(event, key) {
+    if (key === undefined) {
+      key = this.state.key.key;
+    }
+    this.synth.play(key, 1.0);
   }
 
   /**
@@ -209,18 +186,22 @@ class SightReadingPractice extends React.Component {
   render() {
     return (
       <Card className="rx-sight-reading-practice" style={{maxWidth: "600px", margin: "0 auto"}}>
-        <CardTitle title="What note is shown below?" />
+        <CardTitle title="What note is being played?" />
         <CardText>
-          <SheetMusicView clef={this.state.clef} keySignature={this.state.keySignature} keys={[this.state.key]} />
-          <KeyboardButtons onEntry={this.handleGuess} style={{margin: "10px auto"}} showLabels={this.props.prefs["keyboardLabels"]} enableSound={true} />
+          <div style={{textAlign: "center"}}>
+            <FloatingActionButton onTouchTap={this.playSound} style={{textAlign: "center", margin: "20px auto 40px"}}>
+              <PlayArrow />
+            </FloatingActionButton>
+          </div>
+          <KeyboardButtons onEntry={this.handleGuess} style={{margin: "10px auto"}} showLabels={this.props.prefs["keyboardLabels"]} enableSound={false} />
           <FlatButton label="Skip" onTouchTap={this.newQuestion} style={{display: "block", margin: "40px auto 20px"}} />
         </CardText>
       </Card>
     )
   }
 }
-SightReadingPractice.contextTypes = {
+PerfectPitchPractice.contextTypes = {
   snackbar: React.PropTypes.func,
   appbar: React.PropTypes.func,
 };
-export default SightReadingPractice;
+export default PerfectPitchPractice;
