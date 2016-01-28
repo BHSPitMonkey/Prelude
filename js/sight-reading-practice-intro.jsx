@@ -30,6 +30,7 @@ class SightReadingPracticeIntro extends React.Component {
             "types.clusters": false,
             randomizeKeySignature: false,
             accidentals: true,
+            keyboardLabels: true,
         });
     }
 
@@ -124,6 +125,7 @@ class SightReadingPracticeIntro extends React.Component {
           <List subheader="Other options">
             <PrefsToggle text="Randomize key signature" name="randomizeKeySignature" defaultState={this.state.prefs.randomizeKeySignature} onSwitch={this.onToggle} />
             <PrefsToggle text="Include accidentals" name="accidentals" defaultState={this.state.prefs.accidentals} onSwitch={this.onToggle} />
+            <PrefsToggle text="Show keyboard labels" name="keyboardLabels" defaultState={this.state.prefs.keyboardLabels} onSwitch={this.onToggle} />
           </List>
         </Card>
       );

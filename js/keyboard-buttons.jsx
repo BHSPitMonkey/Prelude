@@ -1,19 +1,24 @@
 import React from 'react';
 import RaisedButton from 'material-ui/lib/raised-button';
 import Colors from 'material-ui/lib/styles/colors';
+import Synth from './synth.js';
 
 export default class extends React.Component {
   constructor(props) {
     super(props);
 
+    this.synth = new Synth();
+
     // Prebind custom methods
     this.onButtonPress = this.onButtonPress.bind(this);
   }
-  onButtonPress(event, arg2) {
-    this.props.onEntry(event.target.getAttribute('data-key'));
+  onButtonPress(event) {
+    let key = event.target.getAttribute('data-key');
+    this.props.onEntry(key);
+    this.synth.play(key, 0.25);
   }
   renderKey(key) {
-    var showLabels = true; // TODO: Make setting
+    var showLabels = this.props.showLabels;
     var text = showLabels ? key : '';
     var accidental = (key.length > 1);
     var buttonWidth = "40px";

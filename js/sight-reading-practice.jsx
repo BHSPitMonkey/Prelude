@@ -212,7 +212,7 @@ class SightReadingPractice extends React.Component {
         <CardTitle title="What note is shown below?" />
         <CardText>
           <SheetMusicView clef={this.state.clef} keySignature={this.state.keySignature} keys={[this.state.key]} />
-          <KeyboardButtons onEntry={this.handleGuess} style={{margin: "10px auto"}} />
+          <KeyboardButtons onEntry={this.handleGuess} style={{margin: "10px auto"}} showLabels={this.props.prefs["keyboardLabels"]} />
           <FlatButton label="Skip" onTouchTap={this.newQuestion} style={{display: "block", margin: "40px auto 20px"}} />
         </CardText>
       </Card>
