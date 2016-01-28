@@ -81,7 +81,7 @@ class PerfectPitchPracticeIntro extends React.Component {
   end() {
     this.setState({started: false});
     this.context.appbar(
-      "Sight Reading",
+      "Perfect Pitch",
       null,
       <FlatButton label="Start" onTouchTap={this.start} />
     );

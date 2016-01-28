@@ -95,6 +95,7 @@ class Application extends React.Component {
           iconElementLeft={this.state.appBarLeftElement}
           iconElementRight={this.state.appBarRightElement}
           onLeftIconButtonTouchTap={this.toggleLeftNav}
+          style={{position: "fixed", top: 0, left: 0}}
         />
         <LeftNav
           open={this.state.leftNavOpen}
@@ -107,7 +108,7 @@ class Application extends React.Component {
             }.bind(this))
           }
         </LeftNav>
-        <div style={{padding: "10px"}}>{this.props.children}</div>
+        <div style={{padding: "74px 10px 10px 10px"}}>{this.props.children}</div>
         <Snackbar
           open={this.state.snackbarOpen}
           message={this.state.snackbarMessage}

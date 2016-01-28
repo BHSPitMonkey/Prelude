@@ -10,7 +10,7 @@ import * as Midi from './midi';
 import Synth from './synth.js';
 
 /**
- * Component providing the sight reading practice game (in entirety)
+ * Component providing the perfect pitch practice game (in entirety)
  */
 class PerfectPitchPractice extends React.Component {
   constructor(props) {
@@ -185,7 +185,7 @@ class PerfectPitchPractice extends React.Component {
 
   render() {
     return (
-      <Card className="rx-sight-reading-practice" style={{maxWidth: "600px", margin: "0 auto"}}>
+      <Card className="rx-perfect-pitch-practice" style={{maxWidth: "600px", margin: "0 auto"}}>
         <CardTitle title="What note is being played?" />
         <CardText>
           <div style={{textAlign: "center"}}>
