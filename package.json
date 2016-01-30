@@ -1,5 +1,5 @@
 {
-  "name": "midi-theory",
+  "name": "Prelude",
   "version": "0.0.1",
   "description": "Music theory practice in the browser with MIDI",
   "main": "index.js",
@@ -24,7 +24,8 @@
   },
   "scripts": {
     "start": "webpack-dev-server --hot --progress --colors --host 0.0.0.0",
-    "build": "webpack --progress --colors"
+    "make-dist": "webpack --output-source-map --optimize-minimize --progress --colors && cp -r index.html manifest.json css img build",
+    "clean": "rm -rf build"
   },
   "repository": {
     "type": "git",
