@@ -73,6 +73,16 @@ class SightReadingPracticeIntro extends React.Component {
   }
 
   /**
+   * We need to disable nosleep on unmount in case the user leaves the practice session by some other means than by
+   * using the back button in the AppBar (e.g. by using their browser navigation)
+   */
+  componentWillUnmount() {
+    if (this.state.prefs.preventSleep) {
+      this.nosleep.disable();
+    }
+  }
+
+  /**
    * Begin the practice session
    * TODO: Possibly do this using routing in the future
    * TODO: If we use routing, maybe pass the options as query params in the URL (would allow deep-linking to specific modes)
