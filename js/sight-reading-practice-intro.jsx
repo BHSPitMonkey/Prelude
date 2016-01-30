@@ -4,6 +4,7 @@ import IconButton from 'material-ui/lib/icon-button';
 import NavigationBackIcon from 'material-ui/lib/svg-icons/navigation/arrow-back';
 import List from 'material-ui/lib/lists/list';
 import Divider from 'material-ui/lib/divider';
+import NoSleep from "nosleep";
 import SightReadingPractice from './sight-reading-practice.jsx';
 import Card from './common/card.jsx';
 import PrefsToggle from './common/prefs-toggle.jsx';
@@ -31,6 +32,7 @@ class SightReadingPracticeIntro extends React.Component {
             randomizeKeySignature: false,
             accidentals: true,
             keyboardLabels: true,
+            preventSleep: true,
         });
     }
 
@@ -39,6 +41,8 @@ class SightReadingPracticeIntro extends React.Component {
       started: false,
       prefs: JSON.parse(prefs),
     };
+
+    this.nosleep = new NoSleep();
 
     // Prebind custom methods
     this.componentWillMount = this.componentWillMount.bind(this);
@@ -79,6 +83,11 @@ class SightReadingPracticeIntro extends React.Component {
       "Sight Reading",
       <IconButton onTouchTap={this.end}><NavigationBackIcon /></IconButton>
     );
+
+    // Prevent device from going to sleep
+    if (this.state.prefs.preventSleep) {
+      this.nosleep.enable();
+    }
   }
 
   /**
@@ -91,6 +100,11 @@ class SightReadingPracticeIntro extends React.Component {
       null,
       <FlatButton label="Start" onTouchTap={this.start} />
     );
+
+    // Allow device to sleep again
+    if (this.state.prefs.preventSleep) {
+      this.nosleep.disable();
+    }
   }
 
   /**
@@ -126,6 +140,7 @@ class SightReadingPracticeIntro extends React.Component {
             <PrefsToggle text="Randomize key signature" name="randomizeKeySignature" defaultState={this.state.prefs.randomizeKeySignature} onSwitch={this.onToggle} />
             <PrefsToggle text="Include accidentals" name="accidentals" defaultState={this.state.prefs.accidentals} onSwitch={this.onToggle} />
             <PrefsToggle text="Show keyboard labels" name="keyboardLabels" defaultState={this.state.prefs.keyboardLabels} onSwitch={this.onToggle} />
+            <PrefsToggle text="Prevent screen from dimming" name="preventSleep" defaultState={this.state.prefs.preventSleep} onSwitch={this.onToggle} />
           </List>
         </Card>
       );
