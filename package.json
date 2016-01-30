@@ -27,9 +27,9 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@bitbucket.org/BHSPitMonkey/midi-theory.git"
+    "url": "git+ssh://git@bitbucket.org/BHSPitMonkey/Prelude.git"
   },
   "author": "Stephen Eisenhauer",
   "license": "MIT",
-  "homepage": "https://bitbucket.org/BHSPitMonkey/midi-theory#readme"
+  "homepage": "https://bitbucket.org/BHSPitMonkey/Prelude#readme"
 }
