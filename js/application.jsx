@@ -8,6 +8,7 @@ import HomeIcon from 'material-ui/lib/svg-icons/action/home';
 import InfoIcon from 'material-ui/lib/svg-icons/action/info';
 import MusicNoteIcon from 'material-ui/lib/svg-icons/image/music-note';
 import HearingIcon from 'material-ui/lib/svg-icons/av/hearing';
+import Synth from './synth.js';
 
 /**
  * Top-level application component
@@ -36,6 +37,10 @@ class Application extends React.Component {
       "About": { route: "/about", icon: <InfoIcon /> }
     };
 
+    // Create a Synth for children to share, so that only one AudioContext gets used
+    // (The browser/OS limits the number of these)
+    this.synth = new Synth();
+
     // Prebind custom methods
     this.toggleLeftNav = this.toggleLeftNav.bind(this);
     this.leftNavRequestChange = this.leftNavRequestChange.bind(this);
@@ -46,6 +51,7 @@ class Application extends React.Component {
     return {
       snackbar: this.displaySnackbar.bind(this),
       appbar: this.updateAppBar.bind(this),
+      synth: this.synth,
     };
   }
   toggleLeftNav() {
@@ -125,5 +131,6 @@ Application.contextTypes = {
 Application.childContextTypes = {
   snackbar: React.PropTypes.func,
   appbar: React.PropTypes.func,
+  synth: React.PropTypes.object,
 };
 export default Application;

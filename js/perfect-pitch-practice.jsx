@@ -7,7 +7,6 @@ import CardTitle from 'material-ui/lib/card/card-title';
 import CardText from 'material-ui/lib/card/card-text';
 import KeyboardButtons from './keyboard-buttons.jsx';
 import * as Midi from './midi';
-import Synth from './synth.js';
 
 /**
  * Component providing the perfect pitch practice game (in entirety)
@@ -18,8 +17,6 @@ class PerfectPitchPractice extends React.Component {
 
     // Initial state
     this.state = this.getRandomState();
-
-    this.synth = new Synth();
 
     // Prebind custom methods
     this.newQuestion = this.newQuestion.bind(this);
@@ -138,7 +135,7 @@ class PerfectPitchPractice extends React.Component {
     if (key === undefined) {
       key = this.state.key.key;
     }
-    this.synth.play(key, 1.0);
+    this.context.synth.play(key, 1.0);
   }
 
   /**
@@ -203,5 +200,6 @@ class PerfectPitchPractice extends React.Component {
 PerfectPitchPractice.contextTypes = {
   snackbar: React.PropTypes.func,
   appbar: React.PropTypes.func,
+  synth: React.PropTypes.object,
 };
 export default PerfectPitchPractice;

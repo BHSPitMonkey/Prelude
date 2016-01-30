@@ -1,13 +1,10 @@
 import React from 'react';
 import RaisedButton from 'material-ui/lib/raised-button';
 import Colors from 'material-ui/lib/styles/colors';
-import Synth from './synth.js';
 
-export default class extends React.Component {
+class KeyboardButtons extends React.Component {
   constructor(props) {
     super(props);
-
-    this.synth = new Synth();
 
     // Prebind custom methods
     this.onButtonPress = this.onButtonPress.bind(this);
@@ -16,7 +13,7 @@ export default class extends React.Component {
     let key = event.target.getAttribute('data-key');
     this.props.onEntry(key);
     if (this.props.enableSound) {
-      this.synth.play(key, 0.25);
+      this.context.synth.play(key, 0.25);
     }
   }
   renderKey(key) {
@@ -60,3 +57,7 @@ export default class extends React.Component {
     )
   }
 }
+KeyboardButtons.contextTypes = {
+  synth: React.PropTypes.object,
+};
+export default KeyboardButtons;
