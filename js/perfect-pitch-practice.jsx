@@ -166,7 +166,7 @@ class PerfectPitchPractice extends React.Component {
       "Very good!",
       "Way to go!"
     ]);
-    this.context.snackbar(snack, 500);
+    this.context.snackbar(snack, 1000);
   }
 
   incorrectGuess() {
@@ -177,7 +177,7 @@ class PerfectPitchPractice extends React.Component {
       "I don't think so...",
       "Getting warmer..."
     ]);
-    this.context.snackbar(snack, 500);
+    this.context.snackbar(snack, 1000);
   }
 
   render() {
