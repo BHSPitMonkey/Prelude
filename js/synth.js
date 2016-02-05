@@ -21,12 +21,22 @@ export default class {
     };
   }
   play(key, seconds) {
+    let now = this.ctx.currentTime;
+
+    // Use gain to hide the start/stop click artifacts
+    let gain = this.ctx.createGain();
+    let maxGain = 0.4; // Any higher and you get clipping from polyphonic interference
+    gain.connect(this.ctx.destination);
+    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.00);
+    gain.gain.exponentialRampToValueAtTime(maxGain, now + 0.01);
+    gain.gain.exponentialRampToValueAtTime(maxGain, now + seconds - 0.1);
+    gain.gain.exponentialRampToValueAtTime(0.001, now + seconds);
+
     let oscillator = this.ctx.createOscillator();
-    oscillator.connect(this.ctx.destination);
+    oscillator.connect(gain);
     oscillator.type = 'sine';
     oscillator.frequency.value = this.frequencies[key];
-
     oscillator.start();
-    oscillator.stop(this.ctx.currentTime + seconds);
+    oscillator.stop(now + seconds);
   }
 }
