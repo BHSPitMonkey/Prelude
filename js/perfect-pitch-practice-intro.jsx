@@ -25,6 +25,7 @@ class PerfectPitchPracticeIntro extends React.Component {
         prefs = JSON.stringify({
             accidentals: true,
             keyboardLabels: true,
+            autoAdvance: true,
         });
     }
 
@@ -108,6 +109,7 @@ class PerfectPitchPracticeIntro extends React.Component {
           <List subheader="Options">
             <PrefsToggle text="Include accidentals" name="accidentals" defaultState={this.state.prefs.accidentals} onSwitch={this.onToggle} />
             <PrefsToggle text="Show keyboard labels" name="keyboardLabels" defaultState={this.state.prefs.keyboardLabels} onSwitch={this.onToggle} />
+            <PrefsToggle text="Auto-advance after correct guess" name="autoAdvance" defaultState={this.state.prefs.autoAdvance} onSwitch={this.onToggle} />
           </List>
         </Card>
       );

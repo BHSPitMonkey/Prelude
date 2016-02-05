@@ -158,7 +158,6 @@ class PerfectPitchPractice extends React.Component {
   }
 
   correctGuess() {
-    this.newQuestion();
     var snack = this.r([
       "Nice job!",
       "Correct!",
@@ -167,6 +166,14 @@ class PerfectPitchPractice extends React.Component {
       "Way to go!"
     ]);
     this.context.snackbar(snack, 1000);
+
+    if (this.props.prefs.autoAdvance) {
+      // Jump to the next question
+      this.newQuestion();
+    } else {
+      // Just play the current note again and wait for user to move on
+      this.playSound();
+    }
   }
 
   incorrectGuess() {
@@ -191,7 +198,7 @@ class PerfectPitchPractice extends React.Component {
             </FloatingActionButton>
           </div>
           <KeyboardButtons onEntry={this.handleGuess} style={{margin: "10px auto"}} showLabels={this.props.prefs["keyboardLabels"]} enableSound={false} />
-          <FlatButton label="Skip" onTouchTap={this.newQuestion} style={{display: "block", margin: "40px auto 20px"}} />
+          <FlatButton label="Next" onTouchTap={this.newQuestion} style={{display: "block", margin: "40px auto 20px"}} />
         </CardText>
       </Card>
     )
