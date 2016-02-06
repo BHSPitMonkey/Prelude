@@ -5,6 +5,10 @@ export default class {
   constructor() {
     this.ctx = new(window.AudioContext || window.webkitAudioContext)();
 
+    // Dynamic compressor prevents polyphony from causing clipping
+    this.comp = this.ctx.createDynamicsCompressor();
+    this.comp.connect(this.ctx.destination);
+
     this.frequencies = {
       'c': 261.63,
       'c#': 277.18,
@@ -25,8 +29,8 @@ export default class {
 
     // Use gain to hide the start/stop click artifacts
     let gain = this.ctx.createGain();
-    let maxGain = 0.4; // Any higher and you get clipping from polyphonic interference
-    gain.connect(this.ctx.destination);
+    let maxGain = 1.0;
+    gain.connect(this.comp);
     gain.gain.exponentialRampToValueAtTime(0.001, now + 0.00);
     gain.gain.exponentialRampToValueAtTime(maxGain, now + 0.01);
     gain.gain.exponentialRampToValueAtTime(maxGain, now + seconds - 0.1);
