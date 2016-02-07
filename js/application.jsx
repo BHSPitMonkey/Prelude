@@ -41,7 +41,22 @@ class Application extends React.Component {
     // (The browser/OS limits the number of these)
     this.synth = new Synth();
 
+    // Prebind custom methods
+    this.toggleLeftNav = this.toggleLeftNav.bind(this);
+    this.leftNavRequestChange = this.leftNavRequestChange.bind(this);
+    this.leftNavMenuItemTouched = this.leftNavMenuItemTouched.bind(this);
+    this.snackbarRequestClose = this.snackbarRequestClose.bind(this);
+  }
+  getChildContext() {
+    return {
+      snackbar: this.displaySnackbar.bind(this),
+      appbar: this.updateAppBar.bind(this),
+      synth: this.synth,
+    };
+  }
+  componentDidMount() {
     // Register the serviceworker
+    var snackbar = this.displaySnackbar.bind(this);
     if ('serviceWorker' in navigator) {
       // Your service-worker.js *must* be located at the top-level directory relative to your site.
       // It won't be able to control pages unless it's located at the same level or higher than them.
@@ -62,11 +77,11 @@ class Application extends React.Component {
                   // have been added to the cache.
                   // It's the perfect time to display a "New content is available; please refresh."
                   // message in the page's interface.
-                  this.displaySnackbar("Updates are available! Refresh the page to see.");
+                  snackbar("Updates are available! Refresh the page to see.", 10000);
                 } else {
                   // At this point, everything has been precached.
                   // It's the perfect time to display a "Content is cached for offline use." message.
-                  this.displaySnackbar("Prelude is now ready to be used offline!");
+                  snackbar("Prelude is now ready to be used offline!", 4000);
                 }
                 break;
 
@@ -80,19 +95,6 @@ class Application extends React.Component {
         console.error('Error during service worker registration:', e);
       });
     }
-
-    // Prebind custom methods
-    this.toggleLeftNav = this.toggleLeftNav.bind(this);
-    this.leftNavRequestChange = this.leftNavRequestChange.bind(this);
-    this.leftNavMenuItemTouched = this.leftNavMenuItemTouched.bind(this);
-    this.snackbarRequestClose = this.snackbarRequestClose.bind(this);
-  }
-  getChildContext() {
-    return {
-      snackbar: this.displaySnackbar.bind(this),
-      appbar: this.updateAppBar.bind(this),
-      synth: this.synth,
-    };
   }
   toggleLeftNav() {
     this.state.leftNavOpen = !this.state.leftNavOpen;
