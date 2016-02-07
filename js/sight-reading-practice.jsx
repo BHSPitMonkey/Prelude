@@ -160,7 +160,15 @@ class SightReadingPractice extends React.Component {
    * Generate a new question to ask and update state
    */
   newQuestion() {
-    var newState = this.getRandomState();
+    let oldStateJson = JSON.stringify(this.state);
+    let newState = undefined;
+
+    // Keep generating new questions until we come up with one that's actually new
+    // (We don't want duplicate consecutive questions)
+    do {
+      newState = this.getRandomState();
+    } while (JSON.stringify(newState) == oldStateJson);
+
     this.setState(newState);
   }
 
