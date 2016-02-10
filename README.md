@@ -2,19 +2,28 @@
 
 A web application made for practicing reading sheet music, and perhaps more.
 
-This project is still in early development.
+This project is still in development.
 
-## Design Goals
+Use Prelude now by visiting: https://www.getprelude.net
 
-* Sight reading practice mode
-  * Show the user a small staff with a clef, key signature, and note
-    * The range/difficulty/possibilities can be controlled via settings, i.e. certain key signatures, enable/disable chords/clusters
-  * The user is responsible for identifying the notes being played
-    * Identification can by made by pressing displayed notes on a connected MIDI input device (preferred)
-      * Should work with Chrome for Android/PC
-      * Might be possible to support iOS wrapped in a native app with some kind of MIDI shim, low priority
-    * Identification can be made either by entry onto an on-screen button array
-      * Could possibly look like a small keyboard (maybe just an octave in the selected key)
+## Practice Modes
+
+<table>
+  <tr>
+    <td><a href="http://i.imgur.com/AbMbAdL.png"><img src="http://i.imgur.com/AbMbAdLm.png"></a> <a href="http://i.imgur.com/zJiLrec.png"><img src="http://i.imgur.com/zJiLrecm.png"></a></td>
+    <td>
+      <h4>Sight Reading Practice</h4>
+      <p>Read the note(s) on the staff and see how quickly you can identify it. Instead of using the on-screen keys, you can also connect a MIDI keyboard and play the notes physically (Android or desktop only). Answering correctly generates a random new question.</p>
+    </td>
+  </tr>
+  <tr>
+    <td><a href="http://i.imgur.com/QqnnxYo.png"><img src="http://i.imgur.com/QqnnxYom.png"></a></td>
+    <td>
+      <h4>Perfect Pitch Practice</h4>
+      <p>Hear a pitch and try to identify it. Also supports input from a MIDI keyboard, as with the Sight Reading Practice mode.</p>
+    </td>
+  </tr>
+</table>
 
 ## Build
 
@@ -28,7 +37,7 @@ To run the local test server (using webpack):
 
 To build:
 
-    # TODO
+    npm run-script make-dist
 
 ## License
 
