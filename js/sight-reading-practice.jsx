@@ -14,6 +14,32 @@ class SightReadingPractice extends React.Component {
   constructor(props) {
     super(props);
 
+    // Preload clefs
+    let allClefs = ['treble', 'bass'];
+    this.clefs = [];
+    allClefs.forEach((clef) => {
+      if (this.props.prefs["clefs." + clef] == true) {
+        this.clefs.push(clef);
+      }
+    });
+    if (this.clefs.length == 0) {
+      console.log("No clefs were selected; Defaulting to all clefs.");
+      this.clefs = allClefs;
+    }
+
+    // Prepare types
+    let allTypes = ['single', 'chords', 'clusters'];
+    this.types = [];
+    allTypes.forEach((type) => {
+      if (this.props.prefs["types." + type] == true) {
+        this.types.push(type);
+      }
+    });
+    if (this.types.length == 0) {
+      console.log("No types were selected; Defaulting to all types.");
+      this.types = allTypes;
+    }
+
     // Initial state
     this.state = this.getRandomState();
 
@@ -104,23 +130,12 @@ class SightReadingPractice extends React.Component {
   getRandomState() {
     var r = this.r;
 
-    // Pick a clef (probably should just do this once in the constructor or componentWillMount)
-    let allClefs = ['treble', 'bass'];
-    let clefs = [];
-    allClefs.forEach((clef) => {
-      if (this.props.prefs["clefs." + clef] == true) {
-        clefs.push(clef);
-      }
-    });
-    if (clefs.length == 0) {
-      console.log("No clefs were selected; Defaulting to all clefs.");
-      clefs = allClefs;
-    }
-    let clef = r(clefs);
+    // Pick a clef
+    let clef = r(this.clefs);
 
     // Pick a suitable octave for the clef
-    var octaves = (clef == 'bass') ? ['2', '3'] : ['4', '5'];
-    var octave = r(octaves);
+    let octaves = (clef == 'bass') ? ['2', '3'] : ['4', '5'];
+    let octave = r(octaves);
 
     // Pick a key signature
     if (this.props.prefs.randomizeKeySignature) {
@@ -128,6 +143,23 @@ class SightReadingPractice extends React.Component {
       var keySignature = r(keySignatures);
     } else {
       var keySignature = 'C';
+    }
+
+    // Branch based on type (single, chord, cluster)
+    let type = r(this.types);
+    console.log("Generating question of type " + type);
+    switch (type) {
+      case 'single':
+        //
+        break;
+      case 'chords':
+        //
+        break;
+      case 'cluster':
+        //
+        break;
+      default:
+        console.error("Invalid question type selected:", type);
     }
 
     // Now we know a key signature; Do we want to just choose a key within it, or allow for accidentals?
