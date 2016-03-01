@@ -27,7 +27,7 @@
 
 
 /* eslint-disable quotes, comma-spacing */
-var PrecacheConfig = [["bundle.js","d25180293543ea0db75edbf060f49717"],["css/app.css","a38f709487d5449d4271054ec0417324"],["img/apple-touch-icon.png","ca314dfd73540f4efa5d98d14eb7d7b0"],["img/apple-touch-icon.svg","ae169a080dba907e48adaa8ca13cef05"],["img/icon-144.png","27a30efe411e9932812f387c181f5916"],["img/icon-16.svg","f99def85e0bfc448fbe717562608db38"],["img/icon-square.svg","ab773c8187d31ca0a9780064a208094a"],["img/icon.svg","917119e4129ca10dcb15fd51973d8a12"],["img/ios-share-icon.svg","028717ecc19b6c5bd3e816020454ce11"],["index.html","ffedae4b2247a2c41f6d70051dc1a12a"],["manifest.json","9c9a8a0241361dc35af8c3d1c118f116"],["service-worker.js","d298832a92970a65d19aff60e93b393c"]];
+var PrecacheConfig = [["bundle.js","70a15efb9a84488d9cb876e3791a3e4b"],["css/app.css","a38f709487d5449d4271054ec0417324"],["img/apple-touch-icon.png","ca314dfd73540f4efa5d98d14eb7d7b0"],["img/apple-touch-icon.svg","ae169a080dba907e48adaa8ca13cef05"],["img/icon-144.png","27a30efe411e9932812f387c181f5916"],["img/icon-16.png","cb57212195d5993d00b32394743317f2"],["img/icon-16.svg","1857580216eb3688643310c9ed6dd6a1"],["img/icon-32.png","2fdb3fa33eb7c910b8d4e37a9585e5d1"],["img/icon-square.svg","ab773c8187d31ca0a9780064a208094a"],["img/icon.svg","917119e4129ca10dcb15fd51973d8a12"],["img/ios-share-icon.svg","028717ecc19b6c5bd3e816020454ce11"],["index.html","2351f51c198ef8ac16f1adc9e54a7bbf"],["manifest.json","9c9a8a0241361dc35af8c3d1c118f116"]];
 /* eslint-enable quotes, comma-spacing */
 var CacheNamePrefix = 'sw-precache-v1-sw-precache-' + (self.registration ? self.registration.scope : '') + '-';
 
