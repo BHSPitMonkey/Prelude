@@ -3,6 +3,7 @@ import FlatButton from 'material-ui/lib/flat-button';
 import Card from 'material-ui/lib/card/card';
 import CardTitle from 'material-ui/lib/card/card-title';
 import CardText from 'material-ui/lib/card/card-text';
+import Teoria from 'teoria';
 import SheetMusicView from './sheet-music-view.jsx';
 import KeyboardButtons from './keyboard-buttons.jsx';
 import * as Midi from './midi';
@@ -42,6 +43,9 @@ class SightReadingPractice extends React.Component {
 
     // Initial state
     this.state = this.getRandomState();
+
+    // Dirty way of storing pressed MIDI notes
+    this.notesOn = {};
 
     // Prebind custom methods
     this.newQuestion = this.newQuestion.bind(this);
@@ -103,24 +107,30 @@ class SightReadingPractice extends React.Component {
    */
   onMidiMessage(message) {
     var type     = message.data[0],
-        note     = message.data[1],
+        midiNote = message.data[1],
         velocity = message.data[2];
 
-    // 144 means Note On
     if (type == Midi.Types.NoteOn) {
-      // Handle MIDI guess
-      var keys = ['c', 'c#', 'd', 'd#', 'e', 'f', 'f#', 'g', 'g#', 'a', 'a#', 'b'];
-      var key = keys[note % 12];
-      var octave = Math.floor(note/12) - 1;
-      if (this.state.key.key == key) {
-        if (this.state.key.octave == octave) {
+      // Update NotesOn
+      this.notesOn[midiNote] = true;
+
+      let pressedNotes = new Set(Object.keys(this.notesOn).map(key => parseInt(key))); // Set of MIDI note numbers down
+      let correctNotes = this.state.keys.map(note => note.midi()); // Arr of correct MIDI note numbers
+
+      // If number of keys down matches number of notes on staff, evaluate answer
+      if (pressedNotes.size === correctNotes.length) {
+        console.log("Keys down:", [...pressedNotes], "Correct notes:", correctNotes);
+        let diff = correctNotes.filter(note => !pressedNotes.has(note));
+        if (diff.length == 0) {
           this.correctGuess();
-        } else {
+        } else if (correctNotes.length == 1 && ((correctNotes[0] - midiNote) % 12 == 0)) {
           this.context.snackbar("Check your octave...");
+        } else {
+          this.incorrectGuess();
         }
-      } else {
-        this.incorrectGuess();
       }
+    } else if (type == Midi.Types.NoteOff) {
+      delete this.notesOn[midiNote];
     }
   }
 
@@ -141,19 +151,60 @@ class SightReadingPractice extends React.Component {
     if (this.props.prefs.randomizeKeySignature) {
       var keySignatures = Object.keys(Vex.Flow.keySignature.keySpecs);
       var keySignature = r(keySignatures);
+
+      // Pick a Scale for use with Teoria
+      var scaleType = 'major';
+      if (keySignature[keySignature.length-1] == 'm') {
+        // Strip the trailing 'm' for minor key signatures
+        var tonic = Teoria.note(keySignature.substr(0, keySignature.length-1));
+        var scaleType = 'minor';
+      } else {
+        var tonic = Teoria.note(keySignature);
+        var scaleType = 'major';
+      }
     } else {
       var keySignature = 'C';
+      var tonic = Teoria.note('C');
+      var scaleType = 'major';
     }
+    var scale = Teoria.scale(tonic, scaleType);
 
     // Branch based on type (single, chord, cluster)
     let type = r(this.types);
-    console.log("Generating question of type " + type);
     switch (type) {
       case 'single':
-        //
+        // Now we know a key signature; Do we want to just choose a key within it, or allow for accidentals?
+        var baseKeys = ['c', 'd', 'e', 'f', 'g', 'a', 'b'];
+        var key = r(baseKeys);
+        var accidental = "";
+        if (this.props.prefs.accidentals) {
+          // TODO: Make this logic less naive
+          var useAccidental = r([null, 'sharp', 'flat']);
+          if (useAccidental) {
+            // Only add a sharp to a key that can receive it
+            if (useAccidental == 'sharp' && ['c', 'd', 'f', 'g', 'a'].includes(key)) {
+              accidental = '#';
+            }
+            else if (useAccidental == 'sharp' && ['d', 'e', 'g', 'a', 'b'].includes(key)) {
+              accidental = 'b';
+            }
+          }
+        }
+        var keys = [Teoria.note(key + accidental + octave)];
         break;
       case 'chords':
-        //
+        // TODO: Confine random chord to appropriate subset of chosen clef
+        // First pick a root Note from the chosen Scale...
+        let root = r(scale.notes()); // TODO: Better list?
+
+        // Then pick a chord type...
+        let chordType = r(['M', 'm', 'dim', 'aug', '7', 'M7', 'm7', 'mM7', '9sus4']); // TODO: Other types?
+        let chord = Teoria.chord(root, chordType);
+
+        // Then pick a bass note (for different inversions)
+        // TODO
+
+        var keys = chord.notes();
         break;
       case 'cluster':
         //
@@ -162,29 +213,10 @@ class SightReadingPractice extends React.Component {
         console.error("Invalid question type selected:", type);
     }
 
-    // Now we know a key signature; Do we want to just choose a key within it, or allow for accidentals?
-    var baseKeys = ['c', 'd', 'e', 'f', 'g', 'a', 'b'];
-    var key = r(baseKeys);
-    var modifier = null;
-    if (this.props.prefs.accidentals) {
-      var useAccidental = r([true, false]);
-      if (useAccidental) {
-        // Only add a sharp to a key that can receive it
-        if (['c', 'd', 'f', 'g', 'a'].includes(key)) {
-          key += '#';
-        }
-        // TODO: key += r(['#', 'b']) (Guess checker can't handle flats yet)
-      }
-      //if (['c', ''])
-      //var keys = ['c', 'c#', 'd', 'd#', 'e', 'f', 'f#', 'g', 'g#', 'a', 'a#', 'b'];
-      //var keys = ['c#', 'd#', 'f#', 'g#', 'a#'];
-      //var key = r(keys);
-    }
-
     return {
       clef: clef,
       keySignature: keySignature,
-      key: {key:key, modifier:modifier, octave:octave}
+      keys: keys,
     };
   }
 
@@ -215,8 +247,13 @@ class SightReadingPractice extends React.Component {
    * @param {string} entry The name of the key being guessed.
    */
   handleGuess(entry) {
+    // Convert entry (e.g. "d#", "g") to a Teoria Note
+    let note = Teoria.note(entry);
+
     // Compare entry with what's in state
-    if (this.state.key.key == entry) {
+    let firstNote = this.state.keys[0]; // TODO: Multi-note handling
+
+    if (firstNote.name() == note.name() && firstNote.accidentalValue() == note.accidentalValue()) {
       this.correctGuess();
     } else {
       this.incorrectGuess();
@@ -251,7 +288,7 @@ class SightReadingPractice extends React.Component {
       <Card className="rx-sight-reading-practice" style={{maxWidth: "600px", margin: "0 auto"}}>
         <CardTitle title="What note is shown below?" />
         <CardText>
-          <SheetMusicView clef={this.state.clef} keySignature={this.state.keySignature} keys={[this.state.key]} />
+          <SheetMusicView clef={this.state.clef} keySignature={this.state.keySignature} keys={this.state.keys} />
           <KeyboardButtons onEntry={this.handleGuess} style={{margin: "10px auto"}} showLabels={this.props.prefs["keyboardLabels"]} enableSound={true} />
           <FlatButton label="Skip" onTouchTap={this.newQuestion} style={{display: "block", margin: "40px auto 20px"}} />
         </CardText>

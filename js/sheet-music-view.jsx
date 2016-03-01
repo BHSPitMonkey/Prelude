@@ -47,8 +47,13 @@ class SheetMusicView extends React.Component {
     stave.setContext(ctx).draw();
 
     // Format the key names in a way VexFlow will accept
-    var keys = this.props.keys.map(function (keyObject) {
-      return keyObject.key + "/" + keyObject.octave;
+    var keys = this.props.keys.map(function (note) {
+      let accidental = note.accidental();
+      // VexFlow and Teoria represent naturals differently
+      if (accidental == 'x') {
+        accidental = 'n';
+      }
+      return note.name() + accidental + "/" + note.octave();
     });
 
     // The StaveNote can have one or more keys (i.e. mono- or polyphonic)
@@ -58,14 +63,6 @@ class SheetMusicView extends React.Component {
       duration: "q",
       auto_stem: true
     });
-
-    // Add accidentals to the StaveNote for each key as needed
-    for (var i=0; i<this.props.keys.length; i++) {
-      var key = this.props.keys[i].key;
-      if (key.length > 1) {
-        staveNote = staveNote.addAccidental(i, new Vex.Flow.Accidental(key[1]));
-      }
-    }
 
     // Create a Voice in 1/4
     var voice = new Vex.Flow.Voice({
@@ -78,6 +75,9 @@ class SheetMusicView extends React.Component {
     voice.addTickables([
       staveNote
     ]);
+
+    // Apply accidentals
+    Vex.Flow.Accidental.applyAccidentals([voice], this.props.keySignature);
 
     // Format and justify the notes to 500 pixels
     var formatter = new Vex.Flow.Formatter().

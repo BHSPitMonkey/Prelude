@@ -19,6 +19,7 @@
     "react-router": "^2.0.0-rc5",
     "react-tap-event-plugin": "^0.2.1",
     "sw-precache": "^2.3.0",
+    "teoria": "^2.2.0",
     "vexflow": "^1.2.36",
     "webpack": "^1.12.11",
     "webpack-dev-server": "^1.14.1"
