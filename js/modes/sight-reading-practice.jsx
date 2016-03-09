@@ -166,6 +166,10 @@ class SightReadingPractice extends React.Component {
     let octaves = (clef == 'bass') ? ['2', '3'] : ['4', '5'];
     let octave = r(octaves);
 
+    // Based on the chosen clef, define a min/max allowable note
+    let minNote = Teoria.note((clef == 'bass') ? 'C2' : 'A3');
+    let maxNote = Teoria.note((clef == 'bass') ? 'E4' : 'C6');
+
     // Pick a key signature
     if (this.props.prefs.randomizeKeySignature) {
       var keySignatures = Object.keys(Vex.Flow.keySignature.keySpecs);
@@ -209,21 +213,35 @@ class SightReadingPractice extends React.Component {
             }
           }
         }
-        var keys = [Teoria.note(key + accidental + octave)];
+        var notes = [Teoria.note(key + accidental + octave)];
         break;
       case 'chords':
-        // TODO: Confine random chord to appropriate subset of chosen clef
         // First pick a root Note from the chosen Scale...
-        let root = r(scale.notes()); // TODO: Better list?
+        let root = r(scale.notes()); // TODO: Better list than this?
 
         // Then pick a chord type...
         let chordType = r(['M', 'm', 'dim', 'aug', '7', 'M7', 'm7', 'mM7', '9sus4']); // TODO: Other types?
         let chord = Teoria.chord(root, chordType);
 
-        // Then pick a bass note (for different inversions)
-        // TODO
+        // Transpose chord into valid range
+        let upOctave = Teoria.interval('P8');
+        while (Teoria.interval(chord.bass(), minNote).semitones() > 0) {
+          chord.transpose(upOctave);
+        }
 
-        var keys = chord.notes();
+        var notes = chord.notes();
+
+        // Invert the chord manually
+        let inversion = r([0, 1, 2]);
+        for (var i=0; i<inversion; i++) {
+          // If this note has room to shift up an octave, transpose it
+          if (Teoria.interval(notes[0], maxNote).semitones() >= 12) {
+            notes[0].transpose(upOctave);
+            // Disgusting hack to maintain note order
+            notes.splice(3, 0, notes.shift());
+          }
+        }
+
         break;
       case 'cluster':
         //
@@ -235,7 +253,7 @@ class SightReadingPractice extends React.Component {
     return {
       clef: clef,
       keySignature: keySignature,
-      keys: keys,
+      keys: notes,
     };
   }
 
