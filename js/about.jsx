@@ -70,7 +70,7 @@ class About extends React.Component {
             }
           </List>
         </Card>
-        <FlatButton label="Clear all settings" onTouchTap={this.clearSettings} style={{display: "block", margin: "40px auto 20px"}} />
+        <FlatButton label="Clear all settings" onTouchStart={this.clearSettings} style={{display: "block", margin: "40px auto 20px"}} />
       </div>
     )
   }
