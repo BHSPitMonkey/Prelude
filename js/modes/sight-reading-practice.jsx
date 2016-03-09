@@ -208,7 +208,7 @@ class SightReadingPractice extends React.Component {
             if (useAccidental == 'sharp' && ['c', 'd', 'f', 'g', 'a'].includes(key)) {
               accidental = '#';
             }
-            else if (useAccidental == 'sharp' && ['d', 'e', 'g', 'a', 'b'].includes(key)) {
+            else if (useAccidental == 'flat' && ['d', 'e', 'g', 'a', 'b'].includes(key)) {
               accidental = 'b';
             }
           }
@@ -263,11 +263,18 @@ class SightReadingPractice extends React.Component {
   newQuestion() {
     let oldStateJson = JSON.stringify(this.state);
     let newState = undefined;
+    let tries = 0;
 
     // Keep generating new questions until we come up with one that's actually new
     // (We don't want duplicate consecutive questions)
     do {
       newState = this.getRandomState();
+      tries++;
+
+      if (tries > 25) {
+        console.log("Gave up trying to generate a different question!");
+        break;
+      }
     } while (JSON.stringify(newState) == oldStateJson);
 
     this.setState(newState);
@@ -289,8 +296,8 @@ class SightReadingPractice extends React.Component {
 
     // Compare entry with what's in state
     let firstNote = this.state.keys[0]; // TODO: Multi-note handling
-
-    if (firstNote.name() == note.name() && firstNote.accidentalValue() == note.accidentalValue()) {
+    let interval = Teoria.interval(note, firstNote);
+    if (interval.semitones() % 12 == 0) { // Octave doesn't matter
       this.correctGuess();
     } else {
       this.incorrectGuess();
