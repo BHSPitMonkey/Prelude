@@ -4,32 +4,35 @@ import IconButton from 'material-ui/lib/icon-button';
 import NavigationBackIcon from 'material-ui/lib/svg-icons/navigation/arrow-back';
 import List from 'material-ui/lib/lists/list';
 import Divider from 'material-ui/lib/divider';
-import PerfectPitchPractice from './perfect-pitch-practice.jsx';
-import Card from './common/card.jsx';
-import PrefsToggle from './common/prefs-toggle.jsx';
-import PrefsCheckbox from './common/prefs-checkbox.jsx';
+import Card from './card.jsx';
+import PrefsToggle from './prefs-toggle.jsx';
+import PrefsCheckbox from './prefs-checkbox.jsx';
 
 /**
- * Intro screen for the Perfect Pitch practice mode
+ * Wrapper component for practice modes, containing general functionality for
+ * displaying an initial options screen with a "start" button to begin an
+ * exercise.
  *
- * Intended to show user-configurable settings for the practice session
- * before starting, along with a button to begin.
+ * See SightReadingPracticeIntro and PerfectPitchPracticeIntro for examples of
+ * how to use.
  */
-class PerfectPitchPracticeIntro extends React.Component {
+class PracticeIntro extends React.Component {
   constructor(props) {
     super(props);
 
     // If localStorage doesn't have prefs yet, pre-populate with defaults
-    let prefs = localStorage["prefs.perfectPitch"];
+    let prefs = localStorage["prefs." + this.props.prefsNamespace];
     if (prefs === undefined) {
-        prefs = JSON.stringify({
-            accidentals: true,
-            keyboardLabels: true,
-            autoAdvance: true,
+      var defaults = {};
+      this.props.prefDefs.forEach(section => {
+        section.items.forEach(item => {
+          defaults[item.pref] = item.default;
         });
+      });
+      prefs = JSON.stringify(defaults);
     }
 
-    // Initial state (TODO: Load the preferences from persistent storage somehow)
+    // Initial state
     this.state = {
       started: false,
       prefs: JSON.parse(prefs),
@@ -46,7 +49,7 @@ class PerfectPitchPracticeIntro extends React.Component {
    * Save the prefs currently in the state into localStorage
    */
   persistPrefs() {
-    localStorage["prefs.perfectPitch"] = JSON.stringify(this.state.prefs);
+    localStorage["prefs." + this.props.prefsNamespace] = JSON.stringify(this.state.prefs);
   }
 
   /**
@@ -71,7 +74,7 @@ class PerfectPitchPracticeIntro extends React.Component {
   start() {
     this.setState({started: true});
     this.context.appbar(
-      "Perfect Pitch",
+      this.props.title,
       <IconButton onTouchTap={this.end}><NavigationBackIcon /></IconButton>
     );
   }
@@ -82,7 +85,7 @@ class PerfectPitchPracticeIntro extends React.Component {
   end() {
     this.setState({started: false});
     this.context.appbar(
-      "Perfect Pitch",
+      this.props.title,
       null,
       <FlatButton label="Start" onTouchTap={this.start} />
     );
@@ -101,23 +104,36 @@ class PerfectPitchPracticeIntro extends React.Component {
   render() {
     if (this.state.started) {
       return (
-        <PerfectPitchPractice prefs={this.state.prefs} />
+        <this.props.component prefs={this.state.prefs} />
       );
     } else {
       return (
         <Card>
-          <List subheader="Options">
-            <PrefsToggle text="Include accidentals" name="accidentals" defaultState={this.state.prefs.accidentals} onSwitch={this.onToggle} />
-            <PrefsToggle text="Show keyboard labels" name="keyboardLabels" defaultState={this.state.prefs.keyboardLabels} onSwitch={this.onToggle} />
-            <PrefsToggle text="Auto-advance after correct guess" name="autoAdvance" defaultState={this.state.prefs.autoAdvance} onSwitch={this.onToggle} />
-          </List>
+          {
+            this.props.prefDefs.map((section, i) => {
+              return (
+                <List subheader={section.header} key={i}>
+                  {
+                    section.items.map((item, j) => {
+                      if (item.type == "checkbox") return (
+                        <PrefsCheckbox text={item.label} name={item.pref} defaultState={this.state.prefs[item.pref]} onSwitch={this.onToggle} key={j} />
+                      );
+                      if (item.type == "toggle") return (
+                        <PrefsToggle text={item.label} name={item.pref} defaultState={this.state.prefs[item.pref]} onSwitch={this.onToggle} key={j} />
+                      );
+                    })
+                  }
+                </List>
+              );
+            })
+          }
         </Card>
       );
     }
   }
 }
-PerfectPitchPracticeIntro.contextTypes = {
+PracticeIntro.contextTypes = {
   snackbar: React.PropTypes.func,
   appbar: React.PropTypes.func,
 };
-export default PerfectPitchPracticeIntro;
+export default PracticeIntro;

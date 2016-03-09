@@ -1,0 +1,16 @@
+import React from 'react';
+import PracticeIntro from '../common/practice-intro.jsx';
+import PerfectPitchPractice from './perfect-pitch-practice.jsx';
+
+/**
+ * Intro screen for the Perfect Pitch practice mode
+ *
+ * Intended to show user-configurable settings for the practice session
+ * before starting, along with a button to begin.
+ */
+class PerfectPitchPracticeIntro extends React.Component {
+  render() {
+    return <PracticeIntro title="Perfect Pitch" component={PerfectPitchPractice} prefsNamespace="perfectPitch" prefDefs={PerfectPitchPractice.prefsDefinitions} />;
+  }
+}
+export default PerfectPitchPracticeIntro;

@@ -5,8 +5,8 @@ import PlayArrow from 'material-ui/lib/svg-icons/av/play-arrow';
 import Card from 'material-ui/lib/card/card';
 import CardTitle from 'material-ui/lib/card/card-title';
 import CardText from 'material-ui/lib/card/card-text';
-import KeyboardButtons from './keyboard-buttons.jsx';
-import * as Midi from './midi';
+import KeyboardButtons from '../keyboard-buttons.jsx';
+import * as Midi from '../midi';
 
 /**
  * Component providing the perfect pitch practice game (in entirety)
@@ -217,4 +217,29 @@ PerfectPitchPractice.contextTypes = {
   appbar: React.PropTypes.func,
   synth: React.PropTypes.object,
 };
+PerfectPitchPractice.prefsDefinitions = [
+  {
+    header: "Options",
+    items: [
+      {
+        type: "toggle",
+        label: "Include accidentals",
+        pref: "accidentals",
+        default: true,
+      },
+      {
+        type: "toggle",
+        label: "Show keyboard labels",
+        pref: "keyboardLabels",
+        default: true,
+      },
+      {
+        type: "toggle",
+        label: "Auto-advance after correct guess",
+        pref: "autoAdvance",
+        default: true,
+      },
+    ]
+  },
+];
 export default PerfectPitchPractice;

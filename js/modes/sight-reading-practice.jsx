@@ -1,12 +1,13 @@
 import React from 'react';
+import NoSleep from 'nosleep';
+import Teoria from 'teoria';
 import FlatButton from 'material-ui/lib/flat-button';
 import Card from 'material-ui/lib/card/card';
 import CardTitle from 'material-ui/lib/card/card-title';
 import CardText from 'material-ui/lib/card/card-text';
-import Teoria from 'teoria';
-import SheetMusicView from './sheet-music-view.jsx';
-import KeyboardButtons from './keyboard-buttons.jsx';
-import * as Midi from './midi';
+import SheetMusicView from '../sheet-music-view.jsx';
+import KeyboardButtons from '../keyboard-buttons.jsx';
+import * as Midi from '../midi';
 
 /**
  * Component providing the sight reading practice game (in entirety)
@@ -14,6 +15,8 @@ import * as Midi from './midi';
 class SightReadingPractice extends React.Component {
   constructor(props) {
     super(props);
+
+    this.nosleep = new NoSleep();
 
     // Preload clefs
     let allClefs = ['treble', 'bass'];
@@ -50,6 +53,7 @@ class SightReadingPractice extends React.Component {
     // Prebind custom methods
     this.newQuestion = this.newQuestion.bind(this);
     this.handleGuess = this.handleGuess.bind(this);
+    this.componentWillUnmount = this.componentWillUnmount.bind(this);
     this.componentDidMount = this.componentDidMount.bind(this);
     this.onMidiAccessGranted = this.onMidiAccessGranted.bind(this);
   }
@@ -59,12 +63,27 @@ class SightReadingPractice extends React.Component {
     return arr[Math.floor(Math.random() * arr.length)];
   }
 
+  /**
+   * We need to disable nosleep on unmount in case the user leaves the practice session by some other means than by
+   * using the back button in the AppBar (e.g. by using their browser navigation)
+   */
+  componentWillUnmount() {
+    console.log("No longer preventing device from sleep.");
+    this.nosleep.disable();
+  }
+
   componentDidMount() {
+    // Prevent device from going to sleep
+    if (this.props.prefs.preventSleep) {
+      console.log("Preventing device from sleep.");
+      this.nosleep.enable();
+    }
+
     // Initialize Web MIDI
     if (navigator.requestMIDIAccess) {
         navigator.requestMIDIAccess().then(this.onMidiAccessGranted.bind(this));
     } else {
-        console.note("Web MIDI not supported in this browser. Try Chrome!");
+        console.log("Web MIDI not supported in this browser. Try Chrome!");
     }
   }
 
@@ -300,4 +319,75 @@ SightReadingPractice.contextTypes = {
   snackbar: React.PropTypes.func,
   appbar: React.PropTypes.func,
 };
+SightReadingPractice.prefsDefinitions = [
+  {
+    header: "Which clef(s) would you like to practice?",
+    items: [
+      {
+        type: "checkbox",
+        label: "Treble clef",
+        pref: "clefs.treble",
+        default: true,
+      },
+      {
+        type: "checkbox",
+        label: "Bass clef",
+        pref: "clefs.bass",
+        default: true,
+      },
+    ]
+  },
+  {
+    header: "Which would you like to include?",
+    items: [
+      {
+        type: "checkbox",
+        label: "Single notes",
+        pref: "types.single",
+        default: true,
+      },
+      {
+        type: "checkbox",
+        label: "Chords",
+        pref: "types.chords",
+        default: false,
+      },
+      {
+        type: "checkbox",
+        label: "Non-chordal clusters",
+        pref: "types.clusters",
+        default: false,
+      },
+    ]
+  },
+  {
+    header: "Other options",
+    items: [
+      {
+        type: "toggle",
+        label: "Randomize key signature",
+        pref: "randomizeKeySignature",
+        default: false,
+      },
+      {
+        type: "toggle",
+        label: "Include accidentals",
+        pref: "accidentals",
+        default: true,
+      },
+      {
+        type: "toggle",
+        label: "Show keyboard labels",
+        pref: "keyboardLabels",
+        default: true,
+      },
+      {
+        type: "toggle",
+        label: "Prevent screen from dimming",
+        pref: "preventSleep",
+        default: true,
+      },
+    ]
+  },
+];
 export default SightReadingPractice;

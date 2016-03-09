@@ -5,8 +5,8 @@ import injectTapEventPlugin from 'react-tap-event-plugin';
 import Application from './application.jsx';
 import Home from './home.jsx';
 import About from './about.jsx';
-import SightReadingPracticeIntro from './sight-reading-practice-intro.jsx';
-import PerfectPitchPracticeIntro from './perfect-pitch-practice-intro.jsx';
+import SightReadingPracticeIntro from './modes/sight-reading-practice-intro.jsx';
+import PerfectPitchPracticeIntro from './modes/perfect-pitch-practice-intro.jsx';
 
 // Needed by Material UI
 injectTapEventPlugin();
