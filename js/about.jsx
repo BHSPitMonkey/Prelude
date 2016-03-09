@@ -22,9 +22,17 @@ class About extends React.Component {
     // Prebind custom methods
     this.componentWillMount = this.componentWillMount.bind(this);
   }
+
   componentWillMount() {
     this.context.appbar("About");
   }
+
+  clearSettings() {
+    if (confirm("Clear all your custom settings and restore defaults?")) {
+      localStorage.clear();
+    }
+  }
+
   render() {
     let linkDefs = [
       {
@@ -39,28 +47,31 @@ class About extends React.Component {
       },
     ];
     return (
-      <Card style={{maxWidth: "600px", margin: "0 auto"}}>
-        <CardHeader
-          title="Prelude"
-          subtitle="Version TODO"
-          avatar="img/icon-square.svg"/>
-          <CardText>
-            <p>Prelude is a modern web application for helping you practice your musical abilities.</p>
-            <p>The application was built by Stephen Eisenhauer using React, Material-UI, and VexFlow.</p>
-          </CardText>
-        <List>
-          {
-            linkDefs.map(function(item, i) {
-              let leftIconClass = item.leftIconClass;
-              return (
-                <a href={item.url} target="_blank" style={{textDecoration: "none"}} key={i}>
-                  <ListItem primaryText={item.text} leftIcon={item.icon} rightIcon={<OpenInNewIcon />} />
-                </a>
-              );
-            })
-          }
-        </List>
-      </Card>
+      <div>
+        <Card style={{maxWidth: "600px", margin: "0 auto"}}>
+          <CardHeader
+            title="Prelude"
+            subtitle="Version TODO"
+            avatar="img/icon-square.svg"/>
+            <CardText>
+              <p>Prelude is a modern web application for helping you practice your musical abilities.</p>
+              <p>The application was built by Stephen Eisenhauer using React, Material-UI, and VexFlow.</p>
+            </CardText>
+          <List>
+            {
+              linkDefs.map(function(item, i) {
+                let leftIconClass = item.leftIconClass;
+                return (
+                  <a href={item.url} target="_blank" style={{textDecoration: "none"}} key={i}>
+                    <ListItem primaryText={item.text} leftIcon={item.icon} rightIcon={<OpenInNewIcon />} />
+                  </a>
+                );
+              })
+            }
+          </List>
+        </Card>
+        <FlatButton label="Clear all settings" onTouchTap={this.clearSettings} style={{display: "block", margin: "40px auto 20px"}} />
+      </div>
     )
   }
 }
