@@ -110,7 +110,7 @@ class Application extends React.Component {
     // Lookup the route from our menu config object based on the menu item text
     // (I can't seem to find any better way to do this with the MenuItem component,
     // at least without building my own MenuItem wrapper class)
-    let text = e.target.innerText;
+    let text = e.target.textContent;
     let route = this.menuItems[text].route;
     this.setState({leftNavOpen: false}); // Close the menu
     this.context.router.push(route); // Go to the route
