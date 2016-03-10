@@ -26,7 +26,7 @@
   },
   "scripts": {
     "start": "webpack-dev-server --hot --progress --colors --host 0.0.0.0",
-    "make-dist": "webpack --output-source-map --optimize-minimize --progress --colors && cp -r index.html manifest.json css img build && cd build && sw-precache",
+    "make-dist": "rm -rf build && webpack --output-source-map --optimize-minimize --progress --colors && cp -r index.html manifest.json css img build && cd build && sw-precache",
     "clean": "rm -rf build"
   },
   "repository": {
