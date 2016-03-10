@@ -46,12 +46,13 @@ class About extends React.Component {
         icon: <PersonIcon />
       },
     ];
+    let buildString = "Build " + __BUILD__;
     return (
       <div>
         <Card style={{maxWidth: "600px", margin: "0 auto"}}>
           <CardHeader
             title="Prelude"
-            subtitle="Version TODO"
+            subtitle={buildString}
             avatar="img/icon-square.svg"/>
             <CardText>
               <p>Prelude is a modern web application for helping you practice your musical abilities.</p>
