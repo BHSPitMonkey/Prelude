@@ -37,7 +37,7 @@ class About extends React.Component {
     let linkDefs = [
       {
         text: "Source Code on GitHub",
-        url: "https://github.com/BHSPitMonkey/MusicTrainer",
+        url: "https://github.com/BHSPitMonkey/Prelude",
         icon: <CodeIcon />
       },
       {
