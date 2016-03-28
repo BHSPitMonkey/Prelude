@@ -32,7 +32,7 @@ class SightReadingPractice extends React.Component {
     }
 
     // Prepare types
-    let allTypes = ['single', 'chords', 'clusters'];
+    let allTypes = ['single', 'chords']; // TODO: , 'clusters'];
     this.types = [];
     allTypes.forEach((type) => {
       if (this.props.prefs["types." + type] == true) {
@@ -49,6 +49,10 @@ class SightReadingPractice extends React.Component {
 
     // Dirty way of storing pressed MIDI notes
     this.notesOn = {};
+
+    // Dirty way of storing on-screen keyboard keys down
+    //this.keysDown = new Set();
+    this.state.keysDown = new Set();
 
     // Prebind custom methods
     this.newQuestion = this.newQuestion.bind(this);
@@ -278,30 +282,90 @@ class SightReadingPractice extends React.Component {
     } while (JSON.stringify(newState) == oldStateJson);
 
     this.setState(newState);
+
+    // Clear the on-screen keyboard selections
+    this.state.keysDown.clear();
+    // TODO: Repersist keysDown?
   }
 
   /**
    * Handle a guessed answer and judge it to be right or wrong.
    *
-   * Guesses should be sent here from multiple places:
+   * Guesses could be sent here from multiple places:
    *  - The on-screen musical keyboard (KeyboardButtons component)
    *  - Keyboard input
-   *  - Connected MIDI events
    *
-   * @param {string} entry The name of the key being guessed.
+   * @param {Set} entries The names of the key(s) being guessed.
    */
   handleGuess(entry) {
-    // Convert entry (e.g. "d#", "g") to a Teoria Note
-    let note = Teoria.note(entry);
+    let keysDown = this.state.keysDown;
 
-    // Compare entry with what's in state
-    let firstNote = this.state.keys[0]; // TODO: Multi-note handling
-    let interval = Teoria.interval(note, firstNote);
-    if (interval.semitones() % 12 == 0) { // Octave doesn't matter
-      this.correctGuess();
+    // If there are multiple notes in this question, toggle this key in keysDown
+    if (this.state.keys.length > 1) {
+      console.log("Gonna use multiple behavior. Keysdown is: ", this.state.keysDown);
+      if (keysDown.has(entry)) {
+        // Key is being un-pressed
+        keysDown.delete(entry);
+      } else {
+        // Key is being pressed
+        console.log("Adding entry: ", entry);
+        keysDown.add(entry);
+      }
     } else {
-      this.incorrectGuess();
+      // Clear keysDown and just add this key
+      keysDown.clear();
+      keysDown.add(entry);
     }
+
+    // Save changed keysDown to state
+    this.setState({ keysDown: keysDown });
+
+    // Convert
+
+    // If number of keysDown matches number of keys in this question, compare all notes
+    // TODO: Since the on-screen keyboard is only one octave, this logic will fail if we allow chords containing two of the same note
+    if (keysDown.size === this.state.keys.length) {
+      // Convert keysDown to Teoria notes
+      var notesDown = [];
+      keysDown.forEach(key => {
+        notesDown.push(Teoria.note(key));
+      });
+
+      // Loop over each note in the question, looking for a match in notesDown
+      var allMatched = true;
+      this.state.keys.forEach(note => {
+        // Check against all the notes that are down
+        var match = false;
+        notesDown.forEach(noteDown => {
+          let interval = Teoria.interval(note, noteDown);
+          if (interval.semitones() % 12 == 0) {
+            match = true;
+          }
+        });
+        if (!match) {
+          allMatched = false;
+        }
+      });
+
+      if (allMatched) {
+        this.correctGuess();
+      } else {
+        this.incorrectGuess();
+      }
+    }
+
+    // // Convert keysDown keys (e.g. "d#", "g") to Teoria Notes
+    // // TODO: Extract all entries
+    // var note = Teoria.note(entry);
+    //
+    // // Compare entry with what's in state
+    // let firstNote = this.state.keys[0]; // TODO: Multi-note handling
+    // let interval = Teoria.interval(note, firstNote);
+    // if (interval.semitones() % 12 == 0) { // Octave doesn't matter
+    //   this.correctGuess();
+    // } else {
+    //   this.incorrectGuess();
+    // }
   }
 
   correctGuess() {
@@ -333,7 +397,7 @@ class SightReadingPractice extends React.Component {
         <CardTitle title="What note is shown below?" />
         <CardText>
           <SheetMusicView clef={this.state.clef} keySignature={this.state.keySignature} keys={this.state.keys} />
-          <KeyboardButtons onEntry={this.handleGuess} style={{margin: "10px auto"}} showLabels={this.props.prefs["keyboardLabels"]} enableSound={true} />
+          <KeyboardButtons onEntry={this.handleGuess} style={{margin: "10px auto"}} showLabels={this.props.prefs["keyboardLabels"]} enableSound={true} keysDown={this.state.keysDown} />
           <FlatButton label="Skip" onTouchTap={this.newQuestion} style={{display: "block", margin: "40px auto 20px"}} />
         </CardText>
       </Card>
@@ -377,12 +441,12 @@ SightReadingPractice.prefsDefinitions = [
         pref: "types.chords",
         default: false,
       },
-      {
-        type: "checkbox",
-        label: "Non-chordal clusters",
-        pref: "types.clusters",
-        default: false,
-      },
+      // {
+      //   type: "checkbox",
+      //   label: "Non-chordal clusters",
+      //   pref: "types.clusters",
+      //   default: false,
+      // },
     ]
   },
   {
