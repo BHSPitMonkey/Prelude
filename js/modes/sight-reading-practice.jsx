@@ -265,21 +265,24 @@ class SightReadingPractice extends React.Component {
    * Generate a new question to ask and update state
    */
   newQuestion() {
-    let oldStateJson = JSON.stringify(this.state);
+    let oldStateJson = JSON.stringify(this.state.keys);
     let newState = undefined;
+    let newStateJson = undefined;
     let tries = 0;
 
     // Keep generating new questions until we come up with one that's actually new
     // (We don't want duplicate consecutive questions)
+    // Just comparing state.keys is sufficient. Full state contains things we don't care about
     do {
       newState = this.getRandomState();
+      newStateJson = JSON.stringify(newState.keys);
       tries++;
 
       if (tries > 25) {
         console.log("Gave up trying to generate a different question!");
         break;
       }
-    } while (JSON.stringify(newState) == oldStateJson);
+    } while (newStateJson == oldStateJson);
 
     this.setState(newState);
 
