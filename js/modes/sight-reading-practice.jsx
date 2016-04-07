@@ -305,13 +305,11 @@ class SightReadingPractice extends React.Component {
 
     // If there are multiple notes in this question, toggle this key in keysDown
     if (this.state.keys.length > 1) {
-      console.log("Gonna use multiple behavior. Keysdown is: ", this.state.keysDown);
       if (keysDown.has(entry)) {
         // Key is being un-pressed
         keysDown.delete(entry);
       } else {
         // Key is being pressed
-        console.log("Adding entry: ", entry);
         keysDown.add(entry);
       }
     } else {
@@ -392,6 +390,10 @@ class SightReadingPractice extends React.Component {
       "Getting warmer..."
     ]);
     this.context.snackbar(snack, 1000);
+
+    // Debug logging to troubleshoot occasional false judgments
+    console.log("Guess was deemed incorrect!");
+    console.log("State:", this.state);
   }
 
   render() {
