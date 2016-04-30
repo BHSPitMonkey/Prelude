@@ -8,6 +8,7 @@ import CardText from 'material-ui/lib/card/card-text';
 import SheetMusicView from '../sheet-music-view.jsx';
 import KeyboardButtons from '../keyboard-buttons.jsx';
 import * as Midi from '../midi';
+import PD from 'probability-distributions';
 
 /**
  * Component providing the sight reading practice game (in entirety)
@@ -176,8 +177,16 @@ class SightReadingPractice extends React.Component {
 
     // Pick a key signature
     if (this.props.prefs.randomizeKeySignature) {
+      // Choose a number of sharps/flats, from 0 to 7, favoring lower amounts
+      var numAccidentals = Math.floor(PD.rbeta(1, 1, 3)[0] * 8);
+      var candidateSignatures = [];
       var keySignatures = Object.keys(Vex.Flow.keySignature.keySpecs);
-      var keySignature = r(keySignatures);
+      keySignatures.forEach((key) => {
+        if (Vex.Flow.keySignature.keySpecs[key]['num'] == numAccidentals) {
+          candidateSignatures.push(key);
+        }
+      });
+      var keySignature = r(candidateSignatures);
 
       // Pick a Scale for use with Teoria
       var scaleType = 'major';
