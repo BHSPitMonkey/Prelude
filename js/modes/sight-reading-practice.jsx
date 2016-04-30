@@ -233,7 +233,7 @@ class SightReadingPractice extends React.Component {
         let root = r(scale.notes()); // TODO: Better list than this?
 
         // Then pick a chord type...
-        let chordType = r(['M', 'm', 'dim', 'aug', '7', 'M7', 'm7', 'mM7', '9sus4']); // TODO: Other types?
+        let chordType = r(['M', 'm', 'dim', 'aug', '7', 'M7', 'm7', 'mM7']); // TODO: Other types?
         let chord = Teoria.chord(root, chordType);
 
         // Transpose chord into valid range
