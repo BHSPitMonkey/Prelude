@@ -49,9 +49,9 @@ class SheetMusicView extends React.Component {
     // Format the key names in a way VexFlow will accept
     var keys = this.props.keys.map(function (note) {
       let accidental = note.accidental();
-      // VexFlow and Teoria represent naturals differently
+      // VexFlow and Teoria represent double-sharps differently
       if (accidental == 'x') {
-        accidental = 'n';
+        accidental = '##';
       }
       return note.name() + accidental + "/" + note.octave();
     });
