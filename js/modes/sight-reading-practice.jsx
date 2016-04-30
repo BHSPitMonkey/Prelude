@@ -230,19 +230,38 @@ class SightReadingPractice extends React.Component {
         break;
       case 'chords':
         // First pick a root Note from the chosen Scale...
-        let root = r(scale.notes()); // TODO: Better list than this?
-
-        // Then pick a chord type...
-        let chordType = r(['M', 'm', 'dim', 'aug', '7', 'M7', 'm7', 'mM7']); // TODO: Other types?
-        let chord = Teoria.chord(root, chordType);
-
-        // Transpose chord into valid range
+        let scaleNotes = scale.notes();
+        let scaleDegree = r([0, 1, 2, 3, 4, 5, 6]);
+        let root = scaleNotes[scaleDegree];
         let upOctave = Teoria.interval('P8');
-        while (Teoria.interval(chord.bass(), minNote).semitones() > 0) {
-          chord.transpose(upOctave);
+
+        // If accidentals are enabled, choose a random chord quality
+        var notes;
+        if (this.props.prefs.accidentals) {
+          // Then pick a chord type...
+          let chordType = r(['M', 'm', 'dim', 'aug', '7', 'M7', 'm7', 'mM7']); // TODO: Other types?
+          let chord = Teoria.chord(root, chordType);
+          notes = chord.notes();
+        } else {
+          // Accidentals are disabled; Build a chord within the scale.
+          notes = [root];
+          for (var i=1; i<r([3,4]); i++) {
+            var distance = i * 2;
+            var degree = scaleDegree + distance;
+            var note = scaleNotes[degree % 7];
+            if (degree >= 7) {
+              note.transpose(upOctave);
+            }
+            notes.push(note);
+          }
         }
 
-        var notes = chord.notes();
+        // Transpose notes into valid range
+        while (Teoria.interval(notes[0], minNote).semitones() > 0) {
+          notes.forEach((note) => {
+            note.transpose(upOctave);
+          });
+        }
 
         // Invert the chord manually
         let inversion = r([0, 1, 2]);
@@ -250,7 +269,7 @@ class SightReadingPractice extends React.Component {
           // If this note has room to shift up an octave, transpose it
           if (Teoria.interval(notes[0], maxNote).semitones() >= 12) {
             notes[0].transpose(upOctave);
-            // Disgusting hack to maintain note order
+            // Disgusting hack to maintain note order (TODO: currently doesn't support 5 note chords!)
             notes.splice(3, 0, notes.shift());
           }
         }
