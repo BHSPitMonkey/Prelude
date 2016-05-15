@@ -1,5 +1,7 @@
 # Prelude
 
+[![Build Status](https://travis-ci.org/BHSPitMonkey/Prelude.svg?branch=master)](https://travis-ci.org/BHSPitMonkey/Prelude)
+
 A web application made for practicing reading sheet music, and perhaps more.
 
 This project is still in development.
