@@ -37,7 +37,7 @@ To run the local test server (using webpack):
 
 To build:
 
-    npm run-script make-dist
+    npm run make-dist
 
 ## License
 
