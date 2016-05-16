@@ -30,11 +30,8 @@
     "make-dist": "rm -rf build && webpack --output-source-map --optimize-minimize --progress --colors && cp -r index.html manifest.json css img build && cd build && sw-precache",
     "clean": "rm -rf build"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+ssh://git@bitbucket.org/BHSPitMonkey/Prelude.git"
-  },
+  "repository": "BHSPitMonkey/Prelude",
   "author": "Stephen Eisenhauer",
   "license": "MIT",
-  "homepage": "https://bitbucket.org/BHSPitMonkey/Prelude#readme"
+  "homepage": "https://github.com/BHSPitMonkey/Prelude"
 }
