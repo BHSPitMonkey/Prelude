@@ -10,6 +10,14 @@ import KeyboardButtons from '../keyboard-buttons.jsx';
 import * as Midi from '../midi';
 import PD from 'probability-distributions';
 
+// Private constants
+const possibleClefs = ['treble', 'bass'];
+const possibleChordTypes = ['M', 'm', 'dim', 'aug', '7', 'M7', 'm7', 'mM7']; // TODO: Others?
+const possibleQuestionTypes = ['single', 'chords']; // TODO: , 'clusters'];
+const scaleDegrees = [0, 1, 2, 3, 4, 5, 6];
+const baseKeys = ['c', 'd', 'e', 'f', 'g', 'a', 'b'];
+const upOctave = Teoria.interval('P8');
+
 /**
  * Component providing the sight reading practice game (in entirety)
  */
@@ -20,29 +28,27 @@ class SightReadingPractice extends React.Component {
     this.nosleep = new NoSleep();
 
     // Preload clefs
-    let allClefs = ['treble', 'bass'];
     this.clefs = [];
-    allClefs.forEach((clef) => {
+    possibleClefs.forEach((clef) => {
       if (this.props.prefs["clefs." + clef] == true) {
         this.clefs.push(clef);
       }
     });
     if (this.clefs.length == 0) {
       console.log("No clefs were selected; Defaulting to all clefs.");
-      this.clefs = allClefs;
+      this.clefs = possibleClefs;
     }
 
     // Prepare types
-    let allTypes = ['single', 'chords']; // TODO: , 'clusters'];
     this.types = [];
-    allTypes.forEach((type) => {
+    possibleQuestionTypes.forEach((type) => {
       if (this.props.prefs["types." + type] == true) {
         this.types.push(type);
       }
     });
     if (this.types.length == 0) {
       console.log("No types were selected; Defaulting to all types.");
-      this.types = allTypes;
+      this.types = possibleQuestionTypes;
     }
 
     // Initial state
@@ -162,7 +168,10 @@ class SightReadingPractice extends React.Component {
    * Randomly generate a new question and return a state object
    */
   getRandomState() {
-    var r = this.r;
+    const r = this.r;
+
+    // Default setting for
+    let flatKeyboardLabels = false;
 
     // Pick a clef
     let clef = r(this.clefs);
@@ -176,6 +185,7 @@ class SightReadingPractice extends React.Component {
     let maxNote = Teoria.note((clef == 'bass') ? 'E4' : 'C6');
 
     // Pick a key signature
+    let keySignature, scaleType, tonic;
     if (this.props.prefs.randomizeKeySignature) {
       // Choose a number of sharps/flats, from 0 to 7, favoring lower amounts
       var numAccidentals = Math.floor(PD.rbeta(1, 1, 3)[0] * 8);
@@ -186,33 +196,34 @@ class SightReadingPractice extends React.Component {
           candidateSignatures.push(key);
         }
       });
-      var keySignature = r(candidateSignatures);
+      keySignature = r(candidateSignatures);
+      if (Vex.Flow.keySignature.keySpecs[keySignature].acc == "b") {
+        flatKeyboardLabels = true;
+      }
 
       // Pick a Scale for use with Teoria
-      var scaleType = 'major';
       if (keySignature[keySignature.length-1] == 'm') {
         // Strip the trailing 'm' for minor key signatures
-        var tonic = Teoria.note(keySignature.substr(0, keySignature.length-1));
-        var scaleType = 'minor';
+        tonic = Teoria.note(keySignature.substr(0, keySignature.length-1));
+        scaleType = 'minor';
       } else {
-        var tonic = Teoria.note(keySignature);
-        var scaleType = 'major';
+        tonic = Teoria.note(keySignature);
+        scaleType = 'major';
       }
     } else {
-      var keySignature = 'C';
-      var tonic = Teoria.note('C');
-      var scaleType = 'major';
+      keySignature = 'C';
+      tonic = Teoria.note('C');
+      scaleType = 'major';
     }
-    var scale = Teoria.scale(tonic, scaleType);
+    let scale = Teoria.scale(tonic, scaleType);
 
     // Branch based on type (single, chord, cluster)
     let type = r(this.types);
     switch (type) {
       case 'single':
         // Now we know a key signature; Do we want to just choose a key within it, or allow for accidentals?
-        var baseKeys = ['c', 'd', 'e', 'f', 'g', 'a', 'b'];
-        var key = r(baseKeys);
-        var accidental = "";
+        let key = r(baseKeys);
+        let accidental = "";
         if (this.props.prefs.accidentals) {
           // TODO: Make this logic less naive
           var useAccidental = r([null, 'sharp', 'flat']);
@@ -220,9 +231,11 @@ class SightReadingPractice extends React.Component {
             // Only add a sharp to a key that can receive it
             if (useAccidental == 'sharp' && ['c', 'd', 'f', 'g', 'a'].includes(key)) {
               accidental = '#';
+              flatKeyboardLabels = false;
             }
             else if (useAccidental == 'flat' && ['d', 'e', 'g', 'a', 'b'].includes(key)) {
               accidental = 'b';
+              flatKeyboardLabels = true;
             }
           }
         }
@@ -231,15 +244,14 @@ class SightReadingPractice extends React.Component {
       case 'chords':
         // First pick a root Note from the chosen Scale...
         let scaleNotes = scale.notes();
-        let scaleDegree = r([0, 1, 2, 3, 4, 5, 6]);
+        let scaleDegree = r(scaleDegrees);
         let root = scaleNotes[scaleDegree];
-        let upOctave = Teoria.interval('P8');
 
         // If accidentals are enabled, choose a random chord quality
         var notes;
         if (this.props.prefs.accidentals) {
           // Then pick a chord type...
-          let chordType = r(['M', 'm', 'dim', 'aug', '7', 'M7', 'm7', 'mM7']); // TODO: Other types?
+          let chordType = r(possibleChordTypes);
           let chord = Teoria.chord(root, chordType);
           notes = chord.notes();
         } else {
@@ -276,7 +288,7 @@ class SightReadingPractice extends React.Component {
 
         break;
       case 'cluster':
-        //
+        // TODO
         break;
       default:
         console.error("Invalid question type selected:", type);
@@ -286,6 +298,7 @@ class SightReadingPractice extends React.Component {
       clef: clef,
       keySignature: keySignature,
       keys: notes,
+      flatKeyboardLabels: flatKeyboardLabels,
     };
   }
 
@@ -429,9 +442,24 @@ class SightReadingPractice extends React.Component {
       <Card className="rx-sight-reading-practice" style={{maxWidth: "600px", margin: "0 auto"}}>
         <CardTitle title="What note is shown below?" />
         <CardText>
-          <SheetMusicView clef={this.state.clef} keySignature={this.state.keySignature} keys={this.state.keys} />
-          <KeyboardButtons onEntry={this.handleGuess} style={{margin: "10px auto"}} showLabels={this.props.prefs["keyboardLabels"]} enableSound={true} keysDown={this.state.keysDown} />
-          <FlatButton label="Skip" onTouchTap={this.newQuestion} style={{display: "block", margin: "40px auto 20px"}} />
+          <SheetMusicView
+            clef={this.state.clef}
+            keySignature={this.state.keySignature}
+            keys={this.state.keys}
+          />
+          <KeyboardButtons
+            onEntry={this.handleGuess}
+            style={{margin: "10px auto"}}
+            showLabels={this.props.prefs["keyboardLabels"]}
+            useFlats={this.state.flatKeyboardLabels}
+            enableSound={true}
+            keysDown={this.state.keysDown}
+          />
+          <FlatButton
+            label="Skip"
+            onTouchTap={this.newQuestion}
+            style={{display: "block", margin: "40px auto 20px"}}
+          />
         </CardText>
       </Card>
     )

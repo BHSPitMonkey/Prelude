@@ -2,11 +2,18 @@ import React from 'react';
 import RaisedButton from 'material-ui/lib/raised-button';
 import Colors from 'material-ui/lib/styles/colors';
 
+// Private constants
+const upperRow = ['c#', 'd#', 'f#', 'g#', 'a♯'];
+const upperRowFlats = ['d♭', 'e♭', 'g♭', 'a♭', 'b♭'];
+const upperRowSharps = ['c♯', 'd♯', 'f♯', 'g♯', 'a♯'];
+const lowerRow = ['c', 'd', 'e', 'f', 'g', 'a', 'b'];
+
+// Component representing a single key
 class Key extends React.Component {
   render() {
     var key = this.props.note;
-    var showLabel = this.props.showLabel;
-    var text = showLabel ? key : '';
+    //var showLabel = this.props.showLabel;
+    //var text = showLabel ? key : '';
     var accidental = (key.length > 1);
     var buttonWidth = "40px";
     var style = {
@@ -27,10 +34,11 @@ class Key extends React.Component {
     if (key == 'd#') {
       style.marginRight = buttonWidth;
     }
-    return <button onClick={this.props.onClick} style={style} key={key} data-key={key}>{text}</button>
+    return <button onClick={this.props.onClick} style={style} key={key} data-key={key}>{this.props.label}</button>
   }
 }
 
+// Component representing an interactive piano keyboard
 class KeyboardButtons extends React.Component {
   constructor(props) {
     super(props);
@@ -53,27 +61,36 @@ class KeyboardButtons extends React.Component {
   }
 
   render() {
-    var upperRow = ['c#', 'd#', 'f#', 'g#', 'a#'];
-    var lowerRow = ['c', 'd', 'e', 'f', 'g', 'a', 'b'];
-    var rootStyle = Object.assign({
+    let rootStyle = Object.assign({
       position: "relative",
       width: "266px",
       height: "140px"
     }, this.props.style);
+    let rows = [
+      {
+        notes: upperRow,
+        labels: this.props.useFlats ? upperRowFlats : upperRowSharps,
+        className: "rx-keyboard-buttons--accidentals",
+        style: {position: "absolute", top: 0, left: "18px", zIndex: 1},
+      },
+      {
+        notes: lowerRow,
+        labels: lowerRow,
+        className: "",
+        style: {position: "absolute", top: 0},
+      }
+    ];
     return (
       <div className="rx-keyboard-buttons" style={rootStyle}>
-        <div className="rx-keyboard-buttons--accidentals" style={{position: "absolute", top: 0, left: "18px", zIndex: 1}}>
-          {upperRow.map(note => {
-            let held = this.props.keysDown ? this.props.keysDown.has(note) : false;
-            return <Key note={note} onClick={this.onButtonPress} showLabel={this.props.showLabels} held={held} key={note} />;
-          })}
-        </div>
-        <div style={{position: "absolute", top: 0}}>
-          {lowerRow.map(note => {
-            let held = this.props.keysDown ? this.props.keysDown.has(note) : false;
-            return <Key note={note} onClick={this.onButtonPress} showLabel={this.props.showLabels} held={held} key={note} />;
-          })}
-        </div>
+        {rows.map(row => {
+          return <div className={row.className} style={row.style}>
+            {row.notes.map((note, i) => {
+              let held = this.props.keysDown ? this.props.keysDown.has(note) : false;
+              let label = this.props.showLabels ? row.labels[i] : '';
+              return <Key note={note} onClick={this.onButtonPress} label={label} held={held} key={note} />;
+            })}
+          </div>;
+        })}
       </div>
     )
   }
