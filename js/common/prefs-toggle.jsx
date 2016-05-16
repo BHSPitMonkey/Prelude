@@ -1,6 +1,6 @@
 import React from 'react';
-import ListItem from 'material-ui/lib/lists/list-item';
-import Toggle from 'material-ui/lib/toggle';
+import {ListItem} from 'material-ui/List';
+import Toggle from 'material-ui/Toggle';
 
 export default class extends React.Component {
   render() {

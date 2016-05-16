@@ -1,10 +1,10 @@
 import React from 'react';
 import NoSleep from 'nosleep';
 import Teoria from 'teoria';
-import FlatButton from 'material-ui/lib/flat-button';
-import Card from 'material-ui/lib/card/card';
-import CardTitle from 'material-ui/lib/card/card-title';
-import CardText from 'material-ui/lib/card/card-text';
+import FlatButton from 'material-ui/FlatButton';
+import Card from 'material-ui/Card/Card';
+import CardTitle from 'material-ui/Card/CardTitle';
+import CardText from 'material-ui/Card/CardText';
 import SheetMusicView from '../sheet-music-view.jsx';
 import KeyboardButtons from '../keyboard-buttons.jsx';
 import * as Midi from '../midi';

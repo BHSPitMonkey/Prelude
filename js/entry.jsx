@@ -9,6 +9,7 @@ import SightReadingPracticeIntro from './modes/sight-reading-practice-intro.jsx'
 import PerfectPitchPracticeIntro from './modes/perfect-pitch-practice-intro.jsx';
 
 // Needed by Material UI
+console.log("Injecting tap");
 injectTapEventPlugin();
 
 // Render top-level component to page

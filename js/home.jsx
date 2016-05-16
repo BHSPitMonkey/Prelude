@@ -1,8 +1,8 @@
 import React from 'react';
 import { Router, Route, IndexRoute, Link } from 'react-router'
-import CardTitle from 'material-ui/lib/card/card-title';
-import CardText from 'material-ui/lib/card/card-text';
-import CardHeader from 'material-ui/lib/card/card-header';
+import CardTitle from 'material-ui/Card/CardTitle';
+import CardText from 'material-ui/Card/CardText';
+import CardHeader from 'material-ui/Card/CardHeader';
 import Card from './common/card.jsx';
 import TipCard from './common/tip-card.jsx';
 

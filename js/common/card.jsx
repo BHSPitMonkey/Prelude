@@ -1,5 +1,5 @@
 import React from 'react';
-import Card from 'material-ui/lib/card/card';
+import Card from 'material-ui/Card/Card';
 
 /**
  * Wrapper around material-ui Card with some customizations

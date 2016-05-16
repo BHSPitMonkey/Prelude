@@ -1,9 +1,9 @@
 import React from 'react';
-import Avatar from 'material-ui/lib/avatar';
-import CardHeader from 'material-ui/lib/card/card-header';
-import CardText from 'material-ui/lib/card/card-text';
-import LightbulbIcon from 'material-ui/lib/svg-icons/action/lightbulb-outline';
-import Colors from 'material-ui/lib/styles/colors';
+import Avatar from 'material-ui/Avatar';
+import CardHeader from 'material-ui/Card/CardHeader';
+import CardText from 'material-ui/Card/CardText';
+import LightbulbIcon from 'material-ui/svg-icons/action/lightbulb-outline';
+import { white, yellow600 } from 'material-ui/styles/colors';
 import Card from './card.jsx';
 
 /**
@@ -16,7 +16,7 @@ export default class extends React.Component {
         <CardHeader
           title="Tip"
           subtitle={this.props.title}
-          avatar={<Avatar icon={<LightbulbIcon />} color={Colors.white} backgroundColor={Colors.yellow600} />}
+          avatar={<Avatar icon={<LightbulbIcon />} color={white} backgroundColor={yellow600} />}
         />
         {this.props.children}
       </Card>

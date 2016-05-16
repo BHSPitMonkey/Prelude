@@ -1,9 +1,9 @@
 import React from 'react';
-import RaisedButton from 'material-ui/lib/raised-button';
-import Colors from 'material-ui/lib/styles/colors';
+import RaisedButton from 'material-ui/RaisedButton';
+import { grey100, grey200, grey800, cyanA700, white } from 'material-ui/styles/colors';
 
 // Private constants
-const upperRow = ['c#', 'd#', 'f#', 'g#', 'a♯'];
+const upperRow = ['c#', 'd#', 'f#', 'g#', 'a#'];
 const upperRowFlats = ['d♭', 'e♭', 'g♭', 'a♭', 'b♭'];
 const upperRowSharps = ['c♯', 'd♯', 'f♯', 'g♯', 'a♯'];
 const lowerRow = ['c', 'd', 'e', 'f', 'g', 'a', 'b'];
@@ -20,16 +20,16 @@ class Key extends React.Component {
       width: buttonWidth,
       textTransform: "uppercase",
       height: accidental ? "70px" : "140px",
-      background: accidental ? Colors.grey800 : Colors.grey200,
-      color: accidental ? Colors.grey100 : Colors.grey800,
+      background: accidental ? grey800 : grey200,
+      color: accidental ? grey100 : grey800,
       border: "2px solid white",// + (accidental ? "#555" : "#CCC"),
       marginRight: "-2px",
       paddingTop: accidental ? "0" : "70px",
       zIndex: accidental ? "1" : "0"
     };
     if (this.props.held) {
-      style.background = Colors.cyanA700;
-      style.color = Colors.white;
+      style.background = cyanA700;
+      style.color = white;
     }
     if (key == 'd#') {
       style.marginRight = buttonWidth;

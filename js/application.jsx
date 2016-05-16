@@ -1,14 +1,24 @@
 import React from 'react';
 import { Router, Route, Link } from 'react-router'
-import AppBar from 'material-ui/lib/app-bar';
-import LeftNav from 'material-ui/lib/left-nav';
-import MenuItem from 'material-ui/lib/menus/menu-item';
-import Snackbar from 'material-ui/lib/snackbar';
-import HomeIcon from 'material-ui/lib/svg-icons/action/home';
-import InfoIcon from 'material-ui/lib/svg-icons/action/info';
-import MusicNoteIcon from 'material-ui/lib/svg-icons/image/music-note';
-import HearingIcon from 'material-ui/lib/svg-icons/av/hearing';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import getMuiTheme from 'material-ui/styles/getMuiTheme';
+import { cyan700, cyan900 } from 'material-ui/styles/colors';
+import AppBar from 'material-ui/AppBar';
+import Drawer from 'material-ui/Drawer';
+import MenuItem from 'material-ui/MenuItem';
+import Snackbar from 'material-ui/Snackbar';
+import HomeIcon from 'material-ui/svg-icons/action/home';
+import InfoIcon from 'material-ui/svg-icons/action/info';
+import MusicNoteIcon from 'material-ui/svg-icons/image/music-note';
+import HearingIcon from 'material-ui/svg-icons/av/hearing';
 import Synth from './synth.js';
+
+const muiTheme = getMuiTheme({
+  palette: {
+    primary1Color: cyan700,
+    primary2Color: cyan900,
+  },
+});
 
 /**
  * Top-level application component
@@ -20,7 +30,7 @@ class Application extends React.Component {
 
     // Default state
     this.state = {
-      leftNavOpen: false,
+      drawerOpen: false,
       snackbarOpen: false,
       snackbarMessage: "Hi! ^_^",
       snackbarAutoHideDuration: 1000,
@@ -42,9 +52,8 @@ class Application extends React.Component {
     this.synth = new Synth();
 
     // Prebind custom methods
-    this.toggleLeftNav = this.toggleLeftNav.bind(this);
-    this.leftNavRequestChange = this.leftNavRequestChange.bind(this);
-    this.leftNavMenuItemTouched = this.leftNavMenuItemTouched.bind(this);
+    this.toggleDrawer = this.toggleDrawer.bind(this);
+    this.drawerMenuItemTouched = this.drawerMenuItemTouched.bind(this);
     this.snackbarRequestClose = this.snackbarRequestClose.bind(this);
   }
   getChildContext() {
@@ -96,23 +105,21 @@ class Application extends React.Component {
       });
     }
   }
-  toggleLeftNav() {
-    this.state.leftNavOpen = !this.state.leftNavOpen;
+  toggleDrawer() {
+    console.log("Toggling drawerOpen");
+    this.state.drawerOpen = !this.state.drawerOpen;
     this.setState(this.state);
-  }
-  leftNavRequestChange(open, reason) {
-    this.setState({leftNavOpen: false});
   }
   leftNavChange(e, key, payload) {
     console.log("Change", e, key, payload);
   }
-  leftNavMenuItemTouched(e) {
+  drawerMenuItemTouched(e) {
     // Lookup the route from our menu config object based on the menu item text
     // (I can't seem to find any better way to do this with the MenuItem component,
     // at least without building my own MenuItem wrapper class)
     let text = e.target.textContent;
     let route = this.menuItems[text].route;
-    this.setState({leftNavOpen: false}); // Close the menu
+    this.setState({drawerOpen: false}); // Close the menu
     this.context.router.push(route); // Go to the route
   }
   snackbarRequestClose() {
@@ -137,25 +144,26 @@ class Application extends React.Component {
   }
   render() {
     return (
-      <div>
+      <MuiThemeProvider muiTheme={muiTheme}>
+        <div>
         <AppBar
           title={this.state.appBarTitle}
           iconElementLeft={this.state.appBarLeftElement}
           iconElementRight={this.state.appBarRightElement}
-          onLeftIconButtonTouchTap={this.toggleLeftNav}
+          onLeftIconButtonTouchTap={this.toggleDrawer}
           style={{position: "fixed", top: 0, left: 0}}
         />
-        <LeftNav
-          open={this.state.leftNavOpen}
-          onRequestChange={this.leftNavRequestChange}
+        <Drawer
+          open={this.state.drawerOpen}
+          onRequestChange={(open) => this.setState({drawerOpen: open})}
           docked={false}>
           {
             Object.keys(this.menuItems).map(function (text) {
               let item = this.menuItems[text];
-              return <MenuItem onTouchTap={this.leftNavMenuItemTouched} key={text} leftIcon={item.icon}>{text}</MenuItem>
+              return <MenuItem onTouchTap={this.drawerMenuItemTouched} key={text} leftIcon={item.icon}>{text}</MenuItem>
             }.bind(this))
           }
-        </LeftNav>
+        </Drawer>
         <div style={{padding: "74px 10px 10px 10px"}}>{this.props.children}</div>
         <Snackbar
           open={this.state.snackbarOpen}
@@ -163,7 +171,8 @@ class Application extends React.Component {
           autoHideDuration={this.state.snackbarAutoHideDuration}
           onRequestClose={this.snackbarRequestClose}
         />
-      </div>
+        </div>
+      </MuiThemeProvider>
     );
   }
 }

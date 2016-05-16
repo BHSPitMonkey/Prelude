@@ -1,10 +1,10 @@
 import React from 'react';
-import FlatButton from 'material-ui/lib/flat-button';
-import FloatingActionButton from 'material-ui/lib/floating-action-button';
-import PlayArrow from 'material-ui/lib/svg-icons/av/play-arrow';
-import Card from 'material-ui/lib/card/card';
-import CardTitle from 'material-ui/lib/card/card-title';
-import CardText from 'material-ui/lib/card/card-text';
+import FlatButton from 'material-ui/FlatButton';
+import FloatingActionButton from 'material-ui/FloatingActionButton';
+import PlayArrow from 'material-ui/svg-icons/av/play-arrow';
+import Card from 'material-ui/Card/Card';
+import CardTitle from 'material-ui/Card/CardTitle';
+import CardText from 'material-ui/Card/CardText';
 import KeyboardButtons from '../keyboard-buttons.jsx';
 import * as Midi from '../midi';
 

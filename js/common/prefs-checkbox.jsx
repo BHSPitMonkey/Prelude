@@ -1,6 +1,6 @@
 import React from 'react';
-import ListItem from 'material-ui/lib/lists/list-item';
-import Checkbox from 'material-ui/lib/checkbox';
+import ListItem from 'material-ui/List/ListItem';
+import Checkbox from 'material-ui/Checkbox';
 
 export default class extends React.Component {
   render() {

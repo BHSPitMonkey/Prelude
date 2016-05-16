@@ -1,15 +1,14 @@
 import React from 'react';
-import CardActions from 'material-ui/lib/card/card-actions';
-import CardHeader from 'material-ui/lib/card/card-header';
-import CardMedia from 'material-ui/lib/card/card-media';
-import CardTitle from 'material-ui/lib/card/card-title';
-import FlatButton from 'material-ui/lib/flat-button';
-import CardText from 'material-ui/lib/card/card-text';
-import List from 'material-ui/lib/lists/list';
-import ListItem from 'material-ui/lib/lists/list-item';
-import CodeIcon from 'material-ui/lib/svg-icons/action/code';
-import PersonIcon from 'material-ui/lib/svg-icons/social/person';
-import OpenInNewIcon from 'material-ui/lib/svg-icons/action/open-in-new';
+import CardActions from 'material-ui/Card/CardActions';
+import CardHeader from 'material-ui/Card/CardHeader';
+import CardMedia from 'material-ui/Card/CardMedia';
+import CardTitle from 'material-ui/Card/CardTitle';
+import FlatButton from 'material-ui/FlatButton';
+import CardText from 'material-ui/Card/CardText';
+import {List, ListItem} from 'material-ui/List';
+import CodeIcon from 'material-ui/svg-icons/action/code';
+import PersonIcon from 'material-ui/svg-icons/social/person';
+import OpenInNewIcon from 'material-ui/svg-icons/action/open-in-new';
 import Card from './common/card.jsx';
 
 /**

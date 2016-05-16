@@ -1,9 +1,10 @@
 import React from 'react';
-import FlatButton from 'material-ui/lib/flat-button';
-import IconButton from 'material-ui/lib/icon-button';
-import NavigationBackIcon from 'material-ui/lib/svg-icons/navigation/arrow-back';
-import List from 'material-ui/lib/lists/list';
-import Divider from 'material-ui/lib/divider';
+import FlatButton from 'material-ui/FlatButton';
+import IconButton from 'material-ui/IconButton';
+import NavigationBackIcon from 'material-ui/svg-icons/navigation/arrow-back';
+import List from 'material-ui/List/List';
+import Subheader from 'material-ui/Subheader';
+import Divider from 'material-ui/Divider';
 import Card from './card.jsx';
 import PrefsToggle from './prefs-toggle.jsx';
 import PrefsCheckbox from './prefs-checkbox.jsx';
@@ -112,7 +113,8 @@ class PracticeIntro extends React.Component {
           {
             this.props.prefDefs.map((section, i) => {
               return (
-                <List subheader={section.header} key={i}>
+                <List key={i}>
+                  <Subheader>{section.header}</Subheader>
                   {
                     section.items.map((item, j) => {
                       if (item.type == "checkbox") return (
