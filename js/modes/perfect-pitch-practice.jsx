@@ -11,7 +11,7 @@ import * as Midi from '../midi';
 /**
  * Component providing the perfect pitch practice game (in entirety)
  */
-class PerfectPitchPractice extends React.Component {
+export default class PerfectPitchPractice extends React.Component {
   constructor(props) {
     super(props);
 
@@ -242,4 +242,3 @@ PerfectPitchPractice.prefsDefinitions = [
     ]
   },
 ];
-export default PerfectPitchPractice;

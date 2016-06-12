@@ -11,17 +11,34 @@ import * as Midi from '../midi';
 import PD from 'probability-distributions';
 
 // Private constants
-const possibleClefs = ['treble', 'bass'];
+const possibleClefs = ['treble', 'bass', 'alto'];
 const possibleChordTypes = ['M', 'm', 'dim', 'aug', '7', 'M7', 'm7', 'mM7']; // TODO: Others?
 const possibleQuestionTypes = ['single', 'chords']; // TODO: , 'clusters'];
 const scaleDegrees = [0, 1, 2, 3, 4, 5, 6];
 const baseKeys = ['c', 'd', 'e', 'f', 'g', 'a', 'b'];
 const upOctave = Teoria.interval('P8');
+const clefOptions = {
+  'treble': {
+    octaves: ['4', '5'],
+    minNote: 'A3',
+    maxNote: 'C6',
+  },
+  'bass': {
+    octaves: ['2', '3'],
+    minNote: 'C2',
+    maxNote: 'E4',
+  },
+  'alto': {
+    octaves: ['3', '4'],
+    minNote: 'B2',
+    maxNote: 'D5',
+  },
+};
 
 /**
  * Component providing the sight reading practice game (in entirety)
  */
-class SightReadingPractice extends React.Component {
+export default class SightReadingPractice extends React.Component {
   constructor(props) {
     super(props);
 
@@ -177,12 +194,11 @@ class SightReadingPractice extends React.Component {
     let clef = r(this.clefs);
 
     // Pick a suitable octave for the clef
-    let octaves = (clef == 'bass') ? ['2', '3'] : ['4', '5'];
-    let octave = r(octaves);
+    let octave = r(clefOptions[clef].octaves);
 
     // Based on the chosen clef, define a min/max allowable note
-    let minNote = Teoria.note((clef == 'bass') ? 'C2' : 'A3');
-    let maxNote = Teoria.note((clef == 'bass') ? 'E4' : 'C6');
+    let minNote = Teoria.note(clefOptions[clef].minNote);
+    let maxNote = Teoria.note(clefOptions[clef].maxNote);
 
     // Pick a key signature
     let keySignature, scaleType, tonic;
@@ -481,6 +497,12 @@ SightReadingPractice.prefsDefinitions = [
       },
       {
         type: "checkbox",
+        label: "Alto clef",
+        pref: "clefs.alto",
+        default: true,
+      },
+      {
+        type: "checkbox",
         label: "Bass clef",
         pref: "clefs.bass",
         default: true,
@@ -540,4 +562,3 @@ SightReadingPractice.prefsDefinitions = [
     ]
   },
 ];
-export default SightReadingPractice;

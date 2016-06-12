@@ -8,9 +8,8 @@ import PerfectPitchPractice from './perfect-pitch-practice.jsx';
  * Intended to show user-configurable settings for the practice session
  * before starting, along with a button to begin.
  */
-class PerfectPitchPracticeIntro extends React.Component {
+export default class PerfectPitchPracticeIntro extends React.Component {
   render() {
     return <PracticeIntro title="Perfect Pitch" component={PerfectPitchPractice} prefsNamespace="perfectPitch" prefDefs={PerfectPitchPractice.prefsDefinitions} />;
   }
 }
-export default PerfectPitchPracticeIntro;

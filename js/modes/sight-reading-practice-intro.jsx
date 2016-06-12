@@ -8,9 +8,8 @@ import SightReadingPractice from './sight-reading-practice.jsx';
  * Intended to show user-configurable settings for the practice session
  * before starting, along with a button to begin.
  */
-class SightReadingPracticeIntro extends React.Component {
+export default class SightReadingPracticeIntro extends React.Component {
   render() {
     return <PracticeIntro title="Sight Reading" component={SightReadingPractice} prefsNamespace="sightReading" prefDefs={SightReadingPractice.prefsDefinitions} />;
   }
 }
-export default SightReadingPracticeIntro;
