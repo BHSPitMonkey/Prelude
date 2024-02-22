@@ -11,6 +11,7 @@ import HomeIcon from 'material-ui/svg-icons/action/home';
 import InfoIcon from 'material-ui/svg-icons/action/info';
 import MusicNoteIcon from 'material-ui/svg-icons/image/music-note';
 import HearingIcon from 'material-ui/svg-icons/av/hearing';
+import PianoIcon from 'material-ui/svg-icons/av/play-circle-outline'
 import Synth from './synth.js';
 
 const muiTheme = getMuiTheme({
@@ -44,6 +45,7 @@ class Application extends React.Component {
       "Home": { route: "/", icon: <HomeIcon /> },
       "Sight Reading Practice": { route: "/sightReading", icon: <MusicNoteIcon /> },
       "Perfect Pitch Practice": { route: "/perfectPitch", icon: <HearingIcon /> },
+      "Free Play": { route: "/freePlay", icon: <PianoIcon /> },
       "About": { route: "/about", icon: <InfoIcon /> }
     };
 

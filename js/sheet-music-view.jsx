@@ -21,6 +21,18 @@ class SheetMusicView extends React.Component {
     this.drawMusic();
   }
 
+  teoriaKeysToVexflowKeys(keys) {
+    const sorted = keys.toSorted((a, b) => a.midi() - b.midi());
+    return sorted.map(function (note) {
+      let accidental = note.accidental();
+      // VexFlow and Teoria represent double-sharps differently
+      if (accidental == 'x') {
+        accidental = '##';
+      }
+      return note.name() + accidental + "/" + note.octave();
+    });
+  }
+
   /**
    * Redraw the contents of the canvas
    */
@@ -37,54 +49,85 @@ class SheetMusicView extends React.Component {
       Vex.Flow.Renderer.Backends.SVG
     );
     var ctx = renderer.getContext();
-    ctx.resize(this.props.width, this.props.height);
+    const isGrand = this.props.clef === 'grand';
+    ctx.resize(this.props.width, isGrand ? this.props.height * 1.5 : this.props.height);
 
     // Set up and draw stave/clef/key
     var stave = new Vex.Flow.Stave(0, 0, this.props.width-1);
-    stave.addClef(this.props.clef);
+    stave.addClef(isGrand ? 'treble' : this.props.clef);
     var keySig = new Vex.Flow.KeySignature(this.props.keySignature);
         keySig.addToStave(stave);
     stave.setContext(ctx).draw();
 
-    // Format the key names in a way VexFlow will accept
-    var keys = this.props.keys.map(function (note) {
-      let accidental = note.accidental();
-      // VexFlow and Teoria represent double-sharps differently
-      if (accidental == 'x') {
-        accidental = '##';
-      }
-      return note.name() + accidental + "/" + note.octave();
-    });
+    // If clef=grand, set up a second stave
+    let stave2 = null;
+    if (isGrand) {
+      stave2 = new Vex.Flow.Stave(0, 62, this.props.width-1);
+      stave2.addClef('bass');
+      keySig.addToStave(stave2);
+
+      var lineLeft = new Vex.Flow.StaveConnector(stave, stave2).setType(1);
+      var lineRight = new Vex.Flow.StaveConnector(stave, stave2).setType(6);
+      stave2.setContext(ctx).draw();
+      lineLeft.setContext(ctx).draw();
+      lineRight.setContext(ctx).draw();
+    }
 
     // The StaveNote can have one or more keys (i.e. mono- or polyphonic)
-    var staveNote = new Vex.Flow.StaveNote({
-      clef: this.props.clef,
-      keys: keys,
-      duration: "q",
-      auto_stem: true
-    });
+    if (this.props.keys.length > 0) {
+      const staveNotes = [];
 
-    // Create a Voice in 1/4
-    var voice = new Vex.Flow.Voice({
-      num_beats: 1,
-      beat_value: 4,
-      resolution: Vex.Flow.RESOLUTION
-    });
+      // Come up with a StaveNote for each staff
+      if (isGrand) {
+        var upperKeys = this.teoriaKeysToVexflowKeys(this.props.keys.filter(teoriaKey => teoriaKey.octave() >= 4));
+        var lowerKeys = this.teoriaKeysToVexflowKeys(this.props.keys.filter(teoriaKey => teoriaKey.octave() < 4));
 
-    // Add the StaveNotes from earlier to the Voice
-    voice.addTickables([
-      staveNote
-    ]);
+        if (upperKeys.length > 0) {
+          staveNotes.push((new Vex.Flow.StaveNote({
+            clef: 'treble',
+            keys: upperKeys,
+            duration: "q",
+            auto_stem: true
+          })).setStave(stave));
+        }
+        if (lowerKeys.length > 0) {
+          staveNotes.push((new Vex.Flow.StaveNote({
+            clef: 'bass',
+            keys: lowerKeys,
+            duration: "q",
+            auto_stem: true
+          })).setStave(stave2));
+        }
+      } else {
+        var keys = this.teoriaKeysToVexflowKeys(this.props.keys);
+        staveNotes.push((new Vex.Flow.StaveNote({
+          clef: this.props.clef,
+          keys: keys,
+          duration: "q",
+          auto_stem: true,
+        })).setStave(stave));
+      }
 
-    // Apply accidentals
-    Vex.Flow.Accidental.applyAccidentals([voice], this.props.keySignature);
+      // Create a Voice in 1/4
+      var voice = new Vex.Flow.Voice({
+        num_beats: 1,
+        beat_value: 4,
+        resolution: Vex.Flow.RESOLUTION
+      });
 
-    // Format and justify the notes to 500 pixels
-    var formatter = new Vex.Flow.Formatter().
-      joinVoices([voice]).format([voice], (this.props.width-1)/2);
+      // Add the StaveNotes from earlier to the Voice
+      voice.addTickables(staveNotes);
 
-    // Render voice
-    voice.draw(ctx, stave);
+      // Apply accidentals
+      Vex.Flow.Accidental.applyAccidentals([voice], this.props.keySignature);
+
+      // Format and justify the notes to 500 pixels
+      var formatter = new Vex.Flow.Formatter().
+        joinVoices([voice]).format([voice], (this.props.width-1)/2);
+
+      // Render voice (to appropriate stave)
+      voice.draw(ctx);
+    }
   }
 
   render() {

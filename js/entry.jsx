@@ -7,6 +7,7 @@ import Home from './home.jsx';
 import About from './about.jsx';
 import SightReadingPracticeIntro from './modes/sight-reading-practice-intro.jsx';
 import PerfectPitchPracticeIntro from './modes/perfect-pitch-practice-intro.jsx';
+import FreePlayIntro from './modes/free-play-intro.jsx';
 
 // Needed by Material UI
 console.log("Injecting tap");
@@ -20,6 +21,7 @@ render(
       <Route path="about" component={About}/>
       <Route path="sightReading" component={SightReadingPracticeIntro}/>
       <Route path="perfectPitch" component={PerfectPitchPracticeIntro}/>
+      <Route path="freePlay" component={FreePlayIntro}/>
       <Route path="*" component={Home}/>
     </Route>
   </Router>,
