@@ -71,13 +71,13 @@ class KeyboardButtons extends React.Component {
         notes: upperRow,
         labels: this.props.useFlats ? upperRowFlats : upperRowSharps,
         className: "rx-keyboard-buttons--accidentals",
-        style: {position: "absolute", top: 0, left: "18px", zIndex: 1},
+        style: {position: "absolute", top: 0, left: "18px", width: "max-content", zIndex: 1},
       },
       {
         notes: lowerRow,
         labels: lowerRow,
         className: "",
-        style: {position: "absolute", top: 0},
+        style: {position: "absolute", top: 0, width: "max-content"},
       }
     ];
     return (
