@@ -26,9 +26,10 @@
     "webpack-dev-server": "1.14.1"
   },
   "scripts": {
+    "build": "npm run make-dist",
+    "clean": "rm -rf build",
     "start": "webpack-dev-server --hot --progress --colors --host 0.0.0.0",
-    "make-dist": "rm -rf build && webpack --output-source-map --optimize-minimize --progress --colors && cp -r index.html manifest.json css img build && cd build && sw-precache",
-    "clean": "rm -rf build"
+    "make-dist": "rm -rf build && webpack --output-source-map --optimize-minimize --progress --colors && cp -r index.html manifest.json css img build && cd build && sw-precache"
   },
   "repository": "BHSPitMonkey/Prelude",
   "author": "Stephen Eisenhauer",
