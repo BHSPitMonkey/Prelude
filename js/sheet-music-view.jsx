@@ -112,10 +112,11 @@ class SheetMusicView extends React.Component {
       var voice = new Vex.Flow.Voice({
         num_beats: 1,
         beat_value: 4,
-        resolution: Vex.Flow.RESOLUTION
+        resolution: Vex.Flow.RESOLUTION,
       });
 
       // Add the StaveNotes from earlier to the Voice
+      voice.setMode(Vex.Flow.Voice.Mode.SOFT);
       voice.addTickables(staveNotes);
 
       // Apply accidentals

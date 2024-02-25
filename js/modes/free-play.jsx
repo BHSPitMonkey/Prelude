@@ -25,6 +25,7 @@ export default class FreePlay extends React.Component {
 
     // Dirty way of storing on-screen keyboard keys down
     //this.keysDown = new Set();
+    /** @var Set Set of MIDI note numbers (integers) currently down/active */
     this.state.keysDown = new Set();
 
     // Prebind custom methods
@@ -86,7 +87,7 @@ export default class FreePlay extends React.Component {
     // We currently only care about inputs
     if (event.port.type == "input") {
       if (event.port.connection == "open") {
-        input.value.onmidimessage = this.onMidiMessage.bind(this);
+        event.port.onmidimessage = this.onMidiMessage.bind(this);
         this.context.snackbar("MIDI device connected!");
       }
     }
@@ -100,15 +101,22 @@ export default class FreePlay extends React.Component {
         midiNote = message.data[1],
         velocity = message.data[2];
 
+    const keysDown = this.state.keysDown;
     if (type == Midi.Types.NoteOn) {
+      keysDown.add(midiNote);
+      this.setState(keysDown);
+
       // Update NotesOn
       this.notesOn[midiNote] = true;
     } else if (type == Midi.Types.NoteOff) {
+      keysDown.delete(midiNote);
+      this.setState(keysDown);
+
       delete this.notesOn[midiNote];
     }
 
     this.setState({
-      keysDown: this.notesOn
+      keysDown: keysDown
     });
   }
 
@@ -122,23 +130,24 @@ export default class FreePlay extends React.Component {
    * @param {Set} entries The names of the key(s) being pressed.
    */
   handleKeyPress(entry) {
-    let keysDown = this.state.keysDown;
-
-    let autoHold = this.props.prefs['keyboardAutoHold'];
+    const keysDown = this.state.keysDown;
+    const autoHold = this.props.prefs['keyboardAutoHold'];
+    const note = Teoria.note(entry);
+    const midiNote = note.midi();
 
     // If there are multiple notes in this question, toggle this key in keysDown
     if (autoHold) {
-      if (keysDown.has(entry)) {
+      if (keysDown.has(midiNote)) {
         // Key is being un-pressed
-        keysDown.delete(entry);
+        keysDown.delete(midiNote);
       } else {
         // Key is being pressed
-        keysDown.add(entry);
+        keysDown.add(midiNote);
       }
     } else {
       // Clear keysDown and just add this key
       keysDown.clear();
-      keysDown.add(entry);
+      keysDown.add(midiNote);
     }
 
     // Save changed keysDown to state
@@ -148,8 +157,8 @@ export default class FreePlay extends React.Component {
   render() {
     // Map this.state.keysDown into Teoria notes
     const notesDown = [];
-    this.state.keysDown.forEach(key => {
-      notesDown.push(Teoria.note(key));
+    this.state.keysDown.forEach(midiNote => {
+      notesDown.push(Teoria.note.fromMIDI(midiNote));
     });
 
     return (

@@ -143,7 +143,7 @@ export default class SightReadingPractice extends React.Component {
     // We currently only care about inputs
     if (event.port.type == "input") {
       if (event.port.connection == "open") {
-        input.value.onmidimessage = this.onMidiMessage.bind(this);
+        event.port.onmidimessage = this.onMidiMessage.bind(this);
         this.context.snackbar("MIDI device connected!");
       }
     }
