@@ -2,27 +2,28 @@
  * A basic synthesizer for playing notes
  */
 export default class {
+  ctx: AudioContext;
+  comp: DynamicsCompressorNode;
+  readonly frequencies = {
+    'c': 261.63,
+    'c#': 277.18,
+    'd': 293.66,
+    'd#': 311.13,
+    'e': 329.63,
+    'f': 349.23,
+    'f#': 369.99,
+    'g': 392.00,
+    'g#': 415.30,
+    'a': 440.00,
+    'a#': 466.16,
+    'b': 493.88,
+  };
   constructor() {
-    this.ctx = new(window.AudioContext || window.webkitAudioContext)();
+    this.ctx = new window.AudioContext();
 
     // Dynamic compressor prevents polyphony from causing clipping
     this.comp = this.ctx.createDynamicsCompressor();
     this.comp.connect(this.ctx.destination);
-
-    this.frequencies = {
-      'c': 261.63,
-      'c#': 277.18,
-      'd': 293.66,
-      'd#': 311.13,
-      'e': 329.63,
-      'f': 349.23,
-      'f#': 369.99,
-      'g': 392.00,
-      'g#': 415.30,
-      'a': 440.00,
-      'a#': 466.16,
-      'b': 493.88,
-    };
   }
   play(key, seconds) {
     let now = this.ctx.currentTime;
