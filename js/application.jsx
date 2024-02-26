@@ -12,7 +12,7 @@ import InfoIcon from 'material-ui/svg-icons/action/info';
 import MusicNoteIcon from 'material-ui/svg-icons/image/music-note';
 import HearingIcon from 'material-ui/svg-icons/av/hearing';
 import PianoIcon from 'material-ui/svg-icons/av/play-circle-outline'
-import Synth from './synth.ts';
+import Synth from './synth';
 
 const muiTheme = getMuiTheme({
   palette: {

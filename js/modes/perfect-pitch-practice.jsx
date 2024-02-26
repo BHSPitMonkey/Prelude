@@ -6,7 +6,7 @@ import Card from 'material-ui/Card/Card';
 import CardTitle from 'material-ui/Card/CardTitle';
 import CardText from 'material-ui/Card/CardText';
 import KeyboardButtons from '../keyboard-buttons.jsx';
-import * as Midi from '../midi.ts';
+import * as Midi from '../midi';
 
 /**
  * Component providing the perfect pitch practice game (in entirety)

@@ -1,5 +1,10 @@
 {
     "compilerOptions": {
+        // Required
+        "module": "esnext",
+        "moduleResolution": "bundler",
+        "esModuleInterop": true,
+
         // allow a partial TypeScript and JavaScript codebase
         //"allowJs": true,
         // Ensure that .d.ts files are created by tsc, but not .js files

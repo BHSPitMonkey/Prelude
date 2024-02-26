@@ -1,8 +1,6 @@
 import React from 'react';
-import { Router, Route, IndexRoute, Link } from 'react-router'
 import CardTitle from 'material-ui/Card/CardTitle';
 import CardText from 'material-ui/Card/CardText';
-import CardHeader from 'material-ui/Card/CardHeader';
 import Card from './common/card.jsx';
 import TipCard from './common/tip-card.jsx';
 
@@ -10,6 +8,9 @@ import TipCard from './common/tip-card.jsx';
  * Component providing the main/home screen
  */
 class Home extends React.Component {
+  context: { appbar: ( title: string, leftElement?: HTMLElement, rightElement?: HTMLElement) => void };
+  props: { location: { query: { [x: string]: string } } };
+  static contextTypes: { snackbar: any; appbar: any; };
   constructor(props) {
     super(props);
 
@@ -22,8 +23,9 @@ class Home extends React.Component {
   render() {
     // Logic behind display of Add To Home Screen cards
     let addToHomeCard = null;
+    debugger;
     let { query } = this.props.location;
-    if (window.navigator.standalone !== undefined) {
+    if ('standalone' in window.navigator && window.navigator.standalone !== undefined) {
       // Assume Safari for iOS
       if (window.navigator.standalone === false) {
         addToHomeCard = (

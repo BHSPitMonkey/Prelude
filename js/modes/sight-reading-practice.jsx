@@ -7,7 +7,7 @@ import CardTitle from 'material-ui/Card/CardTitle';
 import CardText from 'material-ui/Card/CardText';
 import SheetMusicView from '../sheet-music-view.jsx';
 import KeyboardButtons from '../keyboard-buttons.jsx';
-import * as Midi from '../midi.ts';
+import * as Midi from '../midi';
 import PD from 'probability-distributions';
 
 // Private constants

@@ -4,7 +4,7 @@ const path = require('path');
 const webpack = require("webpack");
 
 module.exports = {
-  entry: "./js/entry.jsx",
+  entry: "./js/entry.tsx",
   devtool: "source-map",
   devServer: {
     static: './build',
@@ -45,6 +45,7 @@ module.exports = {
     }),
   ],
   resolve: {
+    extensions: ['.ts', '.tsx', '.js', '.json'],
     fallback: {
       buffer: require.resolve("buffer/"),
       crypto: require.resolve("crypto-browserify"),
