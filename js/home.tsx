@@ -1,8 +1,8 @@
 import React from 'react';
 import CardTitle from 'material-ui/Card/CardTitle';
 import CardText from 'material-ui/Card/CardText';
-import Card from './common/card.jsx';
-import TipCard from './common/tip-card.jsx';
+import Card from './common/card';
+import TipCard from './common/tip-card';
 
 /**
  * Component providing the main/home screen

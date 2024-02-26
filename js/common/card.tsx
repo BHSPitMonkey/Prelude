@@ -5,6 +5,7 @@ import Card from 'material-ui/Card/Card';
  * Wrapper around material-ui Card with some customizations
  */
 export default class extends React.Component {
+  props: {};
   render() {
     //var { children, ...other } = this.props;
     return (
