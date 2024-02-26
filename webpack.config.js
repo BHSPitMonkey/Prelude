@@ -1,12 +1,21 @@
-var webpack = require("webpack");
-var childProcess = require("child_process");
+const childProcess = require("child_process");
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const path = require('path');
+const webpack = require("webpack");
+
 module.exports = {
   entry: "./js/entry.jsx",
   devtool: "source-map",
+  devServer: {
+    static: './build',
+  },
+  optimization: {
+    runtimeChunk: 'single',
+  },
   output: {
     hashFunction: "xxhash64",
     path: __dirname + "/build",
-    filename: "bundle.js",
+    filename: "[name].js",
     sourceMapFilename: "[file].map",
   },
   module: {
@@ -30,6 +39,9 @@ module.exports = {
       __BUILD__: JSON.stringify(
         childProcess.execSync("git rev-parse --short HEAD").toString().trim()
       ),
+    }),
+    new HtmlWebpackPlugin({
+      template: "index.html"
     }),
   ],
   resolve: {
