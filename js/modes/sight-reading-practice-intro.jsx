@@ -1,5 +1,5 @@
 import React from 'react';
-import PracticeIntro from '../common/practice-intro.jsx';
+import PracticeIntro from '../common/practice-intro';
 import SightReadingPractice from './sight-reading-practice.jsx';
 
 /**

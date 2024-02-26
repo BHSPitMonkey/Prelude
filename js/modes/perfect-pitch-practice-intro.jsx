@@ -1,5 +1,5 @@
 import React from 'react';
-import PracticeIntro from '../common/practice-intro.jsx';
+import PracticeIntro from '../common/practice-intro';
 import PerfectPitchPractice from './perfect-pitch-practice.jsx';
 
 /**

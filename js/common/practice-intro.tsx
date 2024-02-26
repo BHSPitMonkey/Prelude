@@ -5,8 +5,8 @@ import NavigationBackIcon from 'material-ui/svg-icons/navigation/arrow-back';
 import List from 'material-ui/List/List';
 import Subheader from 'material-ui/Subheader';
 import Card from './card';
-import PrefsToggle from './prefs-toggle.jsx';
-import PrefsCheckbox from './prefs-checkbox.jsx';
+import PrefsToggle from './prefs-toggle';
+import PrefsCheckbox from './prefs-checkbox';
 
 /**
  * Wrapper component for practice modes, containing general functionality for
@@ -17,6 +17,19 @@ import PrefsCheckbox from './prefs-checkbox.jsx';
  * how to use.
  */
 class PracticeIntro extends React.Component {
+  props: {component: React.Component, title: string, prefDefs: {
+    header: string;
+    items: {
+        type: string;
+        label: string;
+        pref: string;
+        default: boolean;
+    }[];
+}[], prefsNamespace: string};
+  state: { started: boolean; prefs: any; };
+  context: { appbar: (title: string, leftElement?: HTMLElement, rightElement?: HTMLElement) => void };
+  static contextTypes: { snackbar: any; appbar: any; };
+
   constructor(props) {
     super(props);
 
