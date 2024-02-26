@@ -76,7 +76,7 @@ class KeyboardButtons extends React.Component {
       {
         notes: lowerRow,
         labels: lowerRow,
-        className: "",
+        className: "rx-keyboard-buttons--naturals",
         style: {position: "absolute", top: 0, width: "max-content"},
       }
     ];
