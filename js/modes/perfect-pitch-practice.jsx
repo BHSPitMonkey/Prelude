@@ -5,7 +5,7 @@ import PlayArrow from 'material-ui/svg-icons/av/play-arrow';
 import Card from 'material-ui/Card/Card';
 import CardTitle from 'material-ui/Card/CardTitle';
 import CardText from 'material-ui/Card/CardText';
-import KeyboardButtons from '../keyboard-buttons.jsx';
+import KeyboardButtons from '../keyboard-buttons';
 import * as Midi from '../midi';
 
 /**

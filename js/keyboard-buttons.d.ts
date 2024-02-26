@@ -1,11 +1,12 @@
-export default KeyboardButtons;
-declare class KeyboardButtons {
+import React from 'react';
+declare class KeyboardButtons extends React.Component {
+    props: any;
+    context: any;
+    static contextTypes: {
+        synth: any;
+    };
     constructor(props: any);
     onButtonPress(event: any): void;
     render(): any;
 }
-declare namespace KeyboardButtons {
-    namespace contextTypes {
-        let synth: any;
-    }
-}
+export default KeyboardButtons;

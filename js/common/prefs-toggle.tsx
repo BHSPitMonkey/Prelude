@@ -3,6 +3,7 @@ import {ListItem} from 'material-ui/List';
 import Toggle from 'material-ui/Toggle';
 
 export default class extends React.Component {
+  props: { text: string, name: string, defaultState: boolean, onSwitch: Function };
   render() {
     return (
       <ListItem

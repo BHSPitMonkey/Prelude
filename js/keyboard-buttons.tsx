@@ -1,5 +1,4 @@
 import React from 'react';
-import RaisedButton from 'material-ui/RaisedButton';
 import { grey100, grey200, grey800, cyanA700, white } from 'material-ui/styles/colors';
 
 // Private constants
@@ -10,6 +9,7 @@ const lowerRow = ['c', 'd', 'e', 'f', 'g', 'a', 'b'];
 
 // Component representing a single key
 class Key extends React.Component {
+  props: {note, held: boolean, onClick: Function, label, keysDown, showLabels, useFlats, style};
   render() {
     var key = this.props.note;
     //var showLabel = this.props.showLabel;
@@ -40,6 +40,9 @@ class Key extends React.Component {
 
 // Component representing an interactive piano keyboard
 class KeyboardButtons extends React.Component {
+  props: any;
+  context: any;
+  static contextTypes: { synth: any; };
   constructor(props) {
     super(props);
 
