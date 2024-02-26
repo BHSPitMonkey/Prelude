@@ -4,7 +4,7 @@ import { Router, Route, IndexRoute, Link, hashHistory } from 'react-router'
 import injectTapEventPlugin from 'react-tap-event-plugin';
 import Application from './application.jsx';
 import Home from './home.jsx';
-import About from './about.jsx';
+import About from './about.tsx';
 import SightReadingPracticeIntro from './modes/sight-reading-practice-intro.jsx';
 import PerfectPitchPracticeIntro from './modes/perfect-pitch-practice-intro.jsx';
 import FreePlayIntro from './modes/free-play-intro.jsx';

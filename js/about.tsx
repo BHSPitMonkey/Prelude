@@ -15,6 +15,8 @@ import Card from './common/card.jsx';
  * Component providing the About screen
  */
 class About extends React.Component {
+  static contextTypes: { snackbar: any; appbar: any; };
+  context: { appbar: (title: string, leftElement?: HTMLElement, rightElement?: HTMLElement) => void };
   constructor(props) {
     super(props);
 
@@ -60,7 +62,6 @@ class About extends React.Component {
           <List>
             {
               linkDefs.map(function(item, i) {
-                let leftIconClass = item.leftIconClass;
                 return (
                   <a href={item.url} target="_blank" style={{textDecoration: "none"}} key={i}>
                     <ListItem primaryText={item.text} leftIcon={item.icon} rightIcon={<OpenInNewIcon />} />
