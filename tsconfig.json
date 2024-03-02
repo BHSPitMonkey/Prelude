@@ -14,7 +14,8 @@
         "isolatedModules": true,
         // use typescript to transpile jsx to js
         "jsx": "react",
-        "lib": ["DOM", "ESNext.Array"]
+        "downlevelIteration": true,
+        "lib": ["DOM", "ES2016", "ESNext.Array"]
     },
     "exclude": [
         "./build/**/*" // This is what fixed it!

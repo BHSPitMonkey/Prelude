@@ -1,32 +1,36 @@
+import React from 'react';
+import NoSleep from 'nosleep';
+import { PreferencesState, PreferenceGroup } from '../common/practice-intro';
+import Synth from '../synth';
+type SightReadingPracticeProps = {
+    prefs: PreferencesState;
+};
 /**
  * Component providing the sight reading practice game (in entirety)
  */
-declare class SightReadingPractice {
-    constructor(props: any);
-    nosleep: any;
-    clefs: any[];
-    types: any[];
-    state: {
-        clef: any;
-        keySignature: any;
-        keys: any[];
-        flatKeyboardLabels: boolean;
+export default class SightReadingPractice extends React.Component {
+    static contextTypes: any;
+    static prefsDefinitions: PreferenceGroup[];
+    clefs: string[];
+    context: {
+        snackbar: (message: string, duration?: number) => void;
+        synth: Synth;
     };
-    notesOn: {};
-    /**
-     * Generate a new question to ask and update state
-     */
-    newQuestion(): void;
-    /**
-     * Handle a guessed answer and judge it to be right or wrong.
-     *
-     * Guesses could be sent here from multiple places:
-     *  - The on-screen musical keyboard (KeyboardButtons component)
-     *  - Keyboard input
-     *
-     * @param {Set} entries The names of the key(s) being guessed.
-     */
-    handleGuess(entry: any): void;
+    props: SightReadingPracticeProps;
+    nosleep: NoSleep;
+    notesOn: {
+        [x: number]: true;
+    };
+    state: {
+        clef: 'bass' | 'alto' | 'treble' | 'grand';
+        flatKeyboardLabels: boolean;
+        keys: any;
+        keysDown?: any;
+        keySignature: any;
+    };
+    types: string[];
+    constructor(props: SightReadingPracticeProps);
+    r(arr: any): any;
     /**
      * We need to disable nosleep on unmount in case the user leaves the practice session by some other means than by
      * using the back button in the AppBar (e.g. by using their browser navigation)
@@ -37,7 +41,6 @@ declare class SightReadingPractice {
      * Handler for after we've been granted the MIDI access we requested at launch
      */
     onMidiAccessGranted(midi: any): void;
-    r(arr: any): any;
     /**
      * Handler for new MIDI devices connected after launch
      */
@@ -55,23 +58,22 @@ declare class SightReadingPractice {
         keys: any[];
         flatKeyboardLabels: boolean;
     };
+    /**
+     * Generate a new question to ask and update state
+     */
+    newQuestion(): void;
+    /**
+     * Handle a guessed answer and judge it to be right or wrong.
+     *
+     * Guesses could be sent here from multiple places:
+     *  - The on-screen musical keyboard (KeyboardButtons component)
+     *  - Keyboard input
+     *
+     * @param {Set} entries The names of the key(s) being guessed.
+     */
+    handleGuess(entry: any): void;
     correctGuess(): void;
     incorrectGuess(): void;
-    render(): any;
+    render(): React.JSX.Element;
 }
-declare namespace SightReadingPractice {
-    namespace contextTypes {
-        let snackbar: any;
-        let appbar: any;
-    }
-    let prefsDefinitions: {
-        header: string;
-        items: {
-            type: string;
-            label: string;
-            pref: string;
-            default: boolean;
-        }[];
-    }[];
-}
-export default SightReadingPractice;
+export {};

@@ -9,7 +9,9 @@ import SheetMusicView from '../sheet-music-view';
 import KeyboardButtons from '../keyboard-buttons';
 import * as Midi from '../midi';
 import PD from 'probability-distributions';
+import { PreferencesState, PreferenceGroup } from '../common/practice-intro';;
 import PropTypes from 'prop-types';
+import Synth from '../synth';
 
 // Private constants
 const possibleClefs = ['treble', 'bass', 'alto'];
@@ -36,11 +38,31 @@ const clefOptions = {
   },
 };
 
+type SightReadingPracticeProps = {
+  prefs: PreferencesState,
+};
+
 /**
  * Component providing the sight reading practice game (in entirety)
  */
 export default class SightReadingPractice extends React.Component {
-  constructor(props) {
+  static contextTypes;
+  static prefsDefinitions: PreferenceGroup[];
+  clefs: string[];
+  context: { snackbar: (message: string, duration?: number) => void, synth: Synth };
+  props: SightReadingPracticeProps;
+  nosleep: NoSleep;
+  notesOn: { [x: number]: true };
+  state: {
+    clef: 'bass' | 'alto' | 'treble' | 'grand',
+    flatKeyboardLabels: boolean,
+    keys,
+    keysDown?,
+    keySignature,
+  };
+  types: string[];
+
+  constructor(props: SightReadingPracticeProps) {
     super(props);
 
     this.nosleep = new NoSleep();
@@ -207,13 +229,16 @@ export default class SightReadingPractice extends React.Component {
       // Choose a number of sharps/flats, from 0 to 7, favoring lower amounts
       var numAccidentals = Math.floor(PD.rbeta(1, 1, 3)[0] * 8);
       var candidateSignatures = [];
+      // @ts-ignore keySignature.keySpecs actually exists
       var keySignatures = Object.keys(Vex.Flow.keySignature.keySpecs);
       keySignatures.forEach((key) => {
+        // @ts-ignore keySignature.keySpecs actually exists
         if (Vex.Flow.keySignature.keySpecs[key]['num'] == numAccidentals) {
           candidateSignatures.push(key);
         }
       });
       keySignature = r(candidateSignatures);
+      // @ts-ignore keySignature.keySpecs actually exists
       if (Vex.Flow.keySignature.keySpecs[keySignature].acc == "b") {
         flatKeyboardLabels = true;
       }
@@ -235,6 +260,7 @@ export default class SightReadingPractice extends React.Component {
     let scale = Teoria.scale(tonic, scaleType);
 
     // Branch based on type (single, chord, cluster)
+    let notes = [];
     let type = r(this.types);
     switch (type) {
       case 'single':
@@ -256,7 +282,7 @@ export default class SightReadingPractice extends React.Component {
             }
           }
         }
-        var notes = [Teoria.note(key + accidental + octave)];
+        notes = [Teoria.note(key + accidental + octave)];
         break;
       case 'chords':
         // First pick a root Note from the chosen Scale...
@@ -265,7 +291,6 @@ export default class SightReadingPractice extends React.Component {
         let root = scaleNotes[scaleDegree];
 
         // If accidentals are enabled, choose a random chord quality
-        var notes;
         if (this.props.prefs.accidentals) {
           // Then pick a chord type...
           let chordType = r(possibleChordTypes);

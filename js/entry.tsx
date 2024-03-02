@@ -5,7 +5,7 @@ import injectTapEventPlugin from 'react-tap-event-plugin';
 import Application from './application';
 import Home from './home';
 import About from './about';
-import SightReadingPracticeIntro from './modes/sight-reading-practice-intro.jsx';
+import SightReadingPracticeIntro from './modes/sight-reading-practice-intro';
 import PerfectPitchPracticeIntro from './modes/perfect-pitch-practice-intro';
 import FreePlayIntro from './modes/free-play-intro';
 
