@@ -9,6 +9,7 @@ import SheetMusicView from '../sheet-music-view.jsx';
 import KeyboardButtons from '../keyboard-buttons';
 import * as Midi from '../midi';
 import PD from 'probability-distributions';
+import PropTypes from 'prop-types';
 
 // Private constants
 const possibleClefs = ['treble', 'bass', 'alto'];
@@ -482,8 +483,8 @@ export default class SightReadingPractice extends React.Component {
   }
 }
 SightReadingPractice.contextTypes = {
-  snackbar: React.PropTypes.func,
-  appbar: React.PropTypes.func,
+  snackbar: PropTypes.func,
+  appbar: PropTypes.func,
 };
 SightReadingPractice.prefsDefinitions = [
   {

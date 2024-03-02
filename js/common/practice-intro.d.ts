@@ -1,4 +1,17 @@
-import React from 'react';
+import React, { ReactElement } from 'react';
+export type PreferenceItem = {
+    type: string;
+    label: string;
+    pref: string;
+    default: boolean;
+};
+export type PreferenceGroup = {
+    header: string;
+    items: PreferenceItem[];
+};
+export type PreferencesState = {
+    [x: string]: any;
+};
 /**
  * Wrapper component for practice modes, containing general functionality for
  * displaying an initial options screen with a "start" button to begin an
@@ -9,25 +22,19 @@ import React from 'react';
  */
 declare class PracticeIntro extends React.Component {
     props: {
-        component: React.Component;
+        component: React.ComponentType<{
+            prefs: PreferencesState;
+        }>;
         title: string;
-        prefDefs: {
-            header: string;
-            items: {
-                type: string;
-                label: string;
-                pref: string;
-                default: boolean;
-            }[];
-        }[];
+        prefDefs: PreferenceGroup[];
         prefsNamespace: string;
     };
     state: {
         started: boolean;
-        prefs: any;
+        prefs: PreferencesState;
     };
     context: {
-        appbar: (title: string, leftElement?: HTMLElement, rightElement?: HTMLElement) => void;
+        appbar: (title: string, leftElement?: Element | ReactElement, rightElement?: Element | ReactElement) => void;
     };
     static contextTypes: {
         snackbar: any;
@@ -57,6 +64,6 @@ declare class PracticeIntro extends React.Component {
      * Handler for all toggle switches and checkboxes
      */
     onToggle(e: any, enabled: any): void;
-    render(): any;
+    render(): React.JSX.Element;
 }
 export default PracticeIntro;

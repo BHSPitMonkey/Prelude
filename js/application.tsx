@@ -1,5 +1,6 @@
 import React from 'react';
-import { Router, Route, Link } from 'react-router'
+import PropTypes from 'prop-types';
+import { Router } from 'react-router'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import { cyan700, cyan900 } from 'material-ui/styles/colors';
@@ -25,6 +26,13 @@ const muiTheme = getMuiTheme({
  * Top-level application component
  */
 class Application extends React.Component {
+  state: { drawerOpen: boolean; snackbarOpen: boolean; snackbarMessage: string; snackbarAutoHideDuration: number; appBarTitle: string; appBarLeftElement: any; appBarRightElement: any; };
+  menuItems: { Home: { route: string; icon: any; }; "Sight Reading Practice": { route: string; icon: any; }; "Perfect Pitch Practice": { route: string; icon: any; }; "Free Play": { route: string; icon: any; }; About: { route: string; icon: any; }; };
+  synth: Synth;
+  context: { router: Router };
+  props: { children: any; };
+  static contextTypes: { router: Router; };
+  static childContextTypes;
 
   constructor(props) {
     super(props);
@@ -179,11 +187,11 @@ class Application extends React.Component {
   }
 }
 Application.contextTypes = {
-  router: React.PropTypes.object
+  router: PropTypes.object
 };
 Application.childContextTypes = {
-  snackbar: React.PropTypes.func,
-  appbar: React.PropTypes.func,
-  synth: React.PropTypes.object,
+  snackbar: PropTypes.func,
+  appbar: PropTypes.func,
+  synth: PropTypes.instanceOf(Synth),
 };
 export default Application;

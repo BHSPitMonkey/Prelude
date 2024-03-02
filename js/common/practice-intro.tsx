@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactElement } from 'react';
 import FlatButton from 'material-ui/FlatButton';
 import IconButton from 'material-ui/IconButton';
 import NavigationBackIcon from 'material-ui/svg-icons/navigation/arrow-back';
@@ -7,6 +7,21 @@ import Subheader from 'material-ui/Subheader';
 import Card from './card';
 import PrefsToggle from './prefs-toggle';
 import PrefsCheckbox from './prefs-checkbox';
+import PropTypes from 'prop-types';
+
+export type PreferenceItem = {
+  type: string;
+  label: string;
+  pref: string;
+  default: boolean;
+};
+export type PreferenceGroup = {
+  header: string;
+  items: PreferenceItem[];
+};
+export type PreferencesState = {
+  [x: string]: any
+};
 
 /**
  * Wrapper component for practice modes, containing general functionality for
@@ -17,17 +32,9 @@ import PrefsCheckbox from './prefs-checkbox';
  * how to use.
  */
 class PracticeIntro extends React.Component {
-  props: {component: React.Component, title: string, prefDefs: {
-    header: string;
-    items: {
-        type: string;
-        label: string;
-        pref: string;
-        default: boolean;
-    }[];
-}[], prefsNamespace: string};
-  state: { started: boolean; prefs: any; };
-  context: { appbar: (title: string, leftElement?: HTMLElement, rightElement?: HTMLElement) => void };
+  props: { component: React.ComponentType<{ prefs: PreferencesState }>, title: string, prefDefs: PreferenceGroup[], prefsNamespace: string };
+  state: { started: boolean; prefs: PreferencesState; };
+  context: { appbar: (title: string, leftElement?: Element | ReactElement, rightElement?: Element | ReactElement) => void };
   static contextTypes: { snackbar: any; appbar: any; };
 
   constructor(props) {
@@ -36,7 +43,7 @@ class PracticeIntro extends React.Component {
     // If localStorage doesn't have prefs yet, pre-populate with defaults
     let prefs = localStorage["prefs." + this.props.prefsNamespace];
     if (prefs === undefined) {
-      var defaults = {};
+      var defaults: { [x: string]: any } = {};
       this.props.prefDefs.forEach(section => {
         section.items.forEach(item => {
           defaults[item.pref] = item.default;
@@ -147,7 +154,7 @@ class PracticeIntro extends React.Component {
   }
 }
 PracticeIntro.contextTypes = {
-  snackbar: React.PropTypes.func,
-  appbar: React.PropTypes.func,
+  snackbar: PropTypes.func,
+  appbar: PropTypes.func,
 };
 export default PracticeIntro;

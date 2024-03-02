@@ -4,6 +4,7 @@ import Teoria from 'teoria';
 import Card from 'material-ui/Card/Card';
 import CardTitle from 'material-ui/Card/CardTitle';
 import CardText from 'material-ui/Card/CardText';
+import PropTypes from 'prop-types';
 import SheetMusicView from '../sheet-music-view.jsx';
 import KeyboardButtons from '../keyboard-buttons';
 import * as Midi from '../midi'
@@ -184,8 +185,8 @@ export default class FreePlay extends React.Component {
   }
 }
 FreePlay.contextTypes = {
-  snackbar: React.PropTypes.func,
-  appbar: React.PropTypes.func,
+  snackbar: PropTypes.func,
+  appbar: PropTypes.func,
 };
 FreePlay.prefsDefinitions = [
   {

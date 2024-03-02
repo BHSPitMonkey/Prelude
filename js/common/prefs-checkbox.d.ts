@@ -6,5 +6,5 @@ export default class extends React.Component {
         defaultState: boolean;
         onSwitch: Function;
     };
-    render(): any;
+    render(): React.JSX.Element;
 }

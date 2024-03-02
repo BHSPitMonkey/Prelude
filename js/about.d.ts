@@ -8,11 +8,11 @@ declare class About extends React.Component {
         appbar: any;
     };
     context: {
-        appbar: (title: string, leftElement?: HTMLElement, rightElement?: HTMLElement) => void;
+        appbar: (title: string, leftElement?: Element, rightElement?: Element) => void;
     };
     constructor(props: any);
     componentWillMount(): void;
     clearSettings(): void;
-    render(): any;
+    render(): React.JSX.Element;
 }
 export default About;

@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { CSSProperties, MouseEvent, MouseEventHandler } from 'react';
+import PropTypes from 'prop-types';
 import { grey100, grey200, grey800, cyanA700, white } from 'material-ui/styles/colors';
 
 // Private constants
@@ -9,14 +10,19 @@ const lowerRow = ['c', 'd', 'e', 'f', 'g', 'a', 'b'];
 
 // Component representing a single key
 class Key extends React.Component {
-  props: {note, held: boolean, onClick: Function, label, keysDown, showLabels, useFlats, style};
+  props: {
+    note,
+    held: boolean,
+    onClick: MouseEventHandler,
+    label: string
+  };
   render() {
     var key = this.props.note;
     //var showLabel = this.props.showLabel;
     //var text = showLabel ? key : '';
     var accidental = (key.length > 1);
     var buttonWidth = "40px";
-    var style = {
+    var style: CSSProperties = {
       width: buttonWidth,
       textTransform: "uppercase",
       height: accidental ? "70px" : "140px",
@@ -40,7 +46,7 @@ class Key extends React.Component {
 
 // Component representing an interactive piano keyboard
 class KeyboardButtons extends React.Component {
-  props: any;
+  props: { onEntry: Function, enableSound: boolean, keysDown, showLabels: boolean, useFlats: boolean, style: CSSProperties };
   context: any;
   static contextTypes: { synth: any; };
   constructor(props) {
@@ -51,15 +57,17 @@ class KeyboardButtons extends React.Component {
   }
 
   // Click handler for keys
-  onButtonPress(event) {
-    let key = event.target.getAttribute('data-key');
+  onButtonPress(event: MouseEvent<HTMLElement>) {
+    if (event.target instanceof HTMLElement) {
+      let key = event.target.getAttribute('data-key');
 
-    // Report all currently-down key(s) to parent's callback
-    this.props.onEntry(key);
+      // Report all currently-down key(s) to parent's callback
+      this.props.onEntry(key);
 
-    // Play sound (TODO: Unless key is going from down to up)
-    if (this.props.enableSound) {
-      this.context.synth.play(key, 0.25);
+      // Play sound (TODO: Unless key is going from down to up)
+      if (this.props.enableSound) {
+        this.context.synth.play(key, 0.25);
+      }
     }
   }
 
@@ -69,7 +77,7 @@ class KeyboardButtons extends React.Component {
       width: "266px",
       height: "140px"
     }, this.props.style);
-    let rows = [
+    const rows: { notes: string[], labels: string[], className: string, style: CSSProperties }[] = [
       {
         notes: upperRow,
         labels: this.props.useFlats ? upperRowFlats : upperRowSharps,
@@ -99,6 +107,6 @@ class KeyboardButtons extends React.Component {
   }
 }
 KeyboardButtons.contextTypes = {
-  synth: React.PropTypes.object,
+  synth: PropTypes.object,
 };
 export default KeyboardButtons;

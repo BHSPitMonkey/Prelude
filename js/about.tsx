@@ -1,13 +1,11 @@
 import React from 'react';
-import CardActions from 'material-ui/Card/CardActions';
 import CardHeader from 'material-ui/Card/CardHeader';
-import CardMedia from 'material-ui/Card/CardMedia';
-import CardTitle from 'material-ui/Card/CardTitle';
 import FlatButton from 'material-ui/FlatButton';
 import CardText from 'material-ui/Card/CardText';
 import {List, ListItem} from 'material-ui/List';
 import CodeIcon from 'material-ui/svg-icons/action/code';
 import PersonIcon from 'material-ui/svg-icons/social/person';
+import PropTypes from 'prop-types';
 import OpenInNewIcon from 'material-ui/svg-icons/action/open-in-new';
 import Card from './common/card';
 
@@ -16,7 +14,7 @@ import Card from './common/card';
  */
 class About extends React.Component {
   static contextTypes: { snackbar: any; appbar: any; };
-  context: { appbar: (title: string, leftElement?: HTMLElement, rightElement?: HTMLElement) => void };
+  context: { appbar: (title: string, leftElement?: Element, rightElement?: Element) => void };
   constructor(props) {
     super(props);
 
@@ -77,7 +75,7 @@ class About extends React.Component {
   }
 }
 About.contextTypes = {
-  snackbar: React.PropTypes.func,
-  appbar: React.PropTypes.func,
+  snackbar: PropTypes.func,
+  appbar: PropTypes.func,
 };
 export default About;

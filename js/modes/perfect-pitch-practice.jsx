@@ -6,6 +6,7 @@ import Card from 'material-ui/Card/Card';
 import CardTitle from 'material-ui/Card/CardTitle';
 import CardText from 'material-ui/Card/CardText';
 import KeyboardButtons from '../keyboard-buttons';
+import PropTypes from 'prop-types';
 import * as Midi from '../midi';
 
 /**
@@ -213,9 +214,9 @@ export default class PerfectPitchPractice extends React.Component {
   }
 }
 PerfectPitchPractice.contextTypes = {
-  snackbar: React.PropTypes.func,
-  appbar: React.PropTypes.func,
-  synth: React.PropTypes.object,
+  snackbar: PropTypes.func,
+  appbar: PropTypes.func,
+  synth: PropTypes.object,
 };
 PerfectPitchPractice.prefsDefinitions = [
   {

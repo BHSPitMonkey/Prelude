@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import CardTitle from 'material-ui/Card/CardTitle';
 import CardText from 'material-ui/Card/CardText';
 import Card from './common/card';
@@ -8,7 +9,7 @@ import TipCard from './common/tip-card';
  * Component providing the main/home screen
  */
 class Home extends React.Component {
-  context: { appbar: ( title: string, leftElement?: HTMLElement, rightElement?: HTMLElement) => void };
+  context: { appbar: ( title: string, leftElement?: Element, rightElement?: Element) => void };
   props: { location: { query: { [x: string]: string } } };
   static contextTypes: { snackbar: any; appbar: any; };
   constructor(props) {
@@ -77,7 +78,7 @@ class Home extends React.Component {
   }
 }
 Home.contextTypes = {
-  snackbar: React.PropTypes.func,
-  appbar: React.PropTypes.func,
+  snackbar: PropTypes.func,
+  appbar: PropTypes.func,
 };
 export default Home;

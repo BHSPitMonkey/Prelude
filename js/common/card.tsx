@@ -1,11 +1,11 @@
-import React from 'react';
+import React, { ReactElement } from 'react';
 import Card from 'material-ui/Card/Card';
 
 /**
  * Wrapper around material-ui Card with some customizations
  */
 export default class extends React.Component {
-  props: {};
+  props: { children?: Element | Element[] | ReactElement | ReactElement[], style?: React.CSSProperties };
   render() {
     //var { children, ...other } = this.props;
     return (

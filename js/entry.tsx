@@ -2,7 +2,7 @@ import React from 'react';
 import { render } from 'react-dom'
 import { Router, Route, IndexRoute, Link, hashHistory } from 'react-router'
 import injectTapEventPlugin from 'react-tap-event-plugin';
-import Application from './application.jsx';
+import Application from './application';
 import Home from './home';
 import About from './about';
 import SightReadingPracticeIntro from './modes/sight-reading-practice-intro.jsx';

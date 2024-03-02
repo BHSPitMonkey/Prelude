@@ -4,7 +4,7 @@ import React from 'react';
  */
 declare class Home extends React.Component {
     context: {
-        appbar: (title: string, leftElement?: HTMLElement, rightElement?: HTMLElement) => void;
+        appbar: (title: string, leftElement?: Element, rightElement?: Element) => void;
     };
     props: {
         location: {
@@ -19,6 +19,6 @@ declare class Home extends React.Component {
     };
     constructor(props: any);
     componentWillMount(): void;
-    render(): any;
+    render(): React.JSX.Element;
 }
 export default Home;

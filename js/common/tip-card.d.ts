@@ -7,5 +7,5 @@ export default class extends React.Component {
         children: any;
         title: string;
     };
-    render(): any;
+    render(): React.JSX.Element;
 }
