@@ -6,7 +6,7 @@ import Application from './application';
 import Home from './home';
 import About from './about';
 import SightReadingPracticeIntro from './modes/sight-reading-practice-intro.jsx';
-import PerfectPitchPracticeIntro from './modes/perfect-pitch-practice-intro.jsx';
+import PerfectPitchPracticeIntro from './modes/perfect-pitch-practice-intro';
 import FreePlayIntro from './modes/free-play-intro';
 
 // Needed by Material UI

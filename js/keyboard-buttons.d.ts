@@ -3,9 +3,9 @@ declare class KeyboardButtons extends React.Component {
     props: {
         onEntry: Function;
         enableSound: boolean;
-        keysDown: any;
+        keysDown?: Set<string>;
         showLabels: boolean;
-        useFlats: boolean;
+        useFlats?: boolean;
         style: CSSProperties;
     };
     context: any;

@@ -5,15 +5,29 @@ import PlayArrow from 'material-ui/svg-icons/av/play-arrow';
 import Card from 'material-ui/Card/Card';
 import CardTitle from 'material-ui/Card/CardTitle';
 import CardText from 'material-ui/Card/CardText';
-import KeyboardButtons from '../keyboard-buttons';
+import KeyboardButtons from '../keyboard-buttons'
+import { PreferencesState, PreferenceGroup } from '../common/practice-intro';;
 import PropTypes from 'prop-types';
 import * as Midi from '../midi';
+import Synth from '../synth';
+
+type PerfectPitchPracticeProps = {
+  prefs: PreferencesState,
+};
 
 /**
  * Component providing the perfect pitch practice game (in entirety)
  */
 export default class PerfectPitchPractice extends React.Component {
-  constructor(props) {
+  static contextTypes;
+  static prefsDefinitions: PreferenceGroup[];
+  context: { snackbar: (message: string, duration?: number) => void, synth: Synth };
+  props: PerfectPitchPracticeProps;
+  state: {
+    key: any,
+  };
+
+  constructor(props: PerfectPitchPracticeProps) {
     super(props);
 
     // Initial state
@@ -37,7 +51,7 @@ export default class PerfectPitchPractice extends React.Component {
     if (navigator.requestMIDIAccess) {
         navigator.requestMIDIAccess().then(this.onMidiAccessGranted.bind(this));
     } else {
-        console.note("Web MIDI not supported in this browser. Try Chrome!");
+        console.log("Web MIDI not supported in this browser. Try Chrome!");
     }
   }
 
@@ -140,7 +154,7 @@ export default class PerfectPitchPractice extends React.Component {
     this.playSound(null, newState.key.key);
   }
 
-  playSound(event, key) {
+  playSound(event?, key?) {
     if (key === undefined) {
       key = this.state.key.key;
     }

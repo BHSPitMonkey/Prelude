@@ -26,11 +26,11 @@ export default class FreePlay extends React.Component {
   state: {
     clef: 'bass' | 'alto' | 'treble' | 'grand',
     flatKeyboardLabels?: boolean,
-    keysDown?: Set<number>,
+    keysDown?: Set<string>,
   };
   notesOn: { [x: number]: true };
 
-  constructor(props) {
+  constructor(props: FreePlayProps) {
     super(props);
 
     this.nosleep = new NoSleep();

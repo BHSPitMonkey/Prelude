@@ -11,7 +11,7 @@ const lowerRow = ['c', 'd', 'e', 'f', 'g', 'a', 'b'];
 // Component representing a single key
 class Key extends React.Component {
   props: {
-    note,
+    note: string,
     held: boolean,
     onClick: MouseEventHandler,
     label: string
@@ -46,7 +46,14 @@ class Key extends React.Component {
 
 // Component representing an interactive piano keyboard
 class KeyboardButtons extends React.Component {
-  props: { onEntry: Function, enableSound: boolean, keysDown, showLabels: boolean, useFlats: boolean, style: CSSProperties };
+  props: {
+    onEntry: Function,
+    enableSound: boolean,
+    keysDown?: Set<string>,
+    showLabels: boolean,
+    useFlats?: boolean,
+    style: CSSProperties
+  };
   context: any;
   static contextTypes: { synth: any; };
   constructor(props) {
