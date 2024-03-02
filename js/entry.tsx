@@ -7,7 +7,7 @@ import Home from './home';
 import About from './about';
 import SightReadingPracticeIntro from './modes/sight-reading-practice-intro.jsx';
 import PerfectPitchPracticeIntro from './modes/perfect-pitch-practice-intro.jsx';
-import FreePlayIntro from './modes/free-play-intro.jsx';
+import FreePlayIntro from './modes/free-play-intro';
 
 // Needed by Material UI
 console.log("Injecting tap");
