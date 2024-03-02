@@ -5,14 +5,31 @@ import Card from 'material-ui/Card/Card';
 import CardTitle from 'material-ui/Card/CardTitle';
 import CardText from 'material-ui/Card/CardText';
 import PropTypes from 'prop-types';
+import { PreferencesState, PreferenceGroup } from '../common/practice-intro';
 import SheetMusicView from '../sheet-music-view';
 import KeyboardButtons from '../keyboard-buttons';
 import * as Midi from '../midi'
+
+type FreePlayProps = {
+  prefs: PreferencesState,
+};
 
 /**
  * Component providing the free play mode
  */
 export default class FreePlay extends React.Component {
+  static contextTypes;
+  static prefsDefinitions: PreferenceGroup[];
+  context: { snackbar: (message: string, duration?: number) => void };
+  props: FreePlayProps;
+  nosleep: NoSleep;
+  state: {
+    clef: 'bass' | 'alto' | 'treble' | 'grand',
+    flatKeyboardLabels?: boolean,
+    keysDown?: Set<number>,
+  };
+  notesOn: { [x: number]: true };
+
   constructor(props) {
     super(props);
 

@@ -1,6 +1,6 @@
 import React from 'react';
 import PracticeIntro from '../common/practice-intro';
-import FreePlay from './free-play.jsx';
+import FreePlay from './free-play';
 
 /**
  * Intro screen for the Free Play mode
