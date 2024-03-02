@@ -4,7 +4,7 @@ const path = require('path');
 const webpack = require("webpack");
 
 module.exports = {
-  entry: "./js/entry.tsx",
+  entry: "./src/entry.tsx",
   devtool: "source-map",
   devServer: {
     static: './build',
