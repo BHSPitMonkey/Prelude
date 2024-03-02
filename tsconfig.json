@@ -13,7 +13,8 @@
         // Ensure that Babel can safely transpile files in the TypeScript project
         "isolatedModules": true,
         // use typescript to transpile jsx to js
-        "jsx": "react"
+        "jsx": "react",
+        "lib": ["DOM", "ESNext.Array"]
     },
     "exclude": [
         "./build/**/*" // This is what fixed it!

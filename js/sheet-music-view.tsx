@@ -2,11 +2,21 @@ import React from 'react';
 import * as ReactDOM from 'react-dom';
 import Vex from 'vexflow';
 
+type SheetMusicViewProps = {
+  clef: 'bass' | 'alto' | 'treble' | 'grand',
+  height: number,
+  width: number,
+  keySignature?: string,
+  keys?: TeoriaNote[],
+};
+
 /**
  * Visual display of a snippet of sheet music (wraps an engraving library)
  */
 class SheetMusicView extends React.Component {
-  constructor(props) {
+  static defaultProps: SheetMusicViewProps;
+  props: SheetMusicViewProps;
+  constructor(props: SheetMusicViewProps) {
     super(props);
 
     // Prebind custom methods
@@ -21,10 +31,10 @@ class SheetMusicView extends React.Component {
     this.drawMusic();
   }
 
-  teoriaKeysToVexflowKeys(keys) {
+  teoriaKeysToVexflowKeys(keys: TeoriaNote[]) {
     const sorted = keys.toSorted((a, b) => a.midi() - b.midi());
     return sorted.map(function (note) {
-      let accidental = note.accidental();
+      let accidental: string = note.accidental();
       // VexFlow and Teoria represent double-sharps differently
       if (accidental == 'x') {
         accidental = '##';

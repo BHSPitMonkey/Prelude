@@ -1,22 +1,25 @@
-export default SheetMusicView;
+import React from 'react';
+type SheetMusicViewProps = {
+    clef: 'bass' | 'alto' | 'treble' | 'grand';
+    height: number;
+    width: number;
+    keySignature?: string;
+    keys?: TeoriaNote[];
+};
 /**
  * Visual display of a snippet of sheet music (wraps an engraving library)
  */
-declare class SheetMusicView {
-    constructor(props: any);
+declare class SheetMusicView extends React.Component {
+    static defaultProps: SheetMusicViewProps;
+    props: SheetMusicViewProps;
+    constructor(props: SheetMusicViewProps);
+    componentDidMount(): void;
+    componentDidUpdate(prevProps: any, prevState: any): void;
+    teoriaKeysToVexflowKeys(keys: TeoriaNote[]): string[];
     /**
      * Redraw the contents of the canvas
      */
     drawMusic(): void;
-    componentDidMount(): void;
-    componentDidUpdate(prevProps: any, prevState: any): void;
-    teoriaKeysToVexflowKeys(keys: any): any;
-    render(): any;
+    render(): React.JSX.Element;
 }
-declare namespace SheetMusicView {
-    namespace defaultProps {
-        let width: number;
-        let height: number;
-        let clef: string;
-    }
-}
+export default SheetMusicView;
