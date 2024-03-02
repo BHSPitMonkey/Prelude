@@ -12,6 +12,7 @@ import PD from 'probability-distributions';
 import { PreferencesState, PreferenceGroup } from '../common/practice-intro';;
 import PropTypes from 'prop-types';
 import Synth from '../synth';
+import Vex from 'vexflow';
 
 // Private constants
 const possibleClefs = ['treble', 'bass', 'alto'];

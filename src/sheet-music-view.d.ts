@@ -1,8 +1,8 @@
 import React from 'react';
 type SheetMusicViewProps = {
     clef: 'bass' | 'alto' | 'treble' | 'grand';
-    height: number;
-    width: number;
+    height?: number;
+    width?: number;
     keySignature?: string;
     keys?: TeoriaNote[];
 };

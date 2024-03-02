@@ -13,7 +13,7 @@ class Key extends React.Component {
   props: {
     note: string,
     held: boolean,
-    onClick: MouseEventHandler,
+    onClick: MouseEventHandler<HTMLElement>,
     label: string
   };
   render() {
@@ -31,7 +31,7 @@ class Key extends React.Component {
       border: "2px solid white",// + (accidental ? "#555" : "#CCC"),
       marginRight: "-2px",
       paddingTop: accidental ? "0" : "70px",
-      zIndex: accidental ? "1" : "0"
+      zIndex: accidental ? 1 : 0
     };
     if (this.props.held) {
       style.background = cyanA700;
@@ -84,24 +84,26 @@ class KeyboardButtons extends React.Component {
       width: "266px",
       height: "140px"
     }, this.props.style);
-    const rows: { notes: string[], labels: string[], className: string, style: CSSProperties }[] = [
+    const rows: { notes: string[], labels: string[], className: string, key: string, style: CSSProperties }[] = [
       {
         notes: upperRow,
         labels: this.props.useFlats ? upperRowFlats : upperRowSharps,
         className: "rx-keyboard-buttons--accidentals",
+        key: 'accidentals',
         style: {position: "absolute", top: 0, left: "18px", width: "max-content", zIndex: 1},
       },
       {
         notes: lowerRow,
         labels: lowerRow,
         className: "rx-keyboard-buttons--naturals",
+        key: 'naturals',
         style: {position: "absolute", top: 0, width: "max-content"},
       }
     ];
     return (
       <div className="rx-keyboard-buttons" style={rootStyle}>
         {rows.map(row => {
-          return <div className={row.className} style={row.style}>
+          return <div className={row.className} style={row.style} key={row.key}>
             {row.notes.map((note, i) => {
               let held = this.props.keysDown ? this.props.keysDown.has(note) : false;
               let label = this.props.showLabels ? row.labels[i] : '';
