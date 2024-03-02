@@ -24,7 +24,6 @@ class Home extends React.Component {
   render() {
     // Logic behind display of Add To Home Screen cards
     let addToHomeCard = null;
-    debugger;
     let { query } = this.props.location;
     if ('standalone' in window.navigator && window.navigator.standalone !== undefined) {
       // Assume Safari for iOS
