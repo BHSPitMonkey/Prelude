@@ -5,7 +5,7 @@ import Card from 'material-ui/Card/Card';
 import CardTitle from 'material-ui/Card/CardTitle';
 import CardText from 'material-ui/Card/CardText';
 import PropTypes from 'prop-types';
-import SheetMusicView from '../sheet-music-view.jsx';
+import SheetMusicView from '../sheet-music-view';
 import KeyboardButtons from '../keyboard-buttons';
 import * as Midi from '../midi'
 
