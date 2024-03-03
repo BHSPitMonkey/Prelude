@@ -95,7 +95,7 @@ class PracticeIntro extends React.Component {
     this.setState({started: true});
     this.context.appbar(
       this.props.title,
-      <IconButton onTouchTap={this.end}><NavigationBackIcon /></IconButton>
+      <IconButton onClick={this.end}><NavigationBackIcon /></IconButton>
     );
   }
 
@@ -107,7 +107,7 @@ class PracticeIntro extends React.Component {
     this.context.appbar(
       this.props.title,
       null,
-      <FlatButton label="Start" onTouchTap={this.start} />
+      <FlatButton label="Start" onClick={this.start} />
     );
   }
 

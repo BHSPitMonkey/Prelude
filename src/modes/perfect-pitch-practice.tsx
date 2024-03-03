@@ -216,12 +216,12 @@ export default class PerfectPitchPractice extends React.Component {
         <CardTitle title="What note is being played?" />
         <CardText>
           <div style={{textAlign: "center"}}>
-            <FloatingActionButton onTouchTap={this.playSound} style={{textAlign: "center", margin: "20px auto 40px"}}>
+            <FloatingActionButton onClick={this.playSound} style={{textAlign: "center", margin: "20px auto 40px"}}>
               <PlayArrow />
             </FloatingActionButton>
           </div>
           <KeyboardButtons onEntry={this.handleGuess} style={{margin: "10px auto"}} showLabels={this.props.prefs["keyboardLabels"]} enableSound={false} />
-          <FlatButton label="Next" onTouchTap={this.newQuestion} style={{display: "block", margin: "40px auto 20px"}} />
+          <FlatButton label="Next" onClick={this.newQuestion} style={{display: "block", margin: "40px auto 20px"}} />
         </CardText>
       </Card>
     )

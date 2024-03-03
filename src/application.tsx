@@ -160,7 +160,7 @@ class Application extends React.Component {
           title={this.state.appBarTitle}
           iconElementLeft={this.state.appBarLeftElement}
           iconElementRight={this.state.appBarRightElement}
-          onLeftIconButtonTouchTap={this.toggleDrawer}
+          onLeftIconButtonClick={this.toggleDrawer}
           style={{position: "fixed", top: 0, left: 0}}
         />
         <Drawer
@@ -170,7 +170,7 @@ class Application extends React.Component {
           {
             Object.keys(this.menuItems).map(function (text) {
               let item = this.menuItems[text];
-              return <MenuItem onTouchTap={this.drawerMenuItemTouched} key={text} leftIcon={item.icon}>{text}</MenuItem>
+              return <MenuItem onClick={this.drawerMenuItemTouched} key={text} leftIcon={item.icon}>{text}</MenuItem>
             }.bind(this))
           }
         </Drawer>

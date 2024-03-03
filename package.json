@@ -14,7 +14,7 @@
     "crypto-browserify": "^3.12.0",
     "history": "2.0.1",
     "html-webpack-plugin": "^5.6.0",
-    "material-ui": "^0.16.6",
+    "material-ui": "^0.20.2",
     "nosleep": "bhspitmonkey/NoSleep.js",
     "probability-distributions": "^0.9.1",
     "prop-types": "^15.8.1",
@@ -33,7 +33,7 @@
     "webpack-dev-server": "^5.0.2"
   },
   "scripts": {
-    "build": "npm run make-dist",
+    "build": "tsc && npm run make-dist",
     "clean": "rm -rf build",
     "start": "webpack serve --mode=development",
     "make-dist": "rm -rf build && webpack --mode=production --progress && cp -r manifest.json css img build && cd build && sw-precache"

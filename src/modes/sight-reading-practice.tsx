@@ -500,7 +500,7 @@ export default class SightReadingPractice extends React.Component {
           />
           <FlatButton
             label="Skip"
-            onTouchTap={this.newQuestion}
+            onClick={this.newQuestion}
             style={{display: "block", margin: "40px auto 20px"}}
           />
         </CardText>
