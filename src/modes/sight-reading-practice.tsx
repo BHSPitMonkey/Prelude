@@ -488,7 +488,7 @@ export default class SightReadingPractice extends React.Component {
           <SheetMusicView
             clef={this.state.clef}
             keySignature={this.state.keySignature}
-            keys={this.state.keys}
+            keys={this.state.keys} // TODO: Migrate to TonalNotes
           />
           <KeyboardButtons
             onEntry={this.handleGuess}

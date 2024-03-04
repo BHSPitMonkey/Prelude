@@ -9,6 +9,8 @@ import { PreferencesState, PreferenceGroup } from '../common/practice-intro';
 import SheetMusicView from '../sheet-music-view';
 import KeyboardButtons from '../keyboard-buttons';
 import * as Midi from '../midi'
+import TonalNoteUtil from '@tonaljs/note';
+import { Note as TonalNote } from '@tonaljs/pitch-note';
 
 type FreePlayProps = {
   prefs: PreferencesState,
@@ -26,7 +28,7 @@ export default class FreePlay extends React.Component {
   state: {
     clef: 'bass' | 'alto' | 'treble' | 'grand',
     flatKeyboardLabels?: boolean,
-    keysDown?: Set<string>,
+    keysDown?: Set<number>,
   };
   notesOn: { [x: number]: true };
 
@@ -145,13 +147,14 @@ export default class FreePlay extends React.Component {
    *  - The on-screen musical keyboard (KeyboardButtons component)
    *  - Keyboard input
    *
-   * @param {Set} entries The names of the key(s) being pressed.
+   * @param string entry Name of a pitch class, probably without octave (e.g. 'F#')
    */
-  handleKeyPress(entry) {
+  handleKeyPress(entry: string) {
     const keysDown = this.state.keysDown;
     const autoHold = this.props.prefs['keyboardAutoHold'];
-    const note = Teoria.note(entry);
-    const midiNote = note.midi();
+    //const note = Teoria.note(entry);
+    const tonalNote = TonalNoteUtil.get(entry + '4'); // Force an octave since there is none here
+    const midiNote = tonalNote.midi;
 
     // If there are multiple notes in this question, toggle this key in keysDown
     if (autoHold) {
@@ -169,14 +172,16 @@ export default class FreePlay extends React.Component {
     }
 
     // Save changed keysDown to state
-    this.setState({ keysDown: keysDown });
+    this.setState({ tonalNotesDown: keysDown });
   }
 
   render() {
     // Map this.state.keysDown into Teoria notes
-    const notesDown = [];
+    //const notesDown = [];
+    const tonalNotes = [];
     this.state.keysDown.forEach(midiNote => {
-      notesDown.push(Teoria.note.fromMIDI(midiNote));
+      //notesDown.push(Teoria.note.fromMIDI(midiNote));
+      tonalNotes.push(TonalNoteUtil.get(TonalNoteUtil.fromMidi(midiNote)));
     });
 
     return (
@@ -186,7 +191,7 @@ export default class FreePlay extends React.Component {
           <SheetMusicView
             clef={this.state.clef}
             keySignature={'C'}
-            keys={notesDown}
+            tonalNotes={tonalNotes}
           />
           <KeyboardButtons
             onEntry={this.handleKeyPress}
@@ -194,7 +199,7 @@ export default class FreePlay extends React.Component {
             showLabels={this.props.prefs["keyboardLabels"]}
             useFlats={this.state.flatKeyboardLabels}
             enableSound={this.props.prefs["keyboardSound"]}
-            keysDown={this.state.keysDown}
+            //keysDown={this.state.keysDown}
           />
         </CardText>
       </Card>

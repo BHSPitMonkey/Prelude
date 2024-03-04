@@ -7,6 +7,8 @@
     "@babel/preset-env": "^7.24.0",
     "@babel/preset-react": "^7.23.3",
     "@babel/preset-typescript": "^7.23.3",
+    "@tonaljs/note": "^4.10.3",
+    "@tonaljs/pitch-note": "^6.0.0",
     "@types/react": "^15.7.30",
     "@types/vexflow": "^1.2.42",
     "babel-loader": "^9.1.3",

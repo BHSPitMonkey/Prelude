@@ -18,7 +18,7 @@ export default class FreePlay extends React.Component {
     state: {
         clef: 'bass' | 'alto' | 'treble' | 'grand';
         flatKeyboardLabels?: boolean;
-        keysDown?: Set<string>;
+        keysDown?: Set<number>;
     };
     notesOn: {
         [x: number]: true;
@@ -49,9 +49,9 @@ export default class FreePlay extends React.Component {
      *  - The on-screen musical keyboard (KeyboardButtons component)
      *  - Keyboard input
      *
-     * @param {Set} entries The names of the key(s) being pressed.
+     * @param string entry Name of a pitch class, probably without octave (e.g. 'F#')
      */
-    handleKeyPress(entry: any): void;
+    handleKeyPress(entry: string): void;
     render(): React.JSX.Element;
 }
 export {};

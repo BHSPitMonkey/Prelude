@@ -1,5 +1,6 @@
 import React from 'react';
 import * as ReactDOM from 'react-dom';
+import { Note as TonalNote } from '@tonaljs/pitch-note';
 import Vex from 'vexflow';
 
 type SheetMusicViewProps = {
@@ -7,7 +8,8 @@ type SheetMusicViewProps = {
   height?: number,
   width?: number,
   keySignature?: string,
-  keys?: TeoriaNote[],
+  keys?: TeoriaNote[], // Deprecated, migrate to tonalNotes instead
+  tonalNotes?: TonalNote[], // Replaces 'keys'
 };
 
 /**
@@ -40,6 +42,20 @@ class SheetMusicView extends React.Component {
         accidental = '##';
       }
       return note.name() + accidental + "/" + note.octave();
+    });
+  }
+
+  tonalNoteNamesToVexflowKeys(notes: TonalNote[]) {
+    // Enforce octaves
+    notes.forEach(note => {
+      if (note.oct === null) {
+        throw Error("Note given to SheetMusicView missing octave information");
+      }
+    });
+
+    const sorted = notes.toSorted((a, b) => a.midi - b.midi);
+    return sorted.map(function (note) {
+      return note.pc + "/" + note.oct;
     });
   }
 
@@ -84,13 +100,20 @@ class SheetMusicView extends React.Component {
     }
 
     // The StaveNote can have one or more keys (i.e. mono- or polyphonic)
-    if (this.props.keys.length > 0) {
+    if (this.props.tonalNotes.length > 0 || this.props.keys.length > 0) {
       const staveNotes = [];
 
       // Come up with a StaveNote for each staff
       if (isGrand) {
-        var upperKeys = this.teoriaKeysToVexflowKeys(this.props.keys.filter(teoriaKey => teoriaKey.octave() >= 4));
-        var lowerKeys = this.teoriaKeysToVexflowKeys(this.props.keys.filter(teoriaKey => teoriaKey.octave() < 4));
+        if (this.props.tonalNotes.length > 0) {
+          // Use new Tonal note set
+          var upperKeys = this.tonalNoteNamesToVexflowKeys(this.props.tonalNotes.filter(note => note.oct >= 4));
+          var lowerKeys = this.tonalNoteNamesToVexflowKeys(this.props.tonalNotes.filter(note => note.oct < 4));
+        } else {
+          // Use old Teoria note set
+          var upperKeys = this.teoriaKeysToVexflowKeys(this.props.keys.filter(teoriaKey => teoriaKey.octave() >= 4));
+          var lowerKeys = this.teoriaKeysToVexflowKeys(this.props.keys.filter(teoriaKey => teoriaKey.octave() < 4));
+        }
 
         if (upperKeys.length > 0) {
           staveNotes.push((new Vex.Flow.StaveNote({
@@ -109,7 +132,11 @@ class SheetMusicView extends React.Component {
           })).setStave(stave2));
         }
       } else {
-        var keys = this.teoriaKeysToVexflowKeys(this.props.keys);
+        if (this.props.tonalNotes.length > 0) {
+          var keys = this.tonalNoteNamesToVexflowKeys(this.props.tonalNotes);
+        } else {
+          var keys = this.teoriaKeysToVexflowKeys(this.props.keys);
+        }
         staveNotes.push((new Vex.Flow.StaveNote({
           clef: this.props.clef,
           keys: keys,
@@ -150,6 +177,8 @@ class SheetMusicView extends React.Component {
 SheetMusicView.defaultProps = {
   width: 150,
   height: 140,
-  clef: "treble"
+  clef: "treble",
+  keys: [],
+  tonalNotes: [],
 };
 export default SheetMusicView;
